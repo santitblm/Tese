@@ -11,14 +11,22 @@ def process_image(image_path):
     image_name = os.path.basename(image_path)
     txt_path = 'D:/matric/labels/obj_train_data/' + os.path.splitext(image_name)[0] + '.txt'
 
-    # Load and display the image
+    # Load the image
     image = cv2.imread(image_path)
+
+    if image is None:
+        print(f"Failed to load image: {image_path}")
+        return
+
+    # Display the image
     cv2.imshow('Image', image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     # Read the number of lines from the corresponding text file
     with open(txt_path, 'r') as file:
-        lines = len(file.readlines())
-        print(f"{lines} characters")
+        lines = file.readlines()
+        print(f"{len(lines)} characters")
 
     # Accept user input
     user_input = input("Enter a key: ")
@@ -27,21 +35,18 @@ def process_image(image_path):
         with open(txt_path, 'r+') as file:
             for line_number, line in enumerate(file, 1):
                 new_char = swap_character(user_input, line_number - 1)
+                new_line = str(new_char) + line[1:]
                 file.seek(file.tell() - len(line), os.SEEK_SET)
-                file.write(str(new_char) + line[1:])
-    else:
-        if len(user_input) != lines:
+                file.write(new_line)
+    elif len(user_input) != len(lines):
             print("# of characters doesn't match, try again")
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
             return
-
+    else:
         with open(txt_path, 'w') as file:
-            for line_number in range(lines):
+            for line_number, line in enumerate(lines):
                 new_char = swap_character(user_input, line_number)
-                file.write(str(new_char) + '\n')
-
-    cv2.destroyAllWindows()
+                new_line = str(new_char) + line[1:]
+                file.write(new_line)
 
 # Iterate through every image in folder A
 folder_A = 'D:/matric/images100'
