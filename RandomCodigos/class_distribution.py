@@ -44,6 +44,10 @@ def create_histogram(number_counts):
     numbers = range(n)
     frequencies = number_counts
 
+    # Calculate the average of the last 10 bars and the remaining bars
+    last_10_average = sum(frequencies[-10:]) / 10
+    other_average = sum(frequencies[:-10]) / (n - 10)
+
     # Create the histogram
     bars = plt.bar(numbers, frequencies)
     plt.xlabel('Numbers')
@@ -64,10 +68,16 @@ def create_histogram(number_counts):
     for i in range(n - 10, n):
         bars[i].set_color('red')
 
+    # Add dashed lines for the average values
+    plt.axhline(last_10_average, color='blue', linestyle='dashed', linewidth=1.5, label='Last 10 Average')
+    plt.axhline(other_average, color='green', linestyle='dashed', linewidth=1.5, label='Other Average')
+
+    plt.legend()
+
     plt.show()
 
 # Specify the directory containing the text files
-directory = 'C:/Users/Santi LM/Downloads/tentativa_letrass/obj_train_data'
+directory = 'C:/Users/Vastingood/Downloads/letras_incompleto/obj_train_data'
 
 # Process the text files and create the histogram
 number_counts = process_text_files(directory)
