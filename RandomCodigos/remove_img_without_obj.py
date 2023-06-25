@@ -5,8 +5,8 @@ Script to remove images without objects from the validation set.
 import os
 import cv2
 
-TXT_ROOT = os.path.join('valid', 'labels')
-IMG_ROOT = os.path.join('valid', 'images')
+TXT_ROOT = 'D:/matric/train/labels'
+IMG_ROOT = "D:/matric/train/images"
 
 all_txt_files = os.listdir(TXT_ROOT)
 

@@ -69,15 +69,15 @@ def create_histogram(number_counts):
         bars[i].set_color('red')
 
     # Add dashed lines for the average values
-    plt.axhline(last_10_average, color='blue', linestyle='dashed', linewidth=1.5, label='Last 10 Average')
-    plt.axhline(other_average, color='green', linestyle='dashed', linewidth=1.5, label='Other Average')
+    plt.axhline(last_10_average, color='blue', linestyle='dashed', linewidth=1.5, label='Numbers Average')
+    plt.axhline(other_average, color='green', linestyle='dashed', linewidth=1.5, label='Letters Average')
 
     plt.legend()
 
     plt.show()
 
 # Specify the directory containing the text files
-directory = 'C:/Users/Vastingood/Downloads/letras_incompleto/obj_train_data'
+directory = 'D:/matric/train/labels'
 
 # Process the text files and create the histogram
 number_counts = process_text_files(directory)
