@@ -59,7 +59,7 @@ def create_histogram(number_counts):
         if frequency > 0:
             label = get_label(i)
             if label is not None:
-                label = label + '_' + str(frequency)
+                label = ' ' + label + '_' + str(frequency)
             else:
                 label = str(frequency)
             plt.text(i, frequency, label, ha='center', va='bottom', rotation='vertical')
