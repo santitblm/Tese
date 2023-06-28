@@ -1,7 +1,7 @@
 import cv2
 import pytesseract
 import os
- 
+
 pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
 def delete_shapes(binary_image):
@@ -53,11 +53,15 @@ for filename in os.listdir(directory):
         # Invert the binarized image
         img = cv2.bitwise_not(binary_image)
 
+        # Perform opening operation (erode-dilate)
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
 
-        img = cv2.GaussianBlur(img, (3, 3), 0)
-        
         if further_processing:
             img = delete_shapes(img)
+
+        # Perform blur on the image
+        #img = cv2.GaussianBlur(img, (3, 3), 0)
 
         # Perform OCR using Tesseract on the image
         text = pytesseract.image_to_string(img, config='--psm 7 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVXZ')
@@ -71,4 +75,3 @@ for filename in os.listdir(directory):
         cv2.imshow('Blurred Image', img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
