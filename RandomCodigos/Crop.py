@@ -2,9 +2,17 @@ import os
 import cv2
 
 # Define the directory paths
-image_dir = "C:/Users/Santi LM/Downloads/train/images"
-label_dir = "C:/Users/Santi LM/Downloads/train/labels"
-cropped_img_dir = "C:/Users/Santi LM/Downloads/train/images/cropped"
+
+# Uncomment for Windows
+#image_dir = "C:/Users/Santi LM/Downloads/train/images"
+#label_dir = "C:/Users/Santi LM/Downloads/train/labels"
+#cropped_img_dir = "C:/Users/Santi LM/Downloads/train/images/cropped"
+
+# Uncomment for Linux
+image_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/images"
+label_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
+cropped_img_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/Cropped"
+
 
 # Get a list of image filenames
 image_files = os.listdir(image_dir)
