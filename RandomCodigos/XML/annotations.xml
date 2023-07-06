@@ -274,59 +274,59 @@
     <dumped>2023-07-06 18:14:19.656909+00:00</dumped>
   </meta>
   <image id="0" name="0_130846451_253c358d2c_b.jpg" width="876" height="219">
-    <polygon label="A" source="manual" occluded="0" points="695.60,80.20;708.06,56.71;735.56,45.24;760.09,52.36;767.01,67.59;760.48,118.03;747.03,138.41;721.91,148.50;695.40,144.54;690.00,124.40" z_order="0">
+    <polygon label="0" source="manual" occluded="0" points="695.60,80.20;708.06,56.71;735.56,45.24;760.09,52.36;767.01,67.59;760.48,118.03;747.03,138.41;721.91,148.50;695.40,144.54;690.00,124.40" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="124.20,120.30;136.06,100.84;160.90,93.10;188.00,99.30;203.60,119.40;206.28,173.25;197.40,190.50;169.49,199.95;138.63,190.66;128.74,173.25" z_order="0">
+    <polygon label="1" source="manual" occluded="0" points="124.20,120.30;136.06,100.84;160.90,93.10;188.00,99.30;203.60,119.40;206.28,173.25;197.40,190.50;169.49,199.95;138.63,190.66;128.74,173.25" z_order="0">
     </polygon>
     <polygon label="A" source="manual" occluded="0" points="642.78,74.91;664.14,56.71;683.10,54.90;674.40,154.50;652.50,157.10;641.59,93.90" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="480.20,77.50;556.30,71.30;556.50,87.20;525.50,174.70;504.40,176.60;479.60,94.40" z_order="0">
+    <polygon label="T" source="manual" occluded="0" points="480.20,77.50;556.30,71.30;556.50,87.20;525.50,174.70;504.40,176.60;479.60,94.40" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="218.25,110.71;239.02,93.70;258.80,92.50;263.30,194.30;241.40,194.70;219.24,129.71" z_order="0">
+    <polygon label="1" source="manual" occluded="0" points="218.25,110.71;239.02,93.70;258.80,92.50;263.30,194.30;241.40,194.70;219.24,129.71" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="344.00,189.60;390.70,84.10;413.80,83.60;459.10,180.10" z_order="0">
+    <polygon label="9" source="manual" occluded="0" points="344.00,189.60;390.70,84.10;413.80,83.60;459.10,180.10" z_order="0">
     </polygon>
   </image>
   <image id="1" name="0_2019_renault_megane_13-tce_24_925x520_acf_cropped.jpg" width="160" height="49">
-    <polygon label="A" source="manual" occluded="0" points="21.40,10.50;25.00,5.90;29.80,4.70;35.50,6.90;37.60,11.90;35.10,31.30;19.40,29.70" z_order="0">
+    <polygon label="2" source="manual" occluded="0" points="21.40,10.50;25.00,5.90;29.80,4.70;35.50,6.90;37.60,11.90;35.10,31.30;19.40,29.70" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="39.10,12.40;41.96,7.94;47.36,6.94;52.46,9.04;54.66,14.74;52.10,33.50;36.80,31.70" z_order="0">
+    <polygon label="2" source="manual" occluded="0" points="39.10,12.40;41.96,7.94;47.36,6.94;52.46,9.04;54.66,14.74;52.10,33.50;36.80,31.70" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="62.30,9.30;83.00,11.50;73.70,36.40;66.90,35.80" z_order="0">
+    <polygon label="V" source="manual" occluded="0" points="62.30,9.30;83.00,11.50;73.70,36.40;66.90,35.80" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="83.90,11.80;102.80,14.00;100.20,39.40;80.46,37.44" z_order="0">
+    <polygon label="X" source="manual" occluded="0" points="83.90,11.80;102.80,14.00;100.20,39.40;80.46,37.44" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="110.10,20.70;113.40,16.10;119.26,15.74;123.86,17.94;125.66,22.34;123.90,41.90;107.86,40.34" z_order="0">
+    <polygon label="2" source="manual" occluded="0" points="110.10,20.70;113.40,16.10;119.26,15.74;123.86,17.94;125.66,22.34;123.90,41.90;107.86,40.34" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="127.20,21.70;130.66,18.44;135.46,17.44;139.96,19.74;142.16,23.54;140.90,38.40;138.10,42.10;132.60,43.00;127.86,41.34;125.86,38.04" z_order="0">
+    <polygon label="0" source="manual" occluded="0" points="127.20,21.70;130.66,18.44;135.46,17.44;139.96,19.74;142.16,23.54;140.90,38.40;138.10,42.10;132.60,43.00;127.86,41.34;125.86,38.04" z_order="0">
     </polygon>
   </image>
   <image id="2" name="0_2mx22yr.jpg" width="137" height="48">
-    <polygon label="A" source="manual" occluded="0" points="16.90,7.70;29.90,8.30;30.10,12.80;27.20,29.80;23.00,29.60;17.10,11.70" z_order="0">
+    <polygon label="T" source="manual" occluded="0" points="16.90,7.70;29.90,8.30;30.10,12.80;27.20,29.80;23.00,29.60;17.10,11.70" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="58.10,12.10;70.80,13.60;71.90,29.50;71.20,33.70;67.50,35.60;62.20,34.50;59.10,31.40" z_order="0">
+    <polygon label="X" source="manual" occluded="0" points="58.10,12.10;70.80,13.60;71.90,29.50;71.20,33.70;67.50,35.60;62.20,34.50;59.10,31.40" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="73.90,18.40;76.60,15.90;80.40,14.80;84.60,16.60;87.70,20.20;88.00,33.50;85.50,36.80;80.90,37.70;77.60,36.40;74.70,32.00" z_order="0">
+    <polygon label="5" source="manual" occluded="0" points="73.90,18.40;76.60,15.90;80.40,14.80;84.60,16.60;87.70,20.20;88.00,33.50;85.50,36.80;80.90,37.70;77.60,36.40;74.70,32.00" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="105.90,18.50;109.80,18.80;113.89,35.25;114.00,37.90;111.50,41.20;108.90,41.20;100.20,37.10;100.19,33.85" z_order="0">
+    <polygon label="9" source="manual" occluded="0" points="105.90,18.50;109.80,18.80;113.89,35.25;114.00,37.90;111.50,41.20;108.90,41.20;100.20,37.10;100.19,33.85" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="115.89,24.05;118.40,21.00;122.60,20.40;127.60,22.50;129.70,26.60;129.80,39.00;128.00,41.80;123.50,43.40;119.30,42.10;116.10,38.10" z_order="0">
+    <polygon label="4" source="manual" occluded="0" points="115.89,24.05;118.40,21.00;122.60,20.40;127.60,22.50;129.70,26.60;129.80,39.00;128.00,41.80;123.50,43.40;119.30,42.10;116.10,38.10" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="32.20,9.30;47.60,10.80;49.20,32.90;33.50,31.20" z_order="0">
+    <polygon label="9" source="manual" occluded="0" points="32.20,9.30;47.60,10.80;49.20,32.90;33.50,31.20" z_order="0">
     </polygon>
   </image>
   <image id="3" name="0_ACP-FB-1200-NOVAS-MATRICULAS-2021.jpg" width="317" height="111">
-    <polygon label="A" source="manual" occluded="0" points="70.00,46.60;73.21,35.78;86.68,27.23;99.93,32.15;104.00,43.20;106.30,77.30;100.30,87.70;91.20,92.70;80.50,91.00;72.57,80.03" z_order="0">
+    <polygon label="9" source="manual" occluded="0" points="70.00,46.60;73.21,35.78;86.68,27.23;99.93,32.15;104.00,43.20;106.30,77.30;100.30,87.70;91.20,92.70;80.50,91.00;72.57,80.03" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="263.10,13.60;291.50,11.60;291.20,20.90;275.50,70.10;266.40,70.70;263.24,26.38" z_order="0">
+    <polygon label="7" source="manual" occluded="0" points="263.10,13.60;291.50,11.60;291.20,20.90;275.50,70.10;266.40,70.70;263.24,26.38" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="231.60,33.00;236.09,19.75;245.50,13.98;256.40,16.76;261.10,26.59;262.81,56.52;259.82,68.70;250.63,74.69;239.73,71.48;233.95,64.00" z_order="0">
+    <polygon label="Z" source="manual" occluded="0" points="231.60,33.00;236.09,19.75;245.50,13.98;256.40,16.76;261.10,26.59;262.81,56.52;259.82,68.70;250.63,74.69;239.73,71.48;233.95,64.00" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="188.64,37.49;192.91,22.53;205.53,16.76;220.92,21.25;224.80,30.20;226.60,60.10;222.90,74.20;211.80,80.50;194.20,76.20;190.56,66.14" z_order="0">
+    <polygon label="S" source="manual" occluded="0" points="188.64,37.49;192.91,22.53;205.53,16.76;220.92,21.25;224.80,30.20;226.60,60.10;222.90,74.20;211.80,80.50;194.20,76.20;190.56,66.14" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="148.10,22.40;185.60,20.80;188.60,81.10;150.00,85.30" z_order="0">
+    <polygon label="8" source="manual" occluded="0" points="148.10,22.40;185.60,20.80;188.60,81.10;150.00,85.30" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="107.20,27.00;139.47,25.09;139.80,35.10;122.00,88.60;111.30,89.80;107.20,39.42" z_order="0">
+    <polygon label="7" source="manual" occluded="0" points="107.20,27.00;139.47,25.09;139.80,35.10;122.00,88.60;111.30,89.80;107.20,39.42" z_order="0">
     </polygon>
   </image>
   <image id="4" name="0_Matriculas_002.jpg" width="245" height="55">
@@ -334,41 +334,41 @@
     </polygon>
     <polygon label="A" source="manual" occluded="0" points="32.40,45.90;46.68,7.40;55.40,7.51;67.00,46.40" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="69.80,46.80;83.74,7.28;92.40,7.40;104.70,47.10" z_order="0">
+    <polygon label="9" source="manual" occluded="0" points="69.80,46.80;83.74,7.28;92.40,7.40;104.70,47.10" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="113.30,15.70;117.47,9.35;126.87,7.40;134.44,11.99;136.85,17.03;136.40,39.20;132.38,45.83;124.92,48.58;117.35,45.49;113.00,38.70" z_order="0">
+    <polygon label="3" source="manual" occluded="0" points="113.30,15.70;117.47,9.35;126.87,7.40;134.44,11.99;136.85,17.03;136.40,39.20;132.38,45.83;124.92,48.58;117.35,45.49;113.00,38.70" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="174.10,20.12;178.70,12.12;188.90,8.92;198.80,12.02;202.90,20.90;202.50,37.50;198.50,45.20;188.20,48.90;178.10,45.80;173.70,39.40" z_order="0">
+    <polygon label="C" source="manual" occluded="0" points="174.10,20.12;178.70,12.12;188.90,8.92;198.80,12.02;202.90,20.90;202.50,37.50;198.50,45.20;188.20,48.90;178.10,45.80;173.70,39.40" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="139.84,16.46;144.66,9.58;152.34,7.40;163.01,14.05;163.70,20.13;162.90,39.60;159.50,45.80;151.60,48.60;143.40,46.70;139.49,39.06" z_order="0">
+    <polygon label="T" source="manual" occluded="0" points="139.84,16.46;144.66,9.58;152.34,7.40;163.01,14.05;163.70,20.13;162.90,39.60;159.50,45.80;151.60,48.60;143.40,46.70;139.49,39.06" z_order="0">
     </polygon>
   </image>
   <image id="5" name="0_Mercedes-AMG-C-63-S-Cabrio-21_3.jpg" width="125" height="30">
-    <polygon label="A" source="manual" occluded="0" points="54.30,27.40;60.50,4.50;65.00,4.40;73.80,27.60" z_order="0">
+    <polygon label="1" source="manual" occluded="0" points="54.30,27.40;60.50,4.50;65.00,4.40;73.80,27.60" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="38.40,9.40;40.50,4.70;45.20,3.80;51.90,5.50;53.40,10.10;53.90,21.30;52.10,26.30;47.30,27.50;42.00,26.50;38.90,22.90" z_order="0">
+    <polygon label="7" source="manual" occluded="0" points="38.40,9.40;40.50,4.70;45.20,3.80;51.90,5.50;53.40,10.10;53.90,21.30;52.10,26.30;47.30,27.50;42.00,26.50;38.90,22.90" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="11.90,7.20;14.20,3.40;18.50,3.45;19.50,26.60;15.30,26.50;11.70,10.30" z_order="0">
+    <polygon label="S" source="manual" occluded="0" points="11.90,7.20;14.20,3.40;18.50,3.45;19.50,26.60;15.30,26.50;11.70,10.30" z_order="0">
     </polygon>
     <polygon label="A" source="manual" occluded="0" points="20.00,10.40;20.10,4.10;31.20,4.30;31.10,8.90;27.50,26.90;23.10,26.90" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="95.50,10.20;97.70,4.90;102.10,3.70;107.30,5.70;108.70,9.90;109.00,22.60;106.80,26.50;102.70,27.40;98.50,26.20;96.20,22.40" z_order="0">
+    <polygon label="5" source="manual" occluded="0" points="95.50,10.20;97.70,4.90;102.10,3.70;107.30,5.70;108.70,9.90;109.00,22.60;106.80,26.50;102.70,27.40;98.50,26.20;96.20,22.40" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="80.20,4.40;94.00,4.30;94.30,20.40;93.40,25.50;87.80,27.80;83.10,26.00;81.00,21.70" z_order="0">
+    <polygon label="9" source="manual" occluded="0" points="80.20,4.40;94.00,4.30;94.30,20.40;93.40,25.50;87.80,27.80;83.10,26.00;81.00,21.70" z_order="0">
     </polygon>
   </image>
   <image id="6" name="0_frame_000000(1).jpg" width="168" height="58">
     <polygon label="A" source="manual" occluded="0" points="92.68,22.84;95.58,18.54;101.70,16.50;106.78,19.14;109.00,25.80;107.18,39.84;104.08,44.94;98.30,46.50;92.38,44.04;90.90,38.10" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="114.90,18.40;120.50,19.10;127.58,45.14;127.20,50.10;110.70,48.50" z_order="0">
+    <polygon label="J" source="manual" occluded="0" points="114.90,18.40;120.50,19.10;127.58,45.14;127.20,50.10;110.70,48.50" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="133.10,21.00;149.90,22.20;149.50,27.00;140.10,51.70;134.90,51.10;132.70,25.90" z_order="0">
+    <polygon label="8" source="manual" occluded="0" points="133.10,21.00;149.90,22.20;149.50,27.00;140.10,51.70;134.90,51.10;132.70,25.90" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="75.40,20.60;78.68,15.54;85.20,14.40;90.48,17.74;91.40,22.90;89.70,37.10;86.70,42.30;80.70,44.30;75.10,41.70;73.78,36.14" z_order="0">
+    <polygon label="6" source="manual" occluded="0" points="75.40,20.60;78.68,15.54;85.20,14.40;90.48,17.74;91.40,22.90;89.70,37.10;86.70,42.30;80.70,44.30;75.10,41.70;73.78,36.14" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="66.10,13.00;71.50,13.30;68.60,36.80;65.28,40.54;60.10,41.70;55.00,38.90;53.50,32.20" z_order="0">
+    <polygon label="L" source="manual" occluded="0" points="66.10,13.00;71.50,13.30;68.60,36.80;65.28,40.54;60.10,41.70;55.00,38.90;53.50,32.20" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="29.00,37.40;41.30,9.50;47.00,10.10;51.18,39.94" z_order="0">
+    <polygon label="T" source="manual" occluded="0" points="29.00,37.40;41.30,9.50;47.00,10.10;51.18,39.94" z_order="0">
     </polygon>
   </image>
   <image id="7" name="0_frame_000000.jpg" width="71" height="16">
