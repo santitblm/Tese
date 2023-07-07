@@ -379,15 +379,15 @@
   <image id="10" name="0_frame_000002(1).jpg" width="168" height="59">
     <polygon label="A" source="manual" occluded="0" points="29.00,38.40;41.70,10.70;47.04,11.26;51.44,40.46" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="133.20,21.70;149.80,23.20;149.74,28.06;140.20,52.40;135.30,51.90;133.10,26.60" z_order="0">
+    <polygon label="T" source="manual" occluded="0" points="133.20,21.70;149.80,23.20;149.74,28.06;140.20,52.40;135.30,51.90;133.10,26.60" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="114.60,19.40;120.70,20.10;128.00,45.40;127.50,50.80;110.30,48.50" z_order="0">
+    <polygon label="L" source="manual" occluded="0" points="114.60,19.40;120.70,20.10;128.00,45.40;127.50,50.80;110.30,48.50" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="92.64,23.26;96.54,18.86;103.24,17.26;108.14,20.16;109.64,26.86;107.34,40.46;102.14,46.56;97.24,47.86;92.84,45.06;90.74,40.16" z_order="0">
+    <polygon label="6" source="manual" occluded="0" points="92.64,23.26;96.54,18.86;103.24,17.26;108.14,20.16;109.64,26.86;107.34,40.46;102.14,46.56;97.24,47.86;92.84,45.06;90.74,40.16" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="75.04,21.86;78.14,17.36;83.90,15.40;90.20,18.20;91.20,24.00;89.30,38.20;86.80,43.40;80.10,45.20;75.54,42.76;73.64,36.26" z_order="0">
+    <polygon label="8" source="manual" occluded="0" points="75.04,21.86;78.14,17.36;83.90,15.40;90.20,18.20;91.20,24.00;89.30,38.20;86.80,43.40;80.10,45.20;75.54,42.76;73.64,36.26" z_order="0">
     </polygon>
-    <polygon label="A" source="manual" occluded="0" points="66.20,14.10;71.50,14.40;68.80,37.50;65.80,41.00;59.90,42.20;55.60,40.20;53.90,33.40" z_order="0">
+    <polygon label="J" source="manual" occluded="0" points="66.20,14.10;71.50,14.40;68.80,37.50;65.80,41.00;59.90,42.20;55.60,40.20;53.90,33.40" z_order="0">
     </polygon>
   </image>
   <image id="11" name="0_frame_000002.jpg" width="63" height="16">

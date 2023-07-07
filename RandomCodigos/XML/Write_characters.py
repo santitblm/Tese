@@ -12,6 +12,9 @@ images_folder = "C:/Users/Vastingood/Documents/GitHub/Tese/cropped/"
 tree = ET.parse(xml_file)
 root = tree.getroot()
 
+# Keep track of previous input
+previous_input = ""
+
 # Iterate over each image element
 for image in root.findall('image'):
     image_id = image.get('id')
@@ -41,6 +44,13 @@ for image in root.findall('image'):
 
         # Update the labels based on the order of the polygons
         for polygon, char in zip(sorted_polygons, user_input):
+            if char == 'S':
+                # Use previous input if 'S' is entered
+                char = previous_input
+            else:
+                # Update previous input
+                previous_input = char
+
             polygon.set('label', char)
 
         # Save the updated XML file
