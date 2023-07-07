@@ -3,10 +3,12 @@ import cv2
 import xml.etree.ElementTree as ET
 
 # Path to the XML file
-xml_file = "C:/Users/Vastingood/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+#xml_file = "C:/Users/Vastingood/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+xml_file = "C:/Users/Santi LM/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
 
 # Path to the images folder
-images_folder = "C:/Users/Vastingood/Documents/GitHub/Tese/cropped/"
+#images_folder = "C:/Users/Vastingood/Documents/GitHub/Tese/cropped/"
+images_folder = "C:/Users/Santi LM/Documents/GitHub/Tese/cropped/"
 
 # Load the XML file
 tree = ET.parse(xml_file)
