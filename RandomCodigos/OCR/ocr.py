@@ -25,7 +25,8 @@ def delete_shapes(binary_image):
     return binary_image
 
 # Directory containing the image files
-directory = 'C:/Users/Vastingood/Documents/GitHub/Tese/cropped'
+#directory = 'C:/Users/Vastingood/Documents/GitHub/Tese/cropped'
+directory = 'C:/Users/Santi LM/Documents/GitHub/Tese/cropped'
 further_processing = True
 # Iterate through each file in the directory
 for filename in os.listdir(directory):
