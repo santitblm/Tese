@@ -1,12 +1,10 @@
 
-'EHMNXZ' # quadrilátero
-'CGOS'   # redondo letras
-'03689'  # redondo numeros
+'EHMNXZ'    # quadrilátero
+'CGOS'      # redondo letras
+'03689'     # redondo numeros
 
-#sem irmaos
-
+# sem irmaos:
 '12457'
-
 'ADFJKLPQRTUV'
 
 quadrilatero = [(0, 0), (0, 1), (1, 1), (1, 0)]
