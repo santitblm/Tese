@@ -22,13 +22,18 @@ for image in root.findall('image'):
 
     # Check if the image has exactly 5 OR 6 polygons with label 'A'
     polygons_with_label_a = image.findall("polygon[@label='A']")
-    if len(polygons_with_label_a) >= 5 and len(image.findall('polygon')) == 6:
+    lp_polygons = image.findall("polygon[@label='LP']")  # Extract 'LP' polygons
+
+    # Filter out 'LP' polygons from 'polygons_with_label_a'
+    filtered_polygons = [polygon for polygon in polygons_with_label_a if polygon not in lp_polygons]
+    print(len(filtered_polygons), len(image.findall('polygon')), image_id)
+    if len(filtered_polygons) >= 5 and len(image.findall('polygon')) == 7:
         # Open the image using OpenCV
         image_path = os.path.join(images_folder, image_name)
         img = cv2.imread(image_path)
 
         # Sort the polygons based on the x-coordinate of their first point
-        sorted_polygons = sorted(polygons_with_label_a, key=lambda polygon: float(polygon.get('points').split(';')[0].split(',')[0]))
+        sorted_polygons = sorted(filtered_polygons, key=lambda polygon: float(polygon.get('points').split(';')[0].split(',')[0]))
 
         # Display the image
         cv2.imshow('Image', img)
