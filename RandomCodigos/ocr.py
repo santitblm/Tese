@@ -2,6 +2,10 @@ import cv2
 import pytesseract
 import os
 
+#username='Vastingood'
+#username='Santi LM'
+
+
 pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
 def delete_shapes(binary_image):
@@ -25,8 +29,8 @@ def delete_shapes(binary_image):
     return binary_image
 
 # Directory containing the image files
-directory = 'C:/Users/Vastingood/Documents/GitHub/Tese/cropped'
-further_processing = True
+directory = 'C:/Users/Vastingood/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/'
+further_processing = False
 # Iterate through each file in the directory
 for filename in os.listdir(directory):
     if filename.endswith('.jpg') or filename.endswith('.png'):
@@ -42,27 +46,27 @@ for filename in os.listdir(directory):
             continue  # Skip the image if height is less than 25 pixels
 
         # Convert the image to the HSV color space
-        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        #hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
         # Extract the V channel
-        v_channel = hsv[:,:,2]
+        #v_channel = hsv[:,:,2]
 
         # Binarize the V channel using thresholding
-        _, binary_image = cv2.threshold(v_channel, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        #_, binary_image = cv2.threshold(v_channel, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
         # Invert the binarized image
-        img = cv2.bitwise_not(binary_image)
+        #img = cv2.bitwise_not(binary_image)
 
         # Perform opening operation (erode-dilate)
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-        img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+        #kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        #img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
 
         if further_processing:
             img = delete_shapes(img)
         
         # Perform blur on the image
         #img = cv2.GaussianBlur(img, (3, 3), 0)
-
+        img = image
         # Perform OCR using Tesseract on the image
         text = pytesseract.image_to_string(img, config='--psm 7 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVXZ')
 
