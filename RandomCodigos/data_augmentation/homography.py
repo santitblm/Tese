@@ -37,13 +37,6 @@ for image in root.findall('image'):
         image_path = os.path.join(images_folder, image_name)
         img = cv2.imread(image_path)
 
-        # Draw the LP polygon on the image
-        #for i in range(len(lp_points)):
-        #    pt1 = (int(lp_points[i][0]), int(lp_points[i][1]))
-        #    pt2 = (int(lp_points[(i+1)%4][0]), int(lp_points[(i+1)%4][1]))
-        #    cv2.line(img, pt1, pt2, (0, 255, 0), 1)
-
-
         # Calculate homography matrix
         homography_matrix, _ = cv2.findHomography(lp_points, reference_points)
 
