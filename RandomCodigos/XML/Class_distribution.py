@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 
 # Path to the XML file
-xml_file = "C:/Users/Santi LM/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+xml_file = "C:/Users/Vastingood/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+#xml_file = "C:/Users/Santi LM/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
 
 # Load the XML file
 tree = ET.parse(xml_file)
