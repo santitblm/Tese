@@ -35,7 +35,9 @@ for image in root.findall('image'):
 
         # Load the image
         image_path = os.path.join(images_folder, image_name)
-        img = cv2.imread(image_path)
+        color_image = cv2.imread(image_path)
+        img = cv2.equalizeHist(cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY))
+
 
         # Calculate homography matrix
         homography_matrix, _ = cv2.findHomography(lp_points, reference_points)
@@ -44,6 +46,8 @@ for image in root.findall('image'):
         transformed_img = cv2.warpPerspective(img, homography_matrix, (500, 140))
 
         # Save the transformed image
+        #equalized_image = cv2.equalizeHist(transformed_img)
+
         output_path = os.path.join(output_folder, f"transformed_{image_name}")
         cv2.imwrite(output_path, transformed_img)
 
