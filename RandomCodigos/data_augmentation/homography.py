@@ -16,7 +16,7 @@ images_folder = "C:/Users/" + username + "/Documents/GitHub/Tese/cropped/"
 output_folder = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"
 
 # Define your reference points for homography
-reference_points = np.array([[0, 100], [0, 0], [465, 0], [465, 100]], dtype=np.float32)
+reference_points = np.array([[20, 120], [20, 20], [485, 20], [485, 120]], dtype=np.float32)
 
 # Load the XML file
 tree = ET.parse(xml_file)
@@ -44,7 +44,7 @@ for image in root.findall('image'):
         homography_matrix, _ = cv2.findHomography(lp_points, reference_points)
 
         # Apply the homography transformation
-        transformed_img = cv2.warpPerspective(hsv[:,:,2], homography_matrix, (465, 100))
+        transformed_img = cv2.warpPerspective(hsv[:,:,2], homography_matrix, (500, 140))
         # apply histogram equalization to the transformed image
         #transformed_img = cv2.equalizeHist(transformed_img)
         # Save the transformed image
