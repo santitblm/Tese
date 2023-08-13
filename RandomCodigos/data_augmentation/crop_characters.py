@@ -36,14 +36,16 @@ for image in root.findall('image'):
 
         # Load the image
         image_path = os.path.join(images_folder, image_name)
-        color_image = cv2.imread(image_path)
-        img = cv2.equalizeHist(cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY))
-
+        img = cv2.imread(image_path)
+        # Convert the image to the HSV color space
+        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        # Extract the V channel
+        #v_channel = hsv[:,:,2]
         # Calculate homography matrix
         homography_matrix, _ = cv2.findHomography(lp_points, reference_points)
 
         # Apply the homography transformation
-        transformed_img = cv2.warpPerspective(img, homography_matrix, (500, 140))
+        transformed_img = cv2.warpPerspective(hsv[:,:,2], homography_matrix, (500, 140))
         
         # Get all polygons except 'LP'
         polygons = image.findall("polygon[@label!='LP']")

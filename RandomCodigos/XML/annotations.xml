@@ -28398,4 +28398,20 @@
   </image>
   <image id="3847" name="5_vlcsnap-2023-05-05-19h06m17s081.jpg" width="71" height="18">
   </image>
+  <image id="3848" name="906.jpg" width="573" height="127">
+    <polygon label="8" source="manual" occluded="0" points="84.59,41.15;91.91,27.00;112.90,22.12;129.01,27.98;138.28,45.55;136.33,94.35;126.57,105.58;109.48,109.97;93.90,107.00;83.62,91.91" z_order="0">
+    </polygon>
+    <polygon label="9" source="manual" occluded="0" points="143.99,41.54;153.75,25.93;171.32,21.53;187.43,25.93;196.70,39.59;198.66,89.38;190.85,102.55;174.74,109.87;159.61,108.41;145.94,91.33" z_order="0">
+    </polygon>
+    <polygon label="4" source="manual" occluded="0" points="279.19,21.04;296.27,20.07;311.40,78.64;310.91,90.84;304.57,105.48;290.41,106.46;259.66,93.77;259.18,77.66" z_order="0">
+    </polygon>
+    <polygon label="9" source="manual" occluded="0" points="321.20,43.00;328.00,25.93;347.03,20.56;366.55,26.41;374.40,43.00;374.90,88.40;362.20,106.50;350.00,110.40;333.40,104.50;323.10,91.30" z_order="0">
+    </polygon>
+    <polygon label="K" source="manual" occluded="0" points="428.54,21.04;485.16,21.04;487.11,105.97;430.49,102.55" z_order="0">
+    </polygon>
+    <polygon label="C" source="manual" occluded="0" points="494.43,41.06;500.77,27.88;518.83,18.60;537.87,22.51;552.02,40.08;552.51,86.94;549.09,98.65;531.03,106.46;510.05,106.46;495.41,86.45" z_order="0">
+    </polygon>
+    <polygon label="LP" source="manual" occluded="0" points="5.89,119.52;8.10,9.70;565.70,9.50;569.20,118.50" z_order="0">
+    </polygon>
+  </image>
 </annotations>
