@@ -52,16 +52,17 @@ for image in root.findall('image'):
         # Combine the masks
         final_mask = np.logical_and(mask, polygons_mask)
 
-        # Set pixels outside the mask to black
-        #result_img = np.zeros_like(img)
-        #result_img[final_mask] = img[final_mask]
-
         # Set pixels outside the mask to white
         result_img = np.copy(img)
         result_img[~final_mask] = [255, 255, 255]
 
         # Display the resulting image
         cv2.imshow("Resulting Image", result_img)
-        cv2.waitKey(0)
+
+        # Wait for user input (d: delete, any other key: continue)
+        key = cv2.waitKey(0)
+        if key == ord('d'):
+            os.remove(image_path)
+            print("Image deleted:", image_name)
 
 cv2.destroyAllWindows()
