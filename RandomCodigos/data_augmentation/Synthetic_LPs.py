@@ -6,10 +6,10 @@ import random
 
 # Define paths
 username = "Vastingood"
-xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"
-templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/templates/"
-positions_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/templates/positions/"
+templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
+positions_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
 synthetic_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/"
 
 # Load the XML file
