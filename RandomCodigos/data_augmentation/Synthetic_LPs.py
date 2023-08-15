@@ -21,6 +21,8 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 
 # List all available images for polygon extraction
 image_elements = root.findall('image')
+# Initialize a counter for the synthetic image filenames
+synthetic_image_counter = 1
 
 # Iterate over each image element
 for image in image_elements:
@@ -31,8 +33,11 @@ for image in image_elements:
         template_image_path = os.path.join(templates_folder, template_image_name)
         template = cv2.imread(template_image_path)
 
+        # Get the base name of the template image without the extension
+        template_base_name = os.path.splitext(template_image_name)[0]
+
         # Choose a random position from a position file
-        position_file_path = os.path.join(positions_folder, template_image_name.replace('.jpg', '.txt'))
+        position_file_path = os.path.join(positions_folder, f"{template_base_name}.txt")
         with open(position_file_path, 'r') as f:
             positions = [list(map(float, line.strip().split())) for line in f.readlines()]
         random_position = random.choice(positions)
@@ -56,6 +61,9 @@ for image in image_elements:
             # Draw the polygon on the synthetic image
             cv2.polylines(synthetic_image, [points.astype(int)], isClosed=True, color=(0, 255, 0), thickness=2)
 
-        # Save the synthetic image
-        synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_image_name}")
+        # Save the synthetic image with a unique filename
+        synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_base_name}_{synthetic_image_counter}.jpg")
         cv2.imwrite(synthetic_image_path, synthetic_image)
+
+        # Increment the counter for the next image
+        synthetic_image_counter += 1
