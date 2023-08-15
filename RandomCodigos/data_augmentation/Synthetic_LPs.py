@@ -22,11 +22,11 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 # List all available images for polygon extraction
 image_elements = root.findall('image')
 # Initialize a counter for the synthetic image filenames
-synthetic_image_counter = 1
+synthetic_image_counter = 0
 
 # Iterate over each image element
 for image in image_elements:
-    polygons = image.findall('polygon')
+    polygons = image.findall("polygon[@label!='LP']")
     if len(polygons) >= 6:
         # Choose a random template image
         template_image_name = random.choice(template_images)
@@ -51,15 +51,27 @@ for image in image_elements:
             points_str = polygon.get('points').split(';')
             points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
 
-            # Calculate polygon center
-            polygon_center = np.mean(points, axis=0)
+            # Calculate the bounding box of the polygon
+            min_x = int(np.min(points[:, 0]))
+            max_x = int(np.max(points[:, 0]))
+            min_y = int(np.min(points[:, 1]))
+            max_y = int(np.max(points[:, 1]))
+
+            # Extract the ROI from the original image
+            roi = cv2.imread(os.path.join(images_folder, "transformed_" + image.get('name')))
+            roi = roi[min_y:max_y, min_x:max_x]
+
+            # Resize the ROI to match the size of the polygon in the template
+            polygon_width = max_x - min_x
+            polygon_height = max_y - min_y
+            roi = cv2.resize(roi, (polygon_width, polygon_height))
 
             # Calculate position on the template
-            x = int(random_position[0] + polygon_center[0])
-            y = int(random_position[1] + polygon_center[1])
+            x = int(random_position[0] + min_x)
+            y = int(random_position[1] + min_y)
 
-            # Draw the polygon on the synthetic image
-            cv2.polylines(synthetic_image, [points.astype(int)], isClosed=True, color=(0, 255, 0), thickness=2)
+            # Paste the resized ROI onto the template
+            synthetic_image[y:y+polygon_height, x:x+polygon_width] = roi
 
         # Save the synthetic image with a unique filename
         synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_base_name}_{synthetic_image_counter}.jpg")
