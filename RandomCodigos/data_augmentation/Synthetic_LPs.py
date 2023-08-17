@@ -79,11 +79,12 @@ for image in image_elements:
             # Paste the resized ROI onto the template
             synthetic_image[int(y-polygon_height/2):int(y+polygon_height/2), int(x-polygon_width/2):int(x+polygon_width/2)] = roi
 
-            # Save the synthetic image with a unique filename
-            synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_base_name}_{synthetic_image_counter}.jpg")
-            cv2.imwrite(synthetic_image_path, synthetic_image)
-
-            # Increment the counter for the next image
-            synthetic_image_counter += 1
             i += 1
+            print(polygon.get('label'))
 
+        # Save the synthetic image with a unique filename
+        synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_base_name}_{synthetic_image_counter}.jpg")
+        cv2.imwrite(synthetic_image_path, synthetic_image)
+
+        # Increment the counter for the next image
+        synthetic_image_counter += 1
