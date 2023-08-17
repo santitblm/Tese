@@ -36,19 +36,14 @@ for image in image_elements:
         # Get the base name of the template image without the extension
         template_base_name = os.path.splitext(template_image_name)[0]
 
-        # Choose a random position from a position file
-        position_file_path = os.path.join(positions_folder, f"{template_base_name}.txt")
-        with open(position_file_path, 'r') as f:
-            positions = [list(map(float, line.strip().split())) for line in f.readlines()]
-        random_position = random.choice(positions)
-        print(random_position)
-        print(template.shape[0], template.shape[1])
-
-        # Create a copy of the template to work on
-        synthetic_image = template.copy()
-
         # Choose and extract 6 random polygons
         random_polygons = random.sample(polygons, 6)
+
+        # Randomize the positions chosen for the polygons
+        order = [0, 1, 2, 3, 4, 5]
+        random.shuffle(order)
+        print(order)
+        i = 0
         for polygon in random_polygons:
             points_str = polygon.get('points').split(';')
             points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
@@ -58,6 +53,15 @@ for image in image_elements:
             max_x = int(np.max(points[:, 0]))
             min_y = int(np.min(points[:, 1]))
             max_y = int(np.max(points[:, 1]))
+
+            # Choose a random position from a position file
+            position_file_path = os.path.join(positions_folder, f"{template_base_name}.txt")
+            with open(position_file_path, 'r') as f:
+                positions = [list(map(float, line.strip().split())) for line in f.readlines()]
+            random_position = positions[order[i]]
+
+            # Create a copy of the template to work on
+            synthetic_image = template.copy()
 
             # Extract the ROI from the original image
             roi = cv2.imread(os.path.join(images_folder, "transformed_" + image.get('name')))
@@ -71,14 +75,15 @@ for image in image_elements:
             # Calculate position on the template
             x = int(random_position[0]*template.shape[1] + (min_x - int(np.min(points[:, 0]))))
             y = int(random_position[1]*template.shape[0] + (min_y - int(np.min(points[:, 1]))))
-            print(x, y)
+            
             # Paste the resized ROI onto the template
             synthetic_image[int(y-polygon_height/2):int(y+polygon_height/2), int(x-polygon_width/2):int(x+polygon_width/2)] = roi
 
-        # Save the synthetic image with a unique filename
-        synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_base_name}_{synthetic_image_counter}.jpg")
-        cv2.imwrite(synthetic_image_path, synthetic_image)
+            # Save the synthetic image with a unique filename
+            synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_base_name}_{synthetic_image_counter}.jpg")
+            cv2.imwrite(synthetic_image_path, synthetic_image)
 
-        # Increment the counter for the next image
-        synthetic_image_counter += 1
-        #cv2.waitKey(0)
+            # Increment the counter for the next image
+            synthetic_image_counter += 1
+            i += 1
+
