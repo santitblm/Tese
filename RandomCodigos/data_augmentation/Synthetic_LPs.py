@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 import random
 
 # Define paths
-username = "Vastingood"
+username = "Santi LM"
 xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
@@ -41,6 +41,8 @@ for image in image_elements:
         with open(position_file_path, 'r') as f:
             positions = [list(map(float, line.strip().split())) for line in f.readlines()]
         random_position = random.choice(positions)
+        print(random_position)
+        print(template.shape[0], template.shape[1])
 
         # Create a copy of the template to work on
         synthetic_image = template.copy()
@@ -67,11 +69,11 @@ for image in image_elements:
             roi = cv2.resize(roi, (polygon_width, polygon_height))
 
             # Calculate position on the template
-            x = int(random_position[0] + min_x)
-            y = int(random_position[1] + min_y)
-
+            x = int(random_position[0]*template.shape[1] + (min_x - int(np.min(points[:, 0]))))
+            y = int(random_position[1]*template.shape[0] + (min_y - int(np.min(points[:, 1]))))
+            print(x, y)
             # Paste the resized ROI onto the template
-            synthetic_image[y:y+polygon_height, x:x+polygon_width] = roi
+            synthetic_image[int(y-polygon_height/2):int(y+polygon_height/2), int(x-polygon_width/2):int(x+polygon_width/2)] = roi
 
         # Save the synthetic image with a unique filename
         synthetic_image_path = os.path.join(synthetic_folder, f"synthetic_{template_base_name}_{synthetic_image_counter}.jpg")
@@ -79,3 +81,4 @@ for image in image_elements:
 
         # Increment the counter for the next image
         synthetic_image_counter += 1
+        #cv2.waitKey(0)
