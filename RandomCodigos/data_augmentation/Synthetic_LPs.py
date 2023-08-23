@@ -12,6 +12,7 @@ images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_a
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 positions_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
 synthetic_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/"
+binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
 # Set the random seed for reproducibility
 random_seed = 42  # You can use any integer value you prefer
@@ -58,10 +59,10 @@ for synthetic_image_counter in range(num_synthetic_images):
         while not successful:
 
             random_image = random.choice(image_elements)
-            random_image_name = random_image.get('name')
+            random_image_name = "transformed_" + random_image.get('name')
             polygons = random_image.findall("polygon[@label!='LP']")
 
-            if len(polygons) > 0 and os.path.exists(os.path.join(images_folder, "transformed_" + random_image_name)):
+            if len(polygons) > 0 and os.path.exists(os.path.join(images_folder, random_image_name)):
                 successful = True
 
                 random_polygon = random.choice(polygons)
@@ -78,23 +79,24 @@ for synthetic_image_counter in range(num_synthetic_images):
 
                 # Choose a random position from a position file
                 random_position = positions[i]
-                shape = (h, w, 3)
+
+                # Load the binary image to be considered in the mask
+                binary_image_name = os.path.join(binary_folder, random_image_name)
+                binary_image = cv2.imread(binary_image_name)
+
                 # Extract the ROI from the original image using the polygon's points
-                roi = cv2.imread(os.path.join(images_folder, "transformed_" + random_image_name))
-                roi = roi[min_y:max_y, min_x:max_x]
-                mask = np.zeros(shape, dtype=np.uint8)
-                #print(type(shape))
+                roi = cv2.imread(os.path.join(images_folder, random_image_name))
+                mask = np.zeros(roi.shape, dtype=np.uint8)
                 cv2.fillPoly(mask, [points.astype(int)], (255, 255, 255))
-                #print(type(roi), type(mask))
                 roi = cv2.bitwise_and(roi, mask)
+                roi = cv2.bitwise_and(roi, ~binary_image)
+                roi = roi[min_y:max_y, min_x:max_x]                
 
                 # Calculate position on the template
                 x = int(random_position[0]*template.shape[1])
                 y = int(random_position[1]*template.shape[0])
-                #roi = cv2.resize(roi, (w, h))
 
                 # Paste the ROI onto the template
-                #print('height h', polygon_height, h, '; width w', polygon_width, w)
                 synthetic_image[int(y-h/2):int(y+h/2), int(x-w/2):int(x+w/2)] = roi
                 
     # Save the synthetic image with a unique filename
