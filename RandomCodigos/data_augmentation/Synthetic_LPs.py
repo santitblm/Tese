@@ -84,20 +84,39 @@ for synthetic_image_counter in range(num_synthetic_images):
                 binary_image_name = os.path.join(binary_folder, random_image_name)
                 binary_image = cv2.imread(binary_image_name)
 
-                # Extract the ROI from the original image using the polygon's points
-                roi = cv2.imread(os.path.join(images_folder, random_image_name))
-                mask = np.zeros(roi.shape, dtype=np.uint8)
-                cv2.fillPoly(mask, [points.astype(int)], (255, 255, 255))
-                roi = cv2.bitwise_and(roi, mask)
-                roi = cv2.bitwise_and(roi, ~binary_image)
-                roi = roi[min_y:max_y, min_x:max_x]                
+                # Extract the roi from the original image using the polygon's points and cnovert it to grayscale
+                original_image = cv2.imread(os.path.join(images_folder, random_image_name))
+                original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+                # Create a mask for the polygon area
+                polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
+                cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
+                
+                # Load the binary image
+                binary_image_name = os.path.join(binary_folder, random_image_name)
+                binary_image = cv2.imread(binary_image_name, cv2.IMREAD_GRAYSCALE)
+
+                # Create a mask for the polygon area
+                polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
+                cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
+
+                # Apply a mask to the polygon_mask to consider only pixels where binary image is black
+                #mask = (binary_image <= 128).astype(np.uint8)
+                #polygon_mask = cv2.bitwise_and(polygon_mask, polygon_mask, mask=mask)
 
                 # Calculate position on the template
-                x = int(random_position[0]*template.shape[1])
-                y = int(random_position[1]*template.shape[0])
+                x = int(random_position[0] * template.shape[1])
+                y = int(random_position[1] * template.shape[0])
 
-                # Paste the ROI onto the template
-                synthetic_image[int(y-h/2):int(y+h/2), int(x-w/2):int(x+w/2)] = roi
+                # Calculate the original_image's dimensions
+                h, w = original_image.shape[:2]
+                
+                # Paste the original_image onto the template
+                #roi_mask = polygon_mask >= 100
+                #synthetic_image[y : y + h, x : x + w, :][roi_mask[:, np.newaxis]] = original_image[roi_mask][:, np.newaxis]
+                #synthetic_image[int(y-h/2): int(y+h/2), int(x-w/2) : int(x+w/2)][roi_mask] = original_image[roi_mask]
+                
+                synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.NORMAL_CLONE)
+
                 
     # Save the synthetic image with a unique filename
     synthetic_image_path = os.path.join(synthetic_folder, f"{synthetic_image_counter}.jpg")
