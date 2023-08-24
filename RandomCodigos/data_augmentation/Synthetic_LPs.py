@@ -81,7 +81,7 @@ for synthetic_image_counter in range(num_synthetic_images):
                 # Choose a random position from a position file
                 random_position = positions[i]
 
-                # Load the binary image to be considered in the mask
+                
                 points = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
                 # Extract the roi from the original image using the polygon's points
                 original_image = cv2.imread(os.path.join(images_folder, random_image_name))
@@ -108,7 +108,7 @@ for synthetic_image_counter in range(num_synthetic_images):
                 # Calculate the original_image's dimensions
                 h, w = original_image.shape[:2]
                 
-                synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.NORMAL_CLONE)
+                synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
                 name_to_save += random_image.get('id') + "_" + random_polygon.get('label') + "___"
 
                 

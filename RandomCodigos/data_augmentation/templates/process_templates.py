@@ -5,7 +5,7 @@ import cv2
 username = "Santi LM"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 target_width = 490
-target_height = 130
+target_height = 110
 
 # Create the output folder if it doesn't exist
 output_folder = os.path.join(templates_folder, "output")
@@ -21,18 +21,20 @@ for filename in os.listdir(templates_folder):
 
         if image is not None:
             # Apply Gaussian blur
-            blurred_image = cv2.GaussianBlur(image, (5, 5), 0)
+            #image = cv2.GaussianBlur(image, (5, 5), 0)
 
             # Resize the image
-            resized_image = cv2.resize(blurred_image, (target_width, target_height))
+            #image = cv2.resize(image, (target_width, target_height))
 
+            # Lightning adjustment
+            image = cv2.convertScaleAbs(image, alpha=1, beta=+20)
             # Show the resulting image
-            cv2.imshow("Resized Image", resized_image)
+            cv2.imshow("Resized Image", image)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
 
             # Save the resulting image
             output_path = os.path.join(output_folder, filename)
-            cv2.imwrite(output_path, resized_image)
+            cv2.imwrite(output_path, image)
 
 print("Processing complete.")
