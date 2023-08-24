@@ -3,8 +3,8 @@ import cv2
 import xml.etree.ElementTree as ET
 import numpy as np
 
-#username = "Santi LM"
-username = "Vastingood"
+username = "Santi LM"
+#username = "Vastingood"
 
 # Path to the XML file
 xml_file = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
@@ -16,7 +16,7 @@ images_folder = "C:/Users/" + username + "/Documents/GitHub/Tese/cropped/"
 output_folder = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"
 
 # Define your reference points for homography
-reference_points = np.array([[20, 120], [20, 20], [485, 20], [485, 120]], dtype=np.float32)
+reference_points = np.array([[10, 110], [10, 10], [475, 10], [475, 110]], dtype=np.float32)
 
 # Load the XML file
 tree = ET.parse(xml_file)
@@ -36,7 +36,7 @@ for image in root.findall('image'):
         # Load the image
         image_path = os.path.join(images_folder, image_name)
         img = cv2.imread(image_path)
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         #img = cv2.equalizeHist(cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY))
 
 
@@ -44,7 +44,7 @@ for image in root.findall('image'):
         homography_matrix, _ = cv2.findHomography(lp_points, reference_points)
 
         # Apply the homography transformation
-        transformed_img = cv2.warpPerspective(hsv[:,:,2], homography_matrix, (500, 140))
+        transformed_img = cv2.warpPerspective(img, homography_matrix, (490, 130))
         # apply histogram equalization to the transformed image
         #transformed_img = cv2.equalizeHist(transformed_img)
         # Save the transformed image

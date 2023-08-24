@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 # Username
-username = "Vastingood"
+username = "Santi LM"
 
 # Path to the XML file
 xml_file = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/annotations.xml"
@@ -16,7 +16,7 @@ tree = ET.parse(xml_file)
 root = tree.getroot()
 
 # Define your reference points for homography
-reference_points = np.array([[20, 120], [20, 20], [485, 20], [485, 120]], dtype=np.float32)
+reference_points = np.array([[10, 110], [10, 10], [475, 10], [475, 110]], dtype=np.float32)
 
 # Iterate over each image element
 for image in root.findall('image'):
