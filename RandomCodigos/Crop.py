@@ -9,10 +9,13 @@ import cv2
 #cropped_img_dir = "C:/Users/Santi LM/Downloads/train/images/cropped"
 
 # Uncomment for Linux
-image_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/images"
-label_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
-cropped_img_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/Cropped"
+#image_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/images"
+#label_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
+#cropped_img_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/Cropped"
 
+image_dir = "C:/Users/Santi LM/Desktop/Pais/"
+label_dir = "C:/Users/Santi LM/Downloads/papis/obj_train_data/"
+cropped_img_dir = image_dir #"C:Users/Santi LM/Documents/GitHub/Tese/cropped/"
 
 # Get a list of image filenames
 image_files = os.listdir(image_dir)
@@ -57,6 +60,6 @@ for image_file in image_files:
                 cropped_img_name = f"{i}_{image_name}.jpg"
                 cropped_img_path = os.path.join(cropped_img_dir, cropped_img_name)
                 cv2.imwrite(cropped_img_path, cropped_img)
-                print(f"Saved cropped image: {cropped_img_name}")
+                print(f"Saved cropped image: {cropped_img_name} to {cropped_img_dir}")
 
 print("Image cropping completed.")

@@ -7,7 +7,7 @@ import math
 
 # Define paths
 username = "Santi LM"
-xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/annotations.xml"
+xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 positions_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
@@ -30,7 +30,7 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 1000
+num_synthetic_images = 200
 
 # Iterate over each synthetic image
 for synthetic_image_counter in range(num_synthetic_images):
@@ -64,52 +64,53 @@ for synthetic_image_counter in range(num_synthetic_images):
             polygons = random_image.findall("polygon[@label!='LP']")
 
             if len(polygons) > 0 and os.path.exists(os.path.join(images_folder, random_image_name)):
-                successful = True
-
                 random_polygon = random.choice(polygons)
-                points_str = random_polygon.get('points').split(';')
-                points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
+                if True: #random_polygon.get('label') == "M":
+                    
+                    successful = True
+                    points_str = random_polygon.get('points').split(';')
+                    points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
 
-                # Calculate the bounding box of the polygon
-                min_x = int(np.min(points[:, 0]))
-                max_x = int(np.max(points[:, 0]))
-                min_y = int(np.min(points[:, 1]))
-                max_y = int(np.max(points[:, 1]))
-                w = max_x - min_x
-                h = max_y - min_y
+                    # Calculate the bounding box of the polygon
+                    min_x = int(np.min(points[:, 0]))
+                    max_x = int(np.max(points[:, 0]))
+                    min_y = int(np.min(points[:, 1]))
+                    max_y = int(np.max(points[:, 1]))
+                    w = max_x - min_x
+                    h = max_y - min_y
 
-                # Choose a random position from a position file
-                random_position = positions[i]
+                    # Choose a random position from a position file
+                    random_position = positions[i]
 
-                
-                points = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
-                # Extract the roi from the original image using the polygon's points
-                original_image = cv2.imread(os.path.join(images_folder, random_image_name))
-                # Create a mask for the polygon area
-                polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
-                cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
-                
-                # Load the binary image
-                #binary_image_name = os.path.join(binary_folder, random_image_name)
-                #binary_image = cv2.imread(binary_image_name, cv2.IMREAD_GRAYSCALE)
+                    
+                    points = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
+                    # Extract the roi from the original image using the polygon's points
+                    original_image = cv2.imread(os.path.join(images_folder, random_image_name))
+                    # Create a mask for the polygon area
+                    polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
+                    cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
+                    
+                    # Load the binary image
+                    #binary_image_name = os.path.join(binary_folder, random_image_name)
+                    #binary_image = cv2.imread(binary_image_name, cv2.IMREAD_GRAYSCALE)
 
-                # Create a mask for the polygon area
-                polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
-                cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
+                    # Create a mask for the polygon area
+                    polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
+                    cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
 
-                # Apply a mask to the polygon_mask to consider only pixels where binary image is black
-                #mask = (binary_image <= 128).astype(np.uint8)
-                #polygon_mask = cv2.bitwise_and(polygon_mask, polygon_mask, mask=mask)
+                    # Apply a mask to the polygon_mask to consider only pixels where binary image is black
+                    #mask = (binary_image <= 128).astype(np.uint8)
+                    #polygon_mask = cv2.bitwise_and(polygon_mask, polygon_mask, mask=mask)
 
-                # Calculate position on the template
-                x = int(random_position[0] * template.shape[1])
-                y = int(random_position[1] * template.shape[0])
+                    # Calculate position on the template
+                    x = int(random_position[0] * template.shape[1])
+                    y = int(random_position[1] * template.shape[0])
 
-                # Calculate the original_image's dimensions
-                h, w = original_image.shape[:2]
-                
-                synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
-                name_to_save += random_image.get('id') + "_" + random_polygon.get('label') + "___"
+                    # Calculate the original_image's dimensions
+                    h, w = original_image.shape[:2]
+                    
+                    synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
+                    name_to_save += random_image.get('id') + "_" + random_polygon.get('label') + "___"
 
                 
     # Save the synthetic image with a unique filename
