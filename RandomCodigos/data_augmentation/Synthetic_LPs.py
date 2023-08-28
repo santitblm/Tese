@@ -16,8 +16,8 @@ binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_a
 
 # Set the random seed for reproducibility
 random_seed = 42  # You can use any integer value you prefer
-#random.seed(random_seed)
-#np.random.seed(random_seed)
+random.seed(random_seed)
+np.random.seed(random_seed)
 
 # Load the XML file
 tree = ET.parse(xml_file)
@@ -30,7 +30,7 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 200
+num_synthetic_images = 1000
 
 # Iterate over each synthetic image
 for synthetic_image_counter in range(num_synthetic_images):
@@ -63,9 +63,9 @@ for synthetic_image_counter in range(num_synthetic_images):
             random_image_name = "transformed_" + random_image.get('name')
             polygons = random_image.findall("polygon[@label!='LP']")
 
-            if len(polygons) > 0 and os.path.exists(os.path.join(images_folder, random_image_name)):
+            if len(polygons) > 0 and os.path.exists(os.path.join(images_folder, random_image_name)):# and int(random_image.get('id')) > 3848:
                 random_polygon = random.choice(polygons)
-                if True: #random_polygon.get('label') == "M":
+                if random_polygon.get('occluded') == "0":
                     
                     successful = True
                     points_str = random_polygon.get('points').split(';')
