@@ -20,8 +20,8 @@ for image_file in image_files:
     image = cv2.imread(image_path)
 
     # Apply Gaussian blur
-    gaussian_blur = cv2.GaussianBlur(image, (9, 9), 0)
-    gaussian_blur = cv2.convertScaleAbs(gaussian_blur, alpha=1, beta=-50)
+    #gaussian_blur = cv2.GaussianBlur(image, (9, 9), 0)
+    gaussian_blur = cv2.convertScaleAbs(image, alpha=2, beta=0)
     # Apply average blur
     #kernel_size = 9
     #average_blur = cv2.blur(image, (kernel_size, kernel_size))
@@ -29,7 +29,7 @@ for image_file in image_files:
     # Show the original, Gaussian blur, and average blur images
     if show:
         cv2.imshow('Original Image', image)
-        cv2.imshow('Gaussian Blur', gaussian_blur)
+        #cv2.imshow('Gaussian Blur', gaussian_blur)
         #cv2.imshow('Average Blur', average_blur)
 
     # Save the modified images
@@ -40,5 +40,5 @@ for image_file in image_files:
     #cv2.imwrite(average_output_path, average_blur)
 
     # Wait for a key press and then close the windows
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()

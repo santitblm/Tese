@@ -4,6 +4,8 @@ import cv2
 import xml.etree.ElementTree as ET
 import random
 import math
+from tqdm import tqdm
+from image_transformations import apply_random_transformations
 
 # Define paths
 username = "Santi LM"
@@ -30,7 +32,8 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 1000
+num_synthetic_images = 10000
+progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
 
 # Iterate over each synthetic image
 for synthetic_image_counter in range(num_synthetic_images):
@@ -48,7 +51,7 @@ for synthetic_image_counter in range(num_synthetic_images):
 
     # Create a copy of the template to work on
     synthetic_image = template.copy()
-    
+    synthetic_image = cv2.convertScaleAbs(synthetic_image, alpha=1, beta=random.randint(-20, 0))
     # Randomize the positions chosen for the polygons
     order = [0, 1, 2, 3, 4, 5]
     random.shuffle(order)
@@ -111,8 +114,9 @@ for synthetic_image_counter in range(num_synthetic_images):
                     
                     synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
                     name_to_save += random_image.get('id') + "_" + random_polygon.get('label') + "___"
-
+    progress_bar.update(1)
                 
     # Save the synthetic image with a unique filename
+    final_image = apply_random_transformations(synthetic_image)
     synthetic_image_path = os.path.join(synthetic_folder, f"{name_to_save}.jpg")
-    cv2.imwrite(synthetic_image_path, synthetic_image)
+    cv2.imwrite(synthetic_image_path, final_image)
