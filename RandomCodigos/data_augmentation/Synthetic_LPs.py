@@ -6,6 +6,7 @@ import random
 import math
 from tqdm import tqdm
 from image_transformations import apply_random_transformations
+from txt_processor import save_txt_file
 
 # Define paths
 username = "Santi LM"
@@ -14,10 +15,11 @@ images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_a
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 positions_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
 synthetic_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/"
-binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
+txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
+#binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
 # Set the random seed for reproducibility
-random_seed = 42  # You can use any integer value you prefer
+random_seed = 41  # You can use any integer value you prefer
 random.seed(random_seed)
 np.random.seed(random_seed)
 
@@ -32,7 +34,7 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 10000
+num_synthetic_images = 100
 progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
 
 # Iterate over each synthetic image
@@ -41,7 +43,10 @@ for synthetic_image_counter in range(num_synthetic_images):
     template_image_name = random.choice(template_images)
     template_image_path = os.path.join(templates_folder, template_image_name)
     template = cv2.imread(template_image_path)
+
+    # Initialize the name of the synthetic image and the array to save the id and label
     name_to_save = ""
+    labels_used = []
 
     # Get the positions from the positions' file
     template_base_name = os.path.splitext(template_image_name)[0]
@@ -52,6 +57,7 @@ for synthetic_image_counter in range(num_synthetic_images):
     # Create a copy of the template to work on
     synthetic_image = template.copy()
     synthetic_image = cv2.convertScaleAbs(synthetic_image, alpha=1, beta=random.randint(-20, 0))
+
     # Randomize the positions chosen for the polygons
     order = [0, 1, 2, 3, 4, 5]
     random.shuffle(order)
@@ -85,26 +91,16 @@ for synthetic_image_counter in range(num_synthetic_images):
                     # Choose a random position from a position file
                     random_position = positions[i]
 
-                    
-                    points = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
+                    points_extremos = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
                     # Extract the roi from the original image using the polygon's points
                     original_image = cv2.imread(os.path.join(images_folder, random_image_name))
                     # Create a mask for the polygon area
                     polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
-                    cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
-                    
-                    # Load the binary image
-                    #binary_image_name = os.path.join(binary_folder, random_image_name)
-                    #binary_image = cv2.imread(binary_image_name, cv2.IMREAD_GRAYSCALE)
+                    cv2.fillPoly(polygon_mask, [points_extremos.astype(int)], (255))
 
                     # Create a mask for the polygon area
                     polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
-                    cv2.fillPoly(polygon_mask, [points.astype(int)], (255))
-
-                    # Apply a mask to the polygon_mask to consider only pixels where binary image is black
-                    #mask = (binary_image <= 128).astype(np.uint8)
-                    #polygon_mask = cv2.bitwise_and(polygon_mask, polygon_mask, mask=mask)
-
+                    cv2.fillPoly(polygon_mask, [points_extremos.astype(int)], (255))
                     # Calculate position on the template
                     x = int(random_position[0] * template.shape[1])
                     y = int(random_position[1] * template.shape[0])
@@ -113,10 +109,21 @@ for synthetic_image_counter in range(num_synthetic_images):
                     h, w = original_image.shape[:2]
                     
                     synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
-                    name_to_save += random_image.get('id') + "_" + random_polygon.get('label') + "___"
+                    
+                    # Join the id and label to the array
+                    image_id = random_image.get('id')
+                    polygon_label = random_polygon.get('label')
+                    name_to_save += image_id + "_" + polygon_label + "___"
+                    labels_used.append([polygon_label, points, (x, y)])
+                    
+
     progress_bar.update(1)
                 
     # Save the synthetic image with a unique filename
-    final_image = apply_random_transformations(synthetic_image)
+    final_image, homography_matrix = apply_random_transformations(synthetic_image, random_seed)
     synthetic_image_path = os.path.join(synthetic_folder, f"{name_to_save}.jpg")
     cv2.imwrite(synthetic_image_path, final_image)
+    
+    # Save the modified polygons' bounding boxes to a txt file
+    #save_txt_file(name_to_save, txt_path, labels_used, homography_matrix)
+

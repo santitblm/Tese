@@ -50,7 +50,7 @@ def apply_random_homography(image, max_skew=10, max_rotation=5):
 
     warped_image = cv2.warpAffine(image, combined_matrix[:2], (new_width, new_height), borderMode=cv2.BORDER_REPLICATE)
     #print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, pitch_angle: {pitch_angle}, yaw_angle: {yaw_angle}")
-    return warped_image
+    return warped_image, combined_matrix
 
 
 def apply_random_blur(image):
@@ -86,14 +86,15 @@ def apply_random_noise(image, noise_prob=0.67):
         #print ("No noise")
     return image
 
-def apply_random_transformations(image):
-    
+def apply_random_transformations(image, random_seed):
+    random.seed(random_seed)
+    np.random.seed(random_seed)
     noisy_result = apply_random_noise(image)
-    homography_result = apply_random_homography(noisy_result)
+    homography_result, matrix_used = apply_random_homography(noisy_result)
     blurred_result = apply_random_blur(homography_result)
     final_result = apply_random_brightness_contrast(blurred_result)
 
-    return final_result
+    return final_result, matrix_used
 
 #output = "C:\\Users\\Santi LM\\Documents\\GitHub\\Tese\\RandomCodigos\\RandomCodigos\\output\\"
 # Load an example image
