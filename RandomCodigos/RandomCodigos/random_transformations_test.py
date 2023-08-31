@@ -6,13 +6,15 @@ import cv2
 import numpy as np
 import random
 
-def apply_random_homography(image, max_skew=15, max_rotation=10):
+def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.9):
     height, width, _ = image.shape
 
     skew_angle = random.uniform(-max_skew, max_skew)
     rotation_angle = random.uniform(-max_rotation, max_rotation)
+    stretch_factor = 1 + random.uniform(-max_stretch, max_stretch)  # Stretching factor
 
-    skew_matrix = np.array([[1, np.tan(np.radians(skew_angle)), 0],
+    # Apply stretching/compression to the skew matrix
+    skew_matrix = np.array([[1, np.tan(np.radians(skew_angle)) * stretch_factor, 0],
                             [0, 1, 0],
                             [0, 0, 1]])
 
@@ -39,7 +41,7 @@ def apply_random_homography(image, max_skew=15, max_rotation=10):
     combined_matrix[1, 2] -= min_y
 
     warped_image = cv2.warpAffine(image, combined_matrix[:2], (new_width, new_height), borderMode=cv2.BORDER_REPLICATE)
-    print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}")
+    print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, stretch_factor: {stretch_factor}")
     return warped_image
 
 
