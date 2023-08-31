@@ -2,13 +2,15 @@ import cv2
 import numpy as np
 import random
 
-def apply_random_homography(image, max_skew=10, max_rotation=5):
+import cv2
+import numpy as np
+import random
+
+def apply_random_homography(image, max_skew=15, max_rotation=10):
     height, width, _ = image.shape
 
     skew_angle = random.uniform(-max_skew, max_skew)
     rotation_angle = random.uniform(-max_rotation, max_rotation)
-    pitch_angle = random.uniform(-1, 1)  # Nodding (rotation up and down)
-    yaw_angle = random.uniform(-5, 5)  # Shaking head (rotation left and right)
 
     skew_matrix = np.array([[1, np.tan(np.radians(skew_angle)), 0],
                             [0, 1, 0],
@@ -16,15 +18,7 @@ def apply_random_homography(image, max_skew=10, max_rotation=5):
 
     rotation_matrix = cv2.getRotationMatrix2D((width/2, height/2), rotation_angle, 1)
 
-    pitch_matrix = np.array([[np.cos(np.radians(pitch_angle)), 0, np.sin(np.radians(pitch_angle))],
-                             [0, 1, 0],
-                             [-np.sin(np.radians(pitch_angle)), 0, np.cos(np.radians(pitch_angle))]])
-
-    yaw_matrix = np.array([[np.cos(np.radians(yaw_angle)), -np.sin(np.radians(yaw_angle)), 0],
-                           [np.sin(np.radians(yaw_angle)), np.cos(np.radians(yaw_angle)), 0],
-                           [0, 0, 1]])
-
-    combined_matrix = np.dot(np.dot(np.dot(rotation_matrix, skew_matrix), pitch_matrix), yaw_matrix)
+    combined_matrix = np.dot(rotation_matrix, skew_matrix)
 
     # Calculate new dimensions to include all original image pixels
     corners = np.array([[0, 0, 1],
@@ -45,8 +39,9 @@ def apply_random_homography(image, max_skew=10, max_rotation=5):
     combined_matrix[1, 2] -= min_y
 
     warped_image = cv2.warpAffine(image, combined_matrix[:2], (new_width, new_height), borderMode=cv2.BORDER_REPLICATE)
-    print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, pitch_angle: {pitch_angle}, yaw_angle: {yaw_angle}")
+    print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}")
     return warped_image
+
 
 
 def apply_random_blur(image):
@@ -91,16 +86,11 @@ def apply_random_transformations(image):
 
     return final_result
 
-#output = "C:\\Users\\Santi LM\\Documents\\GitHub\\Tese\\RandomCodigos\\RandomCodigos\\output\\"
+output = "C:\\Users\\Santi LM\\Documents\\GitHub\\Tese\\RandomCodigos\\RandomCodigos\\output\\"
 # Load an example image
-#input_image = cv2.imread('C:\\Users\\Santi LM\\Documents\\GitHub\\Tese\\RandomCodigos\\RandomCodigos\\input_image.jpg')
+input_image = cv2.imread('C:\\Users\\Santi LM\\Documents\\GitHub\\Tese\\RandomCodigos\\RandomCodigos\\input_image.jpg')
 
-#for i in range(100):
+for i in range(100):
     # Apply random transformations
-#    output_image = apply_random_transformations(input_image)
-#    cv2.imwrite(output + f'output_{i}.jpg', output_image)
-# Display the input and output images
-#cv2.imshow('Input Image', input_image)
-
-#cv2.waitKey(0)
-#cv2.destroyAllWindows()
+    output_image = apply_random_transformations(input_image)
+    cv2.imwrite(output + f'output_{i}.jpg', output_image)

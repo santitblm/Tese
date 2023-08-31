@@ -86,9 +86,7 @@ def apply_random_noise(image, noise_prob=0.67):
         #print ("No noise")
     return image
 
-def apply_random_transformations(image, random_seed):
-    random.seed(random_seed)
-    np.random.seed(random_seed)
+def apply_random_transformations(image):
     noisy_result = apply_random_noise(image)
     homography_result, matrix_used = apply_random_homography(noisy_result)
     blurred_result = apply_random_blur(homography_result)

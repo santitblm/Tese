@@ -19,7 +19,7 @@ txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmen
 #binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
 # Set the random seed for reproducibility
-random_seed = 41  # You can use any integer value you prefer
+random_seed = 477  # You can use any integer value you prefer
 random.seed(random_seed)
 np.random.seed(random_seed)
 
@@ -34,20 +34,20 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 100
-progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
+num_synthetic_images = 10
+#progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
 
 # Iterate over each synthetic image
 for synthetic_image_counter in range(num_synthetic_images):
     # Choose a random template image
     template_image_name = random.choice(template_images)
+    print(template_image_name)
     template_image_path = os.path.join(templates_folder, template_image_name)
     template = cv2.imread(template_image_path)
 
     # Initialize the name of the synthetic image and the array to save the id and label
     name_to_save = ""
     labels_used = []
-
     # Get the positions from the positions' file
     template_base_name = os.path.splitext(template_image_name)[0]
     position_file_path = os.path.join(positions_folder, f"{template_base_name}.txt")
@@ -64,7 +64,6 @@ for synthetic_image_counter in range(num_synthetic_images):
     
     # Loop through the polygons and draw them onto the synthetic image
     for i in order:
-
         successful = False
         while not successful:
 
@@ -117,13 +116,14 @@ for synthetic_image_counter in range(num_synthetic_images):
                     labels_used.append([polygon_label, points, (x, y)])
                     
 
-    progress_bar.update(1)
+    #progress_bar.update(1)
                 
     # Save the synthetic image with a unique filename
-    final_image, homography_matrix = apply_random_transformations(synthetic_image, random_seed)
+    final_image, homography_matrix = apply_random_transformations(synthetic_image)
     synthetic_image_path = os.path.join(synthetic_folder, f"{name_to_save}.jpg")
     cv2.imwrite(synthetic_image_path, final_image)
+    print(f"Image {name_to_save} saved successfully.")
     
     # Save the modified polygons' bounding boxes to a txt file
-    #save_txt_file(name_to_save, txt_path, labels_used, homography_matrix)
+    save_txt_file(name_to_save, txt_path, labels_used, homography_matrix)
 
