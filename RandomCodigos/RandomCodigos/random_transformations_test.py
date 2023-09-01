@@ -6,21 +6,28 @@ import cv2
 import numpy as np
 import random
 
-def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.9):
+def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.15):
     height, width, _ = image.shape
 
     skew_angle = random.uniform(-max_skew, max_skew)
     rotation_angle = random.uniform(-max_rotation, max_rotation)
-    stretch_factor = 1 + random.uniform(-max_stretch, max_stretch)  # Stretching factor
+    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch)  # Stretch factor in x direction
+    stretch_factor_y = 2 - stretch_factor_x#+ random.uniform(-max_stretch, max_stretch)  # Stretch factor in y direction
 
-    # Apply stretching/compression to the skew matrix
-    skew_matrix = np.array([[1, np.tan(np.radians(skew_angle)) * stretch_factor, 0],
+    # Apply skewing to the skew matrix
+    skew_matrix = np.array([[1, np.tan(np.radians(skew_angle)), 0],
                             [0, 1, 0],
                             [0, 0, 1]])
 
+    # Apply stretching to the skew matrix
+    stretch_matrix = np.array([[stretch_factor_x, 0, 0],
+                               [0, stretch_factor_y, 0],
+                               [0, 0, 1]])
+
     rotation_matrix = cv2.getRotationMatrix2D((width/2, height/2), rotation_angle, 1)
 
-    combined_matrix = np.dot(rotation_matrix, skew_matrix)
+    # Combine skew, stretch, and rotation matrices
+    combined_matrix = np.dot(np.dot(rotation_matrix, skew_matrix), stretch_matrix)
 
     # Calculate new dimensions to include all original image pixels
     corners = np.array([[0, 0, 1],
@@ -41,7 +48,7 @@ def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.9
     combined_matrix[1, 2] -= min_y
 
     warped_image = cv2.warpAffine(image, combined_matrix[:2], (new_width, new_height), borderMode=cv2.BORDER_REPLICATE)
-    print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, stretch_factor: {stretch_factor}")
+    print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, stretch_factor_x: {stretch_factor_x}, stretch_factor_y: {stretch_factor_y}")
     return warped_image
 
 

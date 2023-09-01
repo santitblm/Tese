@@ -6,29 +6,28 @@ import cv2
 import numpy as np
 import random
 
-def apply_random_homography(image, max_skew=10, max_rotation=5):
+def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.15):
     height, width, _ = image.shape
 
     skew_angle = random.uniform(-max_skew, max_skew)
     rotation_angle = random.uniform(-max_rotation, max_rotation)
-    pitch_angle = random.uniform(-1, 1)  # Nodding (rotation up and down)
-    yaw_angle = random.uniform(-5, 5)  # Shaking head (rotation left and right)
+    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch)  # Stretch factor in x direction
+    stretch_factor_y = 2 - stretch_factor_x#+ random.uniform(-max_stretch, max_stretch)  # Stretch factor in y direction
 
+    # Apply skewing to the skew matrix
     skew_matrix = np.array([[1, np.tan(np.radians(skew_angle)), 0],
                             [0, 1, 0],
                             [0, 0, 1]])
 
+    # Apply stretching to the skew matrix
+    stretch_matrix = np.array([[stretch_factor_x, 0, 0],
+                               [0, stretch_factor_y, 0],
+                               [0, 0, 1]])
+
     rotation_matrix = cv2.getRotationMatrix2D((width/2, height/2), rotation_angle, 1)
 
-    pitch_matrix = np.array([[np.cos(np.radians(pitch_angle)), 0, np.sin(np.radians(pitch_angle))],
-                             [0, 1, 0],
-                             [-np.sin(np.radians(pitch_angle)), 0, np.cos(np.radians(pitch_angle))]])
-
-    yaw_matrix = np.array([[np.cos(np.radians(yaw_angle)), -np.sin(np.radians(yaw_angle)), 0],
-                           [np.sin(np.radians(yaw_angle)), np.cos(np.radians(yaw_angle)), 0],
-                           [0, 0, 1]])
-
-    combined_matrix = np.dot(np.dot(np.dot(rotation_matrix, skew_matrix), pitch_matrix), yaw_matrix)
+    # Combine skew, stretch, and rotation matrices
+    combined_matrix = np.dot(np.dot(rotation_matrix, skew_matrix), stretch_matrix)
 
     # Calculate new dimensions to include all original image pixels
     corners = np.array([[0, 0, 1],
@@ -49,7 +48,7 @@ def apply_random_homography(image, max_skew=10, max_rotation=5):
     combined_matrix[1, 2] -= min_y
 
     warped_image = cv2.warpAffine(image, combined_matrix[:2], (new_width, new_height), borderMode=cv2.BORDER_REPLICATE)
-    #print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, pitch_angle: {pitch_angle}, yaw_angle: {yaw_angle}")
+    #print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, stretch_factor_x: {stretch_factor_x}, stretch_factor_y: {stretch_factor_y}")
     return warped_image, combined_matrix
 
 
