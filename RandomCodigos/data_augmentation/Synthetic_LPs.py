@@ -83,8 +83,8 @@ for synthetic_image_counter in range(num_synthetic_images):
                     break
 
             if polygon.get('occluded') == "0":
-                
                 successful = True
+
                 points_str = polygon.get('points').split(';')
                 points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
 
@@ -101,9 +101,9 @@ for synthetic_image_counter in range(num_synthetic_images):
 
                 points_extremos = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
                 # Extract the roi from the original image using the polygon's points
-                
                 image_name = "transformed_" + image.get('name')
                 original_image = cv2.imread(os.path.join(images_folder, image_name))
+
                 # Create a mask for the polygon area
                 polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
                 cv2.fillPoly(polygon_mask, [points_extremos.astype(int)], (255))
