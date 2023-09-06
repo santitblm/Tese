@@ -77,7 +77,8 @@ def create_histogram(number_counts):
     plt.show()
 
 # Specify the directory containing the text files
-directory = 'D:/matric/train/labels'
+username = "Santi LM"
+directory = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 
 # Process the text files and create the histogram
 number_counts = process_text_files(directory)
