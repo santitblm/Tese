@@ -70,13 +70,16 @@ for synthetic_image_counter in range(num_synthetic_images):
     for i in order:
         successful = False
         while not successful:
+            # Choose a random label based on the frequency of each label (less frequent labels are more likely to be chosen)
             label, global_array = choose_label(int(num_synthetic_images/34), global_array)
-            id = random.choice(label_image_ids[label])
+            id = random.choice(label_image_ids[label])  # Choose a random image that contains the chosen label
+            # Find the image element with the chosen id
             for image_element in image_elements:
                 image_id = image_element.get("id")
                 if image_id == id:
                     image = image_element
                     break
+            # Find the polygon element with the chosen label (if there are more than one with the same label, choose one at random)
             polygons = []
             for polygon_element in image.findall("polygon[@label!='LP']"):
                 polygon_label = polygon_element.get("label")
@@ -85,8 +88,9 @@ for synthetic_image_counter in range(num_synthetic_images):
                     polygons.append(polygon)
             if len(polygons) > 1:
                 polygon = random.choice(polygons)
-                print(f"More than one polygon with the same label in image {image_id}")
+                #print(f"More than one polygon with the same label in image {image_id}")
 
+            # Load the image, check if it exists and if the polygon is not occluded
             image_name = "transformed_" + image.get('name')
             original_image = cv2.imread(os.path.join(images_folder, image_name))
             if polygon.get('occluded') == "0" and original_image is not None:
@@ -132,7 +136,7 @@ for synthetic_image_counter in range(num_synthetic_images):
 
 
     progress_bar.update(1)
-    name_to_save = f"{synthetic_image_counter}"            
+    name_to_save = synthetic_image_counter  # This variable only exists to make it easier if we want to use a different naming convention            
     # Save the synthetic image with a unique filename
     final_image, homography_matrix = apply_random_transformations(synthetic_image)
     synthetic_image_path = os.path.join(synthetic_folder, f"{name_to_save}.jpg")
@@ -141,6 +145,7 @@ for synthetic_image_counter in range(num_synthetic_images):
     # Save the modified polygons' bounding boxes to a txt file
     save_txt_file(name_to_save, txt_path, labels_used, homography_matrix, final_image.shape)
 
-# Show not found images without duplicates
+# Close the progress bar and show not found images without duplicates
+progress_bar.close()
 print("\n IDs not found:")
 print(set(ids_not_found))
