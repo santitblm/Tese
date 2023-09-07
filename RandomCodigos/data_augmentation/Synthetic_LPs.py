@@ -119,8 +119,8 @@ for synthetic_image_counter in range(num_synthetic_images):
 
                 # Choose a random position from a position file and calculate the position on the template
                 random_position = positions[i]
-                x = int(random_position[0] * template.shape[1]) + random.randint(-3, 3)
-                y = int(random_position[1] * template.shape[0]) + random.randint(-3, 3)
+                x = int(random_position[0] * template.shape[1]) + random.randint(-2, 2)
+                y = int(random_position[1] * template.shape[0]) + random.randint(-2, 2)
 
                 # Calculate the original_image's dimensions
                 h, w = original_image.shape[:2]
