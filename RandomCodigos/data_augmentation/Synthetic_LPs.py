@@ -37,7 +37,7 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 1000
+num_synthetic_images = 100
 progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
 
 ids_not_found = []
@@ -77,12 +77,15 @@ for synthetic_image_counter in range(num_synthetic_images):
                 if image_id == id:
                     image = image_element
                     break
-
+            polygons = []
             for polygon_element in image.findall("polygon[@label!='LP']"):
                 polygon_label = polygon_element.get("label")
                 if polygon_label == label:
                     polygon = polygon_element
-                    break
+                    polygons.append(polygon)
+            if len(polygons) > 1:
+                polygon = random.choice(polygons)
+                print(f"More than one polygon with the same label in image {image_id}")
 
             image_name = "transformed_" + image.get('name')
             original_image = cv2.imread(os.path.join(images_folder, image_name))
