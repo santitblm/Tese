@@ -40,7 +40,7 @@ image_elements = root.findall('image')
 num_synthetic_images = 100
 progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
 
-ids_not_found = []
+#ids_not_found = []
 
 # Iterate over each synthetic image
 for synthetic_image_counter in range(num_synthetic_images):
@@ -79,15 +79,10 @@ for synthetic_image_counter in range(num_synthetic_images):
                 if image_id == id:
                     image = image_element
                     break
+
             # Find the polygon element with the chosen label (if there are more than one with the same label, choose one at random)
-            polygons = []
-            for polygon_element in image.findall("polygon[@label!='LP']"):
-                polygon_label = polygon_element.get("label")
-                if polygon_label == label:
-                    polygon = polygon_element
-                    polygons.append(polygon)
-            if len(polygons) > 1:
-                polygon = random.choice(polygons)
+            polygons = image.findall(f"polygon[@label='{label}']")
+            polygon = random.choice(polygons)
                 #print(f"More than one polygon with the same label in image {image_id}")
 
             # Load the image, check if it exists and if the polygon is not occluded
@@ -104,14 +99,8 @@ for synthetic_image_counter in range(num_synthetic_images):
                 max_x = int(np.max(points[:, 0]))
                 min_y = int(np.min(points[:, 1]))
                 max_y = int(np.max(points[:, 1]))
-                w = max_x - min_x
-                h = max_y - min_y
 
                 points_extremos = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
-
-                # Create a mask for the polygon area
-                polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
-                cv2.fillPoly(polygon_mask, [points_extremos.astype(int)], (255))
 
                 # Create a mask for the polygon area
                 polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
@@ -122,16 +111,14 @@ for synthetic_image_counter in range(num_synthetic_images):
                 x = int(random_position[0] * template.shape[1]) + random.randint(-2, 2)
                 y = int(random_position[1] * template.shape[0]) + random.randint(-2, 2)
 
-                # Calculate the original_image's dimensions
-                h, w = original_image.shape[:2]
-
                 # "seamlessly" paste the character onto the template
                 synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
 
                 # Join the label, points and position to the array
                 labels_used.append([label, points, (x, y)])
-            elif original_image is None:
-                ids_not_found.append(id)
+
+            #elif original_image is None:
+            #    ids_not_found.append(id)
 
 
 
@@ -147,5 +134,5 @@ for synthetic_image_counter in range(num_synthetic_images):
 
 # Close the progress bar and show not found images without duplicates
 progress_bar.close()
-print("\n IDs not found:")
-print(set(ids_not_found))
+#print("\n IDs not found:")
+#print(set(ids_not_found))
