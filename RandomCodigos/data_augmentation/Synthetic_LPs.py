@@ -10,7 +10,7 @@ from label_count import get_label_counts
 from choose_label import choose_label
 
 # Define paths
-username = "Santi LM"
+username = "Vastingood"
 xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"

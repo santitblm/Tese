@@ -53,8 +53,8 @@ def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.1
 
 
 def apply_random_blur(image):
-    kernel_size = random.choice([1, 3, 5])
-    blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
+    kernel_size = random.choice([1, 3, 5, 7, 9, 11])
+    blurred_image = cv2.blur(image, (kernel_size, kernel_size))
     return blurred_image
 
 def apply_random_brightness_contrast(image):
