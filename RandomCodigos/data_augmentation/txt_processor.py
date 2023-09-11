@@ -1,5 +1,4 @@
 import os
-import cv2
 import numpy as np
 
 def save_txt_file(name_to_save, txt_path, labels_used, transformation_matrix, img_shape):

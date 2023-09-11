@@ -6,7 +6,7 @@ import numpy as np
 username = "Santi LM"
 
 # Path to the XML file
-xml_file = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
+xml_file = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/annotations_for_transformed.xml"
 
 # Path to the folder to save transformed images
 output_folder = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/Labels/"

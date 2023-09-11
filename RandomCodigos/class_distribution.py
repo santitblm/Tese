@@ -78,8 +78,9 @@ def create_histogram(number_counts):
 
 # Specify the directory containing the text files
 username = "Santi LM"
-directory = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
+directories = [f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/labels/", f"C:/Users/{username}/Documents/GitHub/Tese/cropped/labels/"]
 
 # Process the text files and create the histogram
-number_counts = process_text_files(directory)
-create_histogram(number_counts)
+for directory in directories:
+    number_counts = process_text_files(directory)
+    create_histogram(number_counts)
