@@ -85,10 +85,37 @@ def apply_random_noise(image, noise_prob=0.67):
         #print ("No noise")
     return image
 
+def apply_shadow(image):
+    # Add a shadow to the image with a 35% chance of occurrence
+    if random.random() < 0.35:
+        # Get image width and height
+        height, width, _ = image.shape
+
+        # Generate random points on the left and right sides of the image
+        left_point = (0, random.randint(0, height - 1))
+        right_point = (width - 1, random.randint(0, height - 1))
+
+        # Define a line between the two points
+        line_coefficients = np.polyfit([left_point[0], right_point[0]], [left_point[1], right_point[1]], 1)
+        a, b = line_coefficients
+
+        # Create a mesh grid of X and Y coordinates
+        Y, X = np.meshgrid(range(height), range(width), indexing='ij')
+
+        # Use the equation of the line to check which pixels are above the line
+        above_line_mask = Y < (a * X + b)
+
+        # Adjust the brightness of pixels above the line
+        # Randomly choose a value between 0.3 and 0.6
+        brightness_reduction = random.random() * 0.3 + 0.3
+        image[above_line_mask] = np.clip(image[above_line_mask]*brightness_reduction, 0, 255)
+    return image
+
 def apply_random_transformations(image):
     noisy_result = apply_random_noise(image)
     homography_result, matrix_used = apply_random_homography(noisy_result)
-    blurred_result = apply_random_blur(homography_result)
+    shadowed_result = apply_shadow(homography_result)
+    blurred_result = apply_random_blur(shadowed_result)
     final_result = apply_random_brightness_contrast(blurred_result)
 
     return final_result, matrix_used
