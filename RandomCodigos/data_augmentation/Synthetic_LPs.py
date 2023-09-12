@@ -108,8 +108,8 @@ for synthetic_image_counter in range(num_synthetic_images):
 
                 # Choose a random position from a position file and calculate the position on the template
                 random_position = positions[i]
-                x = int(random_position[0] * template.shape[1]) + random.randint(-2, 2)
-                y = int(random_position[1] * template.shape[0]) + random.randint(-2, 2)
+                x = int(random_position[0] * template.shape[1])
+                y = int(random_position[1] * template.shape[0])
 
                 # "seamlessly" paste the character onto the template
                 synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
