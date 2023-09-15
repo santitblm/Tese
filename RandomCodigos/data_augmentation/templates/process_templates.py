@@ -2,7 +2,7 @@ import os
 import cv2
 
 # Set the path to the templates folder and the target size
-username = "Santi LM"
+username = "Vastingood"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 target_width = 490
 target_height = 110
@@ -24,10 +24,10 @@ for filename in os.listdir(templates_folder):
             #image = cv2.GaussianBlur(image, (5, 5), 0)
 
             # Resize the image
-            #image = cv2.resize(image, (target_width, target_height))
+            image = cv2.resize(image, (target_width, target_height))
 
             # Lightning adjustment
-            image = cv2.convertScaleAbs(image, alpha=1, beta=+20)
+            #image = cv2.convertScaleAbs(image, alpha=1, beta=+20)
             # Show the resulting image
             cv2.imshow("Resized Image", image)
             cv2.waitKey(0)

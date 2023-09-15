@@ -111,10 +111,23 @@ def apply_shadow(image):
         image[above_line_mask] = np.clip(image[above_line_mask]*brightness_reduction, 0, 255)
     return image
 
+def apply_random_hue_shift(image):
+    # Convert the image to HSV
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Apply a random hue shift to the image
+    hue_shift = random.randint(0, 360)
+    hsv_image[:, :, 0] = (hsv_image[:, :, 0] + hue_shift) % 360
+
+    # Convert the image back to BGR
+    shifted_image = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
+    return shifted_image
+
 def apply_random_transformations(image):
     noisy_result = apply_random_noise(image)
     homography_result, matrix_used = apply_random_homography(noisy_result)
-    shadowed_result = apply_shadow(homography_result)
+    hue_shifted_result = apply_random_hue_shift(homography_result)
+    shadowed_result = apply_shadow(hue_shifted_result)
     blurred_result = apply_random_blur(shadowed_result)
     final_result = apply_random_brightness_contrast(blurred_result)
 

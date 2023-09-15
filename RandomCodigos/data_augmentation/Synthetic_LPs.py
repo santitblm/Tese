@@ -10,7 +10,7 @@ from label_count import get_label_counts
 from choose_label import choose_label
 
 # Define paths
-username = "Santi LM"
+username = "Vastingood"
 xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
@@ -37,7 +37,7 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 50000
+num_synthetic_images = 100
 progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
 
 #ids_not_found = []
@@ -119,8 +119,6 @@ for synthetic_image_counter in range(num_synthetic_images):
 
             #elif original_image is None:
             #    ids_not_found.append(id)
-
-
 
     progress_bar.update(1)
     name_to_save = synthetic_image_counter  # This variable only exists to make it easier if we want to use a different naming convention            
