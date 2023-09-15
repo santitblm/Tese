@@ -124,14 +124,14 @@ def apply_random_hue_shift(image):
     return shifted_image
 
 def apply_random_transformations(image):
-    noisy_result = apply_random_noise(image)
-    homography_result, matrix_used = apply_random_homography(noisy_result)
-    hue_shifted_result = apply_random_hue_shift(homography_result)
-    shadowed_result = apply_shadow(hue_shifted_result)
-    blurred_result = apply_random_blur(shadowed_result)
-    final_result = apply_random_brightness_contrast(blurred_result)
+    image = apply_random_noise(image)
+    image, matrix_used = apply_random_homography(image)
+    #image = apply_random_hue_shift(image)
+    image = apply_shadow(image)
+    image = apply_random_blur(image)
+    image = apply_random_brightness_contrast(image)
 
-    return final_result, matrix_used
+    return image, matrix_used
 
 #output = "C:\\Users\\Santi LM\\Documents\\GitHub\\Tese\\RandomCodigos\\RandomCodigos\\output\\"
 # Load an example image

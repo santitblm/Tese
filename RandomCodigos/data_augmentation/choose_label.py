@@ -20,5 +20,5 @@ def choose_label(goal_number, global_array):
             global_array[i] = (label, col2 + 1)
             break
 
-    return chosen_label, global_array
+    return "M", global_array
 

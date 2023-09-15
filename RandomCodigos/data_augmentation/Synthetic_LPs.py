@@ -10,12 +10,13 @@ from label_count import get_label_counts
 from choose_label import choose_label
 
 # Define paths
-username = "Vastingood"
+username= "Santi LM"
+#username = "Vastingood"
 xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 positions_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
-synthetic_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/images"
+synthetic_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/images/"
 txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 #binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
@@ -37,8 +38,8 @@ template_images = [file for file in os.listdir(templates_folder) if file.lower()
 image_elements = root.findall('image')
 
 # Number of synthetic images to generate
-num_synthetic_images = 100
-progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress:")
+num_synthetic_images = 10
+progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress")
 
 #ids_not_found = []
 
@@ -46,6 +47,7 @@ progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_i
 for synthetic_image_counter in range(num_synthetic_images):
     # Choose a random template image
     template_image_name = random.choice(template_images)
+    #template_image_name = "AA0000.png"
     template_image_path = os.path.join(templates_folder, template_image_name)
     template = cv2.imread(template_image_path)
 
