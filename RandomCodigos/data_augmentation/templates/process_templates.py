@@ -5,7 +5,7 @@ import cv2
 username = "Santi LM"
 #username = "Vastingood"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
-target_width = 535
+target_width = 545
 target_height = 110
 
 # Create the output folder if it doesn't exist
