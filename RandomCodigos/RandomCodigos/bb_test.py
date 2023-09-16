@@ -5,11 +5,12 @@ import os
 label_key = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 
 # Specify the folders containing images and text files
-username = "Santi LM"
-#image_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/"
-#txt_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
-image_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/images/"
-txt_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
+username = "Vastingood"
+#username = "Santi LM"
+image_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/images/"
+txt_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
+#image_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/images/"
+#txt_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
 
 # Iterate through the images in the image folder
 for image_filename in os.listdir(image_folder):
@@ -43,13 +44,15 @@ for image_filename in os.listdir(image_folder):
                 print(label, x_center, y_center, width, height)
 
                 # Draw bounding box and label
-                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 1)
                 cv2.putText(img, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
         # Save the annotated image
         cv2.imshow("Annotated image", img)
-        cv2.waitKey(0)
+        key = cv2.waitKey(0)
         cv2.destroyAllWindows()
+        if key == 27:
+            break
 
 # Close all OpenCV windows (if any)
 cv2.destroyAllWindows()

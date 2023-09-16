@@ -10,8 +10,8 @@ from label_count import get_label_counts
 from choose_label import choose_label
 
 # Define paths
-username= "Santi LM"
-#username = "Vastingood"
+#username= "Santi LM"
+username = "Vastingood"
 xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
@@ -25,23 +25,20 @@ random_seed = 64  # You can use any integer value you prefer
 random.seed(random_seed)
 np.random.seed(random_seed)
 
-# Load the XML file
+# Load the XML file and list all available images for polygon extraction
 tree = ET.parse(xml_file)
 root = tree.getroot()
+image_elements = root.findall('image')
 
+# Count how many labels are there on the dataset and, for each label, which images contain it
 global_array, label_image_ids = get_label_counts(root)
+
+# Number of synthetic images to generate
+num_synthetic_images = 50000
+progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress")
 
 # List all available template images
 template_images = [file for file in os.listdir(templates_folder) if file.lower().endswith(('.png', '.jpg', '.jpeg'))]
-
-# List all available images for polygon extraction
-image_elements = root.findall('image')
-
-# Number of synthetic images to generate
-num_synthetic_images = 10
-progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress")
-
-#ids_not_found = []
 
 # Iterate over each synthetic image
 for synthetic_image_counter in range(num_synthetic_images):
@@ -73,7 +70,7 @@ for synthetic_image_counter in range(num_synthetic_images):
         successful = False
         while not successful:
             # Choose a random label based on the frequency of each label (less frequent labels are more likely to be chosen)
-            label, global_array = choose_label(int(num_synthetic_images/34), global_array)
+            label, global_array = choose_label(global_array)
             id = random.choice(label_image_ids[label])  # Choose a random image that contains the chosen label
             # Find the image element with the chosen id
             for image_element in image_elements:
@@ -85,7 +82,6 @@ for synthetic_image_counter in range(num_synthetic_images):
             # Find the polygon element with the chosen label (if there are more than one with the same label, choose one at random)
             polygons = image.findall(f"polygon[@label='{label}']")
             polygon = random.choice(polygons)
-                #print(f"More than one polygon with the same label in image {image_id}")
 
             # Load the image, check if it exists and if the polygon is not occluded
             image_name = "transformed_" + image.get('name')
@@ -113,26 +109,22 @@ for synthetic_image_counter in range(num_synthetic_images):
                 x = int(random_position[0] * template.shape[1])
                 y = int(random_position[1] * template.shape[0])
 
-                # "seamlessly" paste the character onto the template
+                # "Seamlessly" paste the character onto the template
                 synthetic_image = cv2.seamlessClone(original_image, synthetic_image, polygon_mask, (x, y), cv2.MIXED_CLONE)
 
                 # Join the label, points and position to the array
                 labels_used.append([label, points, (x, y)])
 
-            #elif original_image is None:
-            #    ids_not_found.append(id)
-
     progress_bar.update(1)
     name_to_save = synthetic_image_counter  # This variable only exists to make it easier if we want to use a different naming convention            
+    
     # Save the synthetic image with a unique filename
-    final_image, homography_matrix = apply_random_transformations(synthetic_image)
+    final_image, homography_matrix, resize_factor = apply_random_transformations(synthetic_image)
     synthetic_image_path = os.path.join(synthetic_folder, f"{name_to_save}.jpg")
     cv2.imwrite(synthetic_image_path, final_image)
 
     # Save the modified polygons' bounding boxes to a txt file
-    save_txt_file(name_to_save, txt_path, labels_used, homography_matrix, final_image.shape)
-
-# Close the progress bar and show not found images without duplicates
+    save_txt_file(name_to_save, txt_path, labels_used, homography_matrix, final_image.shape, resize_factor)
+    #print(final_image.shape)
+# Close the progress bar
 progress_bar.close()
-#print("\n IDs not found:")
-#print(set(ids_not_found))

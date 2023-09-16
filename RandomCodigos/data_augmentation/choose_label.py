@@ -2,8 +2,7 @@ import random
 
 
 # Function to choose a random label based on the number in the 2nd column
-def choose_label(goal_number, global_array):
-    
+def choose_label(global_array):
     # Calculate weights based on the inverse of the numbers in the 2nd column
     weights = [1 / col2 for _, col2 in global_array]
 
@@ -16,9 +15,8 @@ def choose_label(goal_number, global_array):
 
     # Increment the number in the 2nd column corresponding to the chosen label
     for i, (label, col2) in enumerate(global_array):
-        if label == chosen_label and col2<goal_number:
+        if label == chosen_label:
             global_array[i] = (label, col2 + 1)
-            break
 
     return chosen_label, global_array
 

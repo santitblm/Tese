@@ -51,9 +51,8 @@ def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.1
     #print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, stretch_factor_x: {stretch_factor_x}, stretch_factor_y: {stretch_factor_y}")
     return warped_image, combined_matrix
 
-
 def apply_random_blur(image):
-    kernel_size = random.choice([1, 3, 5, 7, 9, 11])
+    kernel_size = random.choice([1, 3, 5, 7, 9])
     blurred_image = cv2.blur(image, (kernel_size, kernel_size))
     return blurred_image
 
@@ -111,27 +110,38 @@ def apply_shadow(image):
         image[above_line_mask] = np.clip(image[above_line_mask]*brightness_reduction, 0, 255)
     return image
 
-def apply_random_hue_shift(image):
-    # Convert the image to HSV
-    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+def apply_random_temperature_change(image):
+    # Define the temperature adjustment factor (positive for warmer, negative for cooler)
+    temperature_factor = random.random()*0.5 - 0.25  # You can adjust this value as needed
 
-    # Apply a random hue shift to the image
-    hue_shift = random.randint(0, 360)
-    hsv_image[:, :, 0] = (hsv_image[:, :, 0] + hue_shift) % 360
+    # Increase the blue channel (for warmth) and decrease the blue channel (for coolness)
+    blue_channel = np.clip(image[:, :, 0] * (1 + temperature_factor), 0, 255).astype(np.uint8)
+    red_channel = np.clip(image[:, :, 2] * (1 - temperature_factor), 0, 255).astype(np.uint8)
 
-    # Convert the image back to BGR
-    shifted_image = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
-    return shifted_image
+    # Create the output image with adjusted channels
+    adjusted_image = image.copy()
+    adjusted_image[:, :, 0] = blue_channel
+    adjusted_image[:, :, 2] = red_channel
+    return adjusted_image
+
+def apply_random_resize(image):
+    # Define the resize factor (randomly chosen between 0.5 and 1)
+    resize_factor = random.uniform(0.4, 1)
+    # Resize the image
+    resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
+    return resized_image, resize_factor
 
 def apply_random_transformations(image):
     image = apply_random_noise(image)
+    image, resize_factor = apply_random_resize(image)
     image, matrix_used = apply_random_homography(image)
-    #image = apply_random_hue_shift(image)
+    image = apply_random_temperature_change(image)
     image = apply_shadow(image)
     image = apply_random_blur(image)
     image = apply_random_brightness_contrast(image)
+    
 
-    return image, matrix_used
+    return image, matrix_used, resize_factor
 
 #output = "C:\\Users\\Santi LM\\Documents\\GitHub\\Tese\\RandomCodigos\\RandomCodigos\\output\\"
 # Load an example image
