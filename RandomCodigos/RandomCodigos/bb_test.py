@@ -5,12 +5,12 @@ import os
 label_key = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 
 # Specify the folders containing images and text files
-username = "Vastingood"
+#username = "Vastingood"
 #username = "Santi LM"
-image_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/images/"
-txt_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
-#image_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/images/"
-#txt_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
+#image_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/images/"
+#txt_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
+image_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/images/"
+txt_folder = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
 
 # Iterate through the images in the image folder
 for image_filename in os.listdir(image_folder):
