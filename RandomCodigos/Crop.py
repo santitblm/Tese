@@ -13,9 +13,9 @@ import cv2
 #label_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
 #cropped_img_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/Cropped"
 
-image_dir = "C:/Users/Santi LM/Desktop/Pais/"
-label_dir = "C:/Users/Santi LM/Downloads/papis/obj_train_data/"
-cropped_img_dir = image_dir #"C:Users/Santi LM/Documents/GitHub/Tese/cropped/"
+image_dir = "C:/Users/Santi LM/Desktop/teste/"
+label_dir = "C:/Users/Santi LM/Downloads/obj_train_data/"
+cropped_img_dir = "C:/Users/Santi LM/Desktop/teste_cropped/" #"C:Users/Santi LM/Documents/GitHub/Tese/cropped/"
 
 # Get a list of image filenames
 image_files = os.listdir(image_dir)

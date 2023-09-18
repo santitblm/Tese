@@ -51,9 +51,24 @@ def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.1
     #print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, stretch_factor_x: {stretch_factor_x}, stretch_factor_y: {stretch_factor_y}")
     return warped_image, combined_matrix
 
-def apply_random_blur(image):
-    kernel_size = random.choice([1, 3, 5, 7, 9])
-    blurred_image = cv2.blur(image, (kernel_size, kernel_size))
+def apply_random_blur(image): # Average or motion blur
+    if random.random() < 0.5:
+        kernel_size = random.choice([1, 11, 13, 15]) # 1/6 chance of no blur, the kernel from 11 to 19
+  
+        # Create the vertical kernel.
+        kernel_h = np.zeros((kernel_size, kernel_size))
+        
+        # Fill the middle row with ones.
+        kernel_h[int((kernel_size - 1)/2), :] = np.ones(kernel_size)
+        
+        # Normalize.
+        kernel_h /= kernel_size
+
+        # Apply the horizontal kernel.
+        blurred_image = cv2.filter2D(image, -1, kernel_h)
+    else:
+        kernel_size = random.choice([1, 3, 5, 7, 9])
+        blurred_image = cv2.blur(image, (kernel_size, kernel_size))
     return blurred_image
 
 def apply_random_brightness_contrast(image):
@@ -126,7 +141,7 @@ def apply_random_temperature_change(image):
 
 def apply_random_resize(image):
     # Define the resize factor (randomly chosen between 0.5 and 1)
-    resize_factor = random.uniform(0.4, 1)
+    resize_factor = random.uniform(0.15, 1)
     # Resize the image
     resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
     return resized_image, resize_factor
