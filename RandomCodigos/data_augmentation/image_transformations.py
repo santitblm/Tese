@@ -152,7 +152,7 @@ def apply_random_transformations(image):
     image, matrix_used = apply_random_homography(image)
     image = apply_random_temperature_change(image)
     image = apply_shadow(image)
-    image = apply_random_blur(image)
+    image = apply_random_blur(image, resize_factor)
     image = apply_random_brightness_contrast(image)
     
 
