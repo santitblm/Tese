@@ -5,11 +5,12 @@ from heuristic import LP_validation_and_correction as validate_string
 
 # Set the folder path containing the images
 username = "Vastingood"
+username = "Santi LM"
 #folder_path = 'datasets/PT_LP_Characters/test_nolabels/images/'
-#folder_path = f'C:/Users/{username}/Documents/GitHub/Tese/cropped/'
-folder_path = f"C:/Users/{username}/Desktop/teste_cropped/for_testing/"
+folder_path = f'C:/Users/{username}/Documents/GitHub/Tese/cropped/'
+#folder_path = f"C:/Users/{username}/Desktop/teste_cropped/"#for_testing/"
 
-model = YOLO(f"C:/Users/{username}/Desktop/Tese/Backups/LPChar_80e_384_5p_0mosaic/weights/best.pt")
+model = YOLO(f"C:/Users/{username}/Documents/Github/Tese/Backups/LPChar_80e_384_5p_0mosaic/weights/best.pt")
 
 # Get a list of image file names in the folder
 image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
@@ -41,6 +42,7 @@ for image_file in image_files:
         validity, reason, str = validate_string(result_string, sorted_confidences, sorted_boxes)
         # Read image and iterate through sorted boxes if the string is invalid
         if not validity:
+            print(image_file)
             print("The corrected license plate turned out ", str)
             # Read and resize the image
             img = cv2.imread(source)
