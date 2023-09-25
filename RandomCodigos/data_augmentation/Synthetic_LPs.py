@@ -11,7 +11,7 @@ from choose_label import choose_label
 
 # Define paths
 #username= "Santi LM"
-username = "Santi LM"
+username = "Vastingood"
 xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
@@ -35,7 +35,7 @@ image_elements = root.findall('image')
 global_array, label_image_ids = get_label_counts(root)
 
 # Number of synthetic images to generate
-num_synthetic_images = 50000
+num_synthetic_images = 60000
 progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress")
 
 # List all available template images
@@ -107,7 +107,13 @@ for synthetic_image_counter in range(num_synthetic_images):
 
                 # Choose a random position from a position file and calculate the position on the template
                 random_position = positions[i]
-                x = int(random_position[0] * template.shape[1])
+
+                # if label is I or 1, permit a random shift on the x axis
+                if label == "I" or label == "1":
+                    x_shift = random.uniform(-19, 19)
+                else:
+                    x_shift = 0
+                x = int(random_position[0] * template.shape[1]+x_shift)
                 y = int(random_position[1] * template.shape[0])
 
                 # "Seamlessly" paste the character onto the template

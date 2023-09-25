@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-def save_txt_file(name_to_save, txt_path, labels_used, transformation_matrix, img_shape, resize_factor):
+def save_txt_file(name_to_save, txt_path, labels_used, transformation_matrix, img_shape, resize_factor, x_factor = 1.05, y_factor = 1.01):
     with open(os.path.join(txt_path, f"{name_to_save}.txt"), "w") as f:
         for label, points, (x, y) in labels_used:
             # Calculate the min and max of the points
@@ -38,7 +38,7 @@ def save_txt_file(name_to_save, txt_path, labels_used, transformation_matrix, im
             position = key.index(label)
             
             # Write the line to the file
-            line = f"{position} {transformed_center_x/img_shape[1]} {transformed_center_y/img_shape[0]} {max_x/img_shape[1] - min_x/img_shape[1]} {max_y/img_shape[0] - min_y/img_shape[0]}\n"
+            line = f"{position} {transformed_center_x/img_shape[1]} {transformed_center_y/img_shape[0]} {(max_x/img_shape[1] - min_x/img_shape[1])*x_factor} {(max_y/img_shape[0] - min_y/img_shape[0])*y_factor}\n"
             f.write(line)
 
 def apply_perspective_transformation(points, transformation_matrix):

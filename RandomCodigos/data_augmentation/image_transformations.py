@@ -51,8 +51,8 @@ def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.1
     #print(f"skew_angle: {skew_angle}, rotation_angle: {rotation_angle}, stretch_factor_x: {stretch_factor_x}, stretch_factor_y: {stretch_factor_y}")
     return warped_image, combined_matrix
 
-def apply_random_blur(image): # Average or motion blur
-    if random.random() < 0.5:
+def apply_random_blur(image, resize_factor): # Average or motion blur
+    if random.random() < 0.5 and resize_factor > 0.6:
         kernel_size = random.choice([1, 11, 13, 15]) # 1/6 chance of no blur, the kernel from 11 to 19
   
         # Create the vertical kernel.
@@ -67,15 +67,23 @@ def apply_random_blur(image): # Average or motion blur
         # Apply the horizontal kernel.
         blurred_image = cv2.filter2D(image, -1, kernel_h)
     else:
-        kernel_size = random.choice([1, 3, 5, 7, 9])
+        if resize_factor > 0.6:
+            kernel_size = random.choice([1, 3, 5, 7, 9])
+        else:
+            kernel_size = random.choice([1, 3])
         blurred_image = cv2.blur(image, (kernel_size, kernel_size))
     return blurred_image
 
-def apply_random_brightness_contrast(image):
+def apply_random_brightness_contrast_saturation(image):
     brightness_reduction = random.uniform(0, -20)
     contrast_factor = random.uniform(0.9, 1.1)
-    
     adjusted_image = cv2.convertScaleAbs(image, alpha=contrast_factor, beta=brightness_reduction)
+    # Adjust the image's saturation randomly
+    if random.random() < 0.5:
+        saturation_factor = random.uniform(0.3, 0.8)
+        hsv_image = cv2.cvtColor(adjusted_image, cv2.COLOR_BGR2HSV)
+        hsv_image[:, :, 1] = hsv_image[:, :, 1] * saturation_factor
+        adjusted_image = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
     return adjusted_image
 
 def apply_random_noise(image, noise_prob=0.67):
@@ -140,8 +148,8 @@ def apply_random_temperature_change(image):
     return adjusted_image
 
 def apply_random_resize(image):
-    # Define the resize factor (randomly chosen between 0.5 and 1)
-    resize_factor = random.uniform(0.15, 1)
+    # Define the resize factor (randomly chosen between 0.25 and 1)
+    resize_factor = random.uniform(0.25, 1.0)
     # Resize the image
     resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
     return resized_image, resize_factor
@@ -153,7 +161,7 @@ def apply_random_transformations(image):
     image = apply_random_temperature_change(image)
     image = apply_shadow(image)
     image = apply_random_blur(image, resize_factor)
-    image = apply_random_brightness_contrast(image)
+    image = apply_random_brightness_contrast_saturation(image)
     
 
     return image, matrix_used, resize_factor
