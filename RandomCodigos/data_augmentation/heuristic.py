@@ -6,28 +6,44 @@ lt_to_n = {
     "S": "5",
     "A": "4",
     "B": "8",
-    "Z": "2"
+    "Z": "2",
+    "T": "7",
+    "G": "6"
 }
 
 n_to_lt = {v: k for k, v in lt_to_n.items()}
 
 def too_many_characters(input_str, sorted_confidences, sorted_boxes):
+    print(sorted_confidences)
     # Check if there are any overlapping boxes (meaning two or more detected characters in the same position)
     xs = []
     for box in sorted_boxes:
         x1, _, _, _ = map(int, box[:4])
         x = x1
         xs.append(x)
+    # Must add a condition for a minimum value to be considered overlapping
     # Make a list with the difference between consecutive items on xs
     xs_diff = [xs[i+1] - xs[i] for i in range(len(xs)-1)]
     print(xs, "--", xs_diff)
     # Check which one is the smallest difference, get its id and remove it from the list
     min_diff = nmin(len(input_str)-6,xs_diff)
+    print(min_diff)
     for min in min_diff:
         min_diff_id = xs_diff.index(min)
         xs_diff.remove(min)
-        print(f"positions {min_diff_id} and {min_diff_id+1} are overlapping")
-    return
+        print(f"positions {min_diff_id} and {min_diff_id+1} are overlapping, checking confidences...")
+        # Check which one has the lowest confidence
+        if sorted_confidences[min_diff_id] > sorted_confidences[min_diff_id+1]:
+            print(f"removing position {min_diff_id+1}")
+            sorted_confidences.pop(min_diff_id+1)
+            sorted_boxes.pop(min_diff_id+1)
+            input_str = input_str[:min_diff_id+1] + input_str[min_diff_id+2:]
+        else:
+            print(f"removing position {min_diff_id}")
+            sorted_confidences.pop(min_diff_id)
+            sorted_boxes.pop(min_diff_id)
+            input_str = input_str[:min_diff_id] + input_str[min_diff_id+1:]
+    return input_str
 
 
 def corrected_pairs(i_s, input_str, letter_count, number_count, letter_i, number_i):
@@ -44,9 +60,16 @@ def corrected_pairs(i_s, input_str, letter_count, number_count, letter_i, number
             else:
                 new_str = input_str[:i*2] + lt_to_n.get(input_str[i*2+1], "?") + input_str[i*2+1:]
         else:
-            new_str = input_str       
-    else:
+            new_str = input_str           
+    #These conditions would never be met because all pairs are correct  
+    elif letter_count == 3:
+        new_str = input_str[:2] + lt_to_n.get(input_str[2], "?") + lt_to_n.get(input_str[3], "?") + input_str[4:]
+    elif number_count == 3:
+        # Check if the numbers' pairs are present in the dictionary
         new_str = input_str
+    else:
+        new_str = input_str 
+    
     return new_str
 
 def LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes):
@@ -94,7 +117,7 @@ def LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes):
             reason = "Portuguese license plates do not yet start with a D in the 4 letter configuration"
             return False, reason, "NA"
     else:
-        reason = "Invalid configuration for a Portuguese license plate"
+        reason = "Letters and numbers mixed"
         return False, reason, corrected_pairs(i_s, input_str, letter_count, number_count, letter_i, number_i)
 
 
