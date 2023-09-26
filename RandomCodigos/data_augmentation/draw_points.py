@@ -1,3 +1,5 @@
+'''this code is used to draw the points on the transformed images, to check if the transformation is correct'''
+
 import os
 import cv2
 import xml.etree.ElementTree as ET

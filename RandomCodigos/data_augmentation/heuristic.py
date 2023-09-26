@@ -109,10 +109,10 @@ def LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes):
 
     # Check the conditions for letter pairs
     if (letter_count == 1 and number_count == 2):
-        return True, None, None
+        return True, input_str, None
     elif (letter_count == 2 and number_count == 1):
         if input_str[0] in ["A", "B", "C"] and input_str[5].isalpha():
-            return True, None, None
+            return True, input_str, None
         else:
             reason = "Portuguese license plates do not yet start with a D in the 4 letter configuration"
             return False, reason, "NA"
