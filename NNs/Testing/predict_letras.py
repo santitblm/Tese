@@ -27,6 +27,7 @@ for image_file in image_files:
 
     for r in results:
         data = r.boxes.data
+        print("probs:", r.keypoints)
         #print(data)
         # Combine data with their respective class labels
         boxes_with_labels = data.tolist()
