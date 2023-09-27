@@ -4,24 +4,39 @@ from ultralytics import YOLO
 from heuristic import LP_validation_and_correction as validate_string
 
 # Function to calculate if two boxes are overlapping
-def overlapping(x1, y1, x2, y2, X1, Y1, X2, Y2):
-    intersection = max(0, min(x2, X2) - max(x1, X1)) * max(0, min(y2, Y2) - max(y1, Y1))
-    return intersection >= 0.9 * min((x2 - x1) * (y2 - y1), (X2 - X1) * (Y2 - Y1))
+def overlapping(x1, y1, x2, y2, X1, Y1, X2, Y2, thresh = 0.9):
+    i = max(0, min(x2, X2) - max(x1, X1)) * max(0, min(y2, Y2) - max(y1, Y1))
+    a1, a2 = (x2 - x1) * (y2 - y1), (X2 - X1) * (Y2 - Y1)
+    print(i, a1, a2)
+    if i == 0:
+        return False, None
+    elif i >= thresh * a1:
+        return True, 1
+    elif i >= thresh * a2:
+        return True, 0
+
+username = "Vastingood"
+#username = "Santi LM"
 
 # Set the folder path containing the images
+
 #folder_path = 'datasets/License_Plates/train/images/'
-folder_path = "C:/Users/Santi LM/Desktop/Matricul/"
+#folder_path = f"C:/Users/Santi LM/Desktop/Matricul/"
+folder_path = "C:/Users/Vastingood/Desktop/teste/"
+
 #LPs_path = "runs/detect/yolov8n_200e_12804/weights/best.pt"
-LPs_path = "C:/Users/Santi LM/Documents/Github/Tese/Backups/yolov8n_200e_12804/weights/best.pt"
+LPs_path = f"C:/Users/{username}/Documents/Github/Tese/Backups/yolov8n_200e_12804/weights/best.pt"
 LPs = YOLO(LPs_path)
+
 #Char_path = "runs/detect/LPChar_80e_384_5p_0mosaic/weights/best.pt"
-Char_path = "C:/Users/Santi LM/Documents/Github/Tese/Backups/LPChar_80e_384_5p_0mosaic/weights/best.pt"
+Char_path = f"C:/Users/{username}/Documents/Github/Tese/Backups/LPChar_80e_384_5p_0mosaic/weights/best.pt"
 Char = YOLO(Char_path)
+
 image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
 
 #####################################################################################################
 #temp = "temp/temp.jpg"
-#temp = "C:/Users/Santi LM/Documents/Github/Tese/temp/temp.jpg"
+#temp = f"C:/Users/{username}/Documents/Github/Tese/temp/temp.jpg"
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 target_width = 500
 flag = False
@@ -39,11 +54,16 @@ for image_file in image_files:
         boxes_with_labels = data.tolist()
         if len(boxes_with_labels) > 1:
             X1, Y1, X2, Y2 = map(int, boxes_with_labels[0][:4])
-            for LP_box in boxes_with_labels[:1]:
+            i = 0
+            print(boxes_with_labels[1:])
+            for LP_box in boxes_with_labels[1:]:
                 x1, y1, x2, y2 = map(int, LP_box[:4])
                 overlaps, box = overlapping(x1, y1, x2, y2, X1, Y1, X2, Y2)
+                X1, Y1, X2, Y2 = map(int, LP_box[:4])
+                print(i, box)
                 if overlaps:
-                    boxes_with_labels.remove(box)
+                    boxes_with_labels.remove(boxes_with_labels[i+box:1+i+box][0])
+                i += 1
 
                 
 
