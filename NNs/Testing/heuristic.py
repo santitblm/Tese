@@ -1,4 +1,10 @@
-from heapq import nsmallest as nmin
+'''Reasons:
+0: Too few characters
+1: Too many characters
+2: Letters and numbers in the same pair
+3: Invalid configuration (e.g. AAAA00, 00AAAA)
+4: Only numbers or only letters
+5: 2 pairs of letters but starts with D onwards (DA00AA)'''
 
 lt_to_n = {
     "I": "1",
@@ -79,7 +85,7 @@ def too_many_characters(input_str, sorted_confidences, sorted_boxes):
     
 
 
-def corrected_pairs(i_s, input_str, letter_count, number_count, letter_i, number_i):
+def corrected_pairs(i_s, input_str, letter_count, number_count, letter_i):#, number_i):
     if len(i_s) == 1:
         i = i_s[0]
         if letter_count == 0:
@@ -105,24 +111,83 @@ def corrected_pairs(i_s, input_str, letter_count, number_count, letter_i, number
     
     return new_str
 
+
+def Try_config_correction(input_str): # Sometimes the first or last pair is 11 and it is read as II, this is a very specific case
+    if input_str[0] == input_str[1] == "I":
+        new_str = "11" + input_str[2:]
+        return True, new_str
+    elif input_str[4] == input_str[5] == "I":
+        new_str = input_str[:4] + "11"
+        return True, new_str
+    else:
+        return False, None
+
+
 def LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes):
+    reason = LP_val(input_str)
 
-    # Check if the string has exactly 6 characters
-    if len(input_str) < 6:
-        reason = "Too few characters, impossible to correct"
-        return False, reason, input_str
-    elif len(input_str) > 6:
-        # If it has more than 6, it will try to correct the string
-        #reason = "Too many characters"
-        new_str, new_sorted_confidences, new_sorted_boxes = too_many_characters(input_str, sorted_confidences, sorted_boxes)
-        LP_validation_and_correction(new_str, new_sorted_confidences, new_sorted_boxes)
+    # If the LP is invalid, try to correct it according to the reason
+    if reason is not None:
 
+        if reason[0] == 0: # Too few characters
+            return False, None
+        
+        elif reason[0] == 1: # Too many characters
+            for i in range(3): # Will try to correct it 3 times, if it doesn't work, it will return False
+                return False, None
+                input_str, sorted_confidences, sorted_boxes = too_many_characters(input_str, sorted_confidences, sorted_boxes)
+                reason = LP_val(input_str)
+                if reason[0] is None:
+                    return True, input_str
+                elif reason[0] != 1:
+                    LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes)
+            return False, None
+        
+        elif reason[0] == 2: # Letters and numbers in the same pair
+            new_str = corrected_pairs(reason[1], input_str, reason[2], reason[3], reason[4])
+                                      # (i_s, input_str, letter_count, number_count, letter_i)
+            if "?" in new_str: # Couldn't correct
+                return False, None
+            
+            reason = LP_val(new_str)
+            if reason[0] is None:
+                return True, new_str
+            else:
+                return False, None
+            
+        elif reason[0] >= 3: # Reasons 3, 5 or 6 are all impossible to correct
+            if reason[0] == 4:
+                return Try_config_correction(input_str)
+            else:
+                return False, None
+        
+
+
+
+
+    # If the LP is valid
+    else:
+        return True, input_str
+
+
+
+
+def LP_val(input_str):
+
+    if len(input_str) < 6: # Not enough Characters
+        reason = 0
+        return [reason]
+    elif len(input_str) > 6: # Too many characters
+        reason = 1
+        return [reason]
+    
     # Initialize counters for letters and numbers
     letter_count = 0
     number_count = 0
     i_s = []
     letter_i = []
     number_i = []
+
     # Check pairs of characters
     for i in range(3):
         char1 = input_str[2*i]
@@ -137,22 +202,36 @@ def LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes):
                 number_count += 1
                 number_i.append(i)
         else:
-            #reason = "Letters and numbers in the same pair"
             i_s.append(i)
-    if 0 > len(i_s) > 3:
-        return False, None, corrected_pairs(i_s, input_str, letter_count, number_count, letter_i, number_i)
-    elif len(i_s) == 3:
-        return False, None, input_str
 
+    if 0 > len(i_s) > 3:
+        reason = 2 # Letters and numbers in the same pair
+        return [reason, i_s, letter_count, number_count, letter_i]
+    elif len(i_s) == 3:
+        reason = 3 # All pairs mixed
+        return [reason]
+    
     # Check the conditions for letter pairs
     if (letter_count == 1 and number_count == 2):
-        return True, input_str, None
+        return None # Valid
+    
     elif (letter_count == 2 and number_count == 1):
         if input_str[0] in ["A", "B", "C"] and input_str[5].isalpha():
-            return True, input_str, None
+            return None # Valid
         else:
-            reason = "Portuguese license plates do not yet start with a D in the 4 letter configuration"
-            return False, reason, input_str
+            reason = 6 # Starts with D onwards (DA00AA)
+            return [reason]
+        
     else:
-        reason = "Letters and numbers mixed"
-        return False, reason, corrected_pairs(i_s, input_str, letter_count, number_count, letter_i, number_i)
+        reason = 4 # Invalid configuration (e.g. AAAA00, 00AAAA)
+        return [reason]
+
+
+# Reasons:
+# 0: Too few characters
+# 1: Too many characters
+# 2: Letters and numbers in the same pair
+# 3: All pairs mixed
+# 4: Invalid configuration (e.g. AAAA00, 00AAAA)
+# 5: Only numbers or only letters
+# 6: 2 pairs of letters but starts with D onwards (DA00AA)
