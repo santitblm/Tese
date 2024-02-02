@@ -5,7 +5,7 @@ import time
 from datetime import date
 import pygetwindow
 import pyautogui
-
+username = "Santi LM"
 # Create a function to send a space key press to VLC
 def pause_play_vlc():
     # Find the VLC window
@@ -47,7 +47,7 @@ def update_and_log():
 
 # Create a function to temporarily save data to an Excel file
 def save_to_excel_temp():
-    excel_file_path = "C:/Users/Vastingood/Documents/Github/Tese/RandomCodigos/outros/"  # Change the path as needed
+    excel_file_path = f"C:/Users/{username}/Documents/Github/Tese/RandomCodigos/outros/"  # Change the path as needed
     workbook = Workbook()
     sheet = workbook.active
     sheet.append(text_data)
@@ -58,7 +58,7 @@ def save_to_excel_temp():
 
 # Create a function to save data to an Excel file
 def save_to_excel():
-    excel_file_path = "C:/Users/Vastingood/Documents/Github/Tese/RandomCodigos/outros/"  # Change the path as needed
+    excel_file_path = f"C:/Users/{username}/Documents/Github/Tese/RandomCodigos/outros/"  # Change the path as needed
     today = date.today()
     t = time.localtime()
     current_time = time.strftime("%H%M%S", t)
@@ -85,7 +85,7 @@ counter_vars = [tk.IntVar() for _ in range(n_keys)]
 # Load text data from a text file
 text_data = []
 try:
-    with open("C:/Users/Vastingood/Documents/Github/Tese/RandomCodigos/outros/text_data.txt", "r") as file:
+    with open(f"C:/Users/{username}/Documents/Github/Tese/RandomCodigos/outros/text_data.txt", "r") as file:
         text_data = file.read().splitlines()
 except FileNotFoundError:
     # If the file doesn't exist, initialize with empty values

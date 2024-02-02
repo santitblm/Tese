@@ -154,6 +154,42 @@ def apply_random_resize(image):
     resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
     return resized_image, resize_factor
 
+def apply_random_colors(image, p=0.70):
+    """
+    Apply one of the three transformations to the input image based on probability:
+    1. Original image with probability p
+    2. Random channel set to 0 with probability (1-p)/2
+    3. Negative of the original image with probability (1-p)/2
+
+    Parameters:
+    - image: Input RGB image (numpy array).
+    - p: Probability of keeping the original image.
+
+    Returns:
+    - Transformed image.
+    """
+    # Ensure the image is in the correct format (RGB)
+    if len(image.shape) != 3 or image.shape[2] != 3:
+        raise ValueError("Input image must be a 3-channel RGB image.")
+
+    # Randomly choose a transformation based on probability
+    rand_num = random.random()
+
+    if rand_num < p:
+        # Option 1: Original image
+        transformed_image = image.copy()
+    elif rand_num < p + (1 - p) / 2:
+        # Option 2: Randomly set 1 or 2 channels to 0
+        num_channels_to_zero = random.choice([1, 2])
+        channels_to_zero = random.sample([0, 1, 2], num_channels_to_zero)
+        transformed_image = image.copy()
+        transformed_image[:, :, channels_to_zero] = 0
+    else:
+        # Option 3: Negative of the original image
+        transformed_image = cv2.bitwise_not(image)
+
+    return transformed_image
+
 def apply_random_transformations(image):
     image = apply_random_noise(image)
     image, resize_factor = apply_random_resize(image)
@@ -162,7 +198,7 @@ def apply_random_transformations(image):
     image = apply_shadow(image)
     image = apply_random_blur(image, resize_factor)
     image = apply_random_brightness_contrast_saturation(image)
-    
+    image = apply_random_colors(image)
 
     return image, matrix_used, resize_factor
 

@@ -10,14 +10,15 @@ from label_count import get_label_counts
 from choose_label import choose_label
 
 # Define paths
-#username= "Santi LM"
-username = "Vastingood"
+username= "Santi LM"
+#username = "Vastingood"
 xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 positions_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
 synthetic_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/images/"
 #synthetic_folder = f"C:/Users/{username}/Desktop/images/"
+chars74k_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/Fnt2/"
 txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 #binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
@@ -35,7 +36,7 @@ image_elements = root.findall('image')
 global_array, label_image_ids = get_label_counts(root)
 
 # Number of synthetic images to generate
-num_synthetic_images = 60000
+num_synthetic_images = 100 #60000
 progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress")
 
 # List all available template images
@@ -72,35 +73,47 @@ for synthetic_image_counter in range(num_synthetic_images):
         while not successful:
             # Choose a random label based on the frequency of each label (less frequent labels are more likely to be chosen)
             label, global_array = choose_label(global_array)
-            id = random.choice(label_image_ids[label])  # Choose a random image that contains the chosen label
-            # Find the image element with the chosen id
-            for image_element in image_elements:
-                image_id = image_element.get("id")
-                if image_id == id:
-                    image = image_element
-                    break
 
-            # Find the polygon element with the chosen label (if there are more than one with the same label, choose one at random)
-            polygons = image.findall(f"polygon[@label='{label}']")
-            polygon = random.choice(polygons)
+            if random.random()<0.7:  # Choose characters from actual LPs
+                id = random.choice(label_image_ids[label])  # Choose a random image that contains the chosen label
+                # Find the image element with the chosen id
+                for image_element in image_elements:
+                    image_id = image_element.get("id")
+                    if image_id == id:
+                        image = image_element
+                        break
 
-            # Load the image, check if it exists and if the polygon is not occluded
-            image_name = "transformed_" + image.get('name')
-            original_image = cv2.imread(os.path.join(images_folder, image_name))
-            if polygon.get('occluded') == "0" and original_image is not None:
-                successful = True
+                # Find the polygon element with the chosen label (if there are more than one with the same label, choose one at random)
+                polygons = image.findall(f"polygon[@label='{label}']")
+                polygon = random.choice(polygons)
 
-                points_str = polygon.get('points').split(';')
-                points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
+                # Load the image, check if it exists and if the polygon is not occluded
+                image_name = "transformed_" + image.get('name')
+                original_image = cv2.imread(os.path.join(images_folder, image_name))
+                if polygon.get('occluded') == "0" and original_image is not None:
+                    successful = True
 
-                # Calculate the bounding box of the polygon
-                min_x = int(np.min(points[:, 0]))
-                max_x = int(np.max(points[:, 0]))
-                min_y = int(np.min(points[:, 1]))
-                max_y = int(np.max(points[:, 1]))
+                    points_str = polygon.get('points').split(';')
+                    points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
 
+                    # Calculate the bounding box of the polygon
+                    min_x = int(np.min(points[:, 0]))
+                    max_x = int(np.max(points[:, 0]))
+                    min_y = int(np.min(points[:, 1]))
+                    max_y = int(np.max(points[:, 1]))
+
+                    
+            else:           # Choose letters from the chars74k dataset
+                filename = chars74k_folder + f"{label}/{random.randint(0, 175)}.png"
+                if os.path.isfile(filename):
+                    successful = True
+                    original_image = cv2.imread(filename)
+                    min_x, min_y = 0, 0
+                    max_x, max_y = original_image.shape[0], original_image.shape[1]
+
+
+            if successful:
                 points_extremos = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
-
                 # Create a mask for the polygon area
                 polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
                 cv2.fillPoly(polygon_mask, [points_extremos.astype(int)], (255))

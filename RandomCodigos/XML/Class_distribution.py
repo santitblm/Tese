@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 
 # Path to the XML file
-xml_file = "C:/Users/Vastingood/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
-#xml_file = "C:/Users/Santi LM/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+#xml_file = "C:/Users/Vastingood/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+xml_file = "C:/Users/Santi LM/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
 
 # Load the XML file
 tree = ET.parse(xml_file)
@@ -16,7 +16,7 @@ label_counts = {}
 # Iterate over each image element
 for image in root.findall('image'):
     # Iterate over each polygon element
-    for polygon in image.findall('polygon'):
+    for polygon in image.findall('polygon[@label!="LP"]'):
         label = polygon.get('label')
         if label in label_counts:
             label_counts[label] += 1
