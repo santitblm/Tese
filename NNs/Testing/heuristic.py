@@ -213,11 +213,18 @@ def LP_val(input_str):
     
     # Check the conditions for letter pairs
     if (letter_count == 1 and number_count == 2):
+<<<<<<< Updated upstream
         return None # Valid
     
     elif (letter_count == 2 and number_count == 1):
         if input_str[0] in ["A", "B", "C"] and input_str[5].isalpha():
             return None # Valid
+=======
+        return True, None, input_str
+    elif (letter_count == 2 and number_count == 1):
+        if input_str[0] in ["A", "B", "C"] and input_str[5].isalpha():
+            return True, None, input_str
+>>>>>>> Stashed changes
         else:
             reason = 6 # Starts with D onwards (DA00AA)
             return [reason]
