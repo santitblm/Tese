@@ -93,7 +93,7 @@ def apply_random_noise(image, noise_prob=0.67):
         
         if chosen_noise == 'gaussian':
             #print ("Gaussian noise")
-            noise = np.random.normal(0, 1, image.shape).astype(np.uint8)
+            noise = np.random.normal(0.4, 1, image.shape).astype(np.uint8)
             noisy_image = cv2.add(image, noise)
         elif chosen_noise == 'speckle':
             #print ("Speckle noise")
