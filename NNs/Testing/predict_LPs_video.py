@@ -21,8 +21,8 @@ def overlapping(x1, y1, x2, y2, X1, Y1, X2, Y2, thresh = 0.9):
     elif i >= thresh * a2:
         return True, 0
 
-username = "Vastingood"
-#username = "Santi LM"
+#username = "Vastingood"
+username = "Santi LM"
 
 LPs_path = f"C:/Users/{username}/Documents/Github/Tese/Backups/yolov8n_200e_12804/weights/best.pt"
 LPs = YOLO(LPs_path)
@@ -31,7 +31,7 @@ Char_path = f"C:/Users/{username}/Documents/Github/Tese/Backups/LPChar_80e_384_5
 Char = YOLO(Char_path)
 
 # Open the video file
-video_path = f"C:/Users/{username}/Desktop/20230419_102412.mp4"
+video_path = f"C:/Users/{username}/Desktop/20230918_122507.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # Loop through the video frames
@@ -49,19 +49,19 @@ while cap.isOpened():
             if len(boxes_with_labels) > 1:
                 X1, Y1, X2, Y2 = map(int, boxes_with_labels[0][:4])
                 i = 0
-                print(boxes_with_labels[1:])
+                #print(boxes_with_labels[1:])
                 for LP_box in boxes_with_labels[1:]:
                     x1, y1, x2, y2 = map(int, LP_box[:4])
                     overlaps, box = overlapping(x1, y1, x2, y2, X1, Y1, X2, Y2)
                     X1, Y1, X2, Y2 = map(int, LP_box[:4])
-                    print(i, box)
+                    #print(i, box)
                     if overlaps:
                         boxes_with_labels.remove(boxes_with_labels[i+box:1+i+box][0])
                     i += 1
 
-                    
+
             for LP_box in boxes_with_labels:
-                
+
                 x1, y1, x2, y2 = map(int, LP_box[:4])
                 lp_img = frame[y1:y2, x1:x2]
 
@@ -89,17 +89,17 @@ while cap.isOpened():
 
                         # Read and resize the cropped_image
                         img = lp_img
-                        print(img.shape)
+                        #print(img.shape)
 
                         resize_factor = target_width / img.shape[1]
                         cropped_image = cv2.resize(img, (int(img.shape[1] * resize_factor), int(img.shape[0] * resize_factor)))
 
                         # Show the resized image with rectangles and text
                         cv2.imshow("image", img)
-                        print(validity, str, reason)
-                        print(sorted_confidences)
-                        key = cv2.waitKey(0)
-                        cv2.destroyAllWindows()
+                        print(str)
+                        #print(validity, str, reason)
+                        #print(sorted_confidences)
+                        key = cv2.waitKey(1)
 
                     if key == 27:
                         flag = True
