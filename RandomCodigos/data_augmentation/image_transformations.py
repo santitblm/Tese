@@ -190,12 +190,36 @@ def apply_random_colors(image, p=0.70):
 
     return transformed_image
 
+def apply_chromatic_aberration(image, max_shift=1):
+    # Split the image into its color channels
+    b, g, r = cv2.split(image)
+
+    # Generate random shifts for each channel
+    shift_b = np.random.randint(-max_shift, max_shift + 1)
+    shift_g = np.random.randint(-max_shift, max_shift + 1)
+    shift_r = np.random.randint(-max_shift, max_shift + 1)
+
+    # Shift the color channels
+    b_shifted = np.roll(b, shift_b, axis=(0, 1))
+    g_shifted = np.roll(g, shift_g, axis=(0, 1))
+    r_shifted = np.roll(r, shift_r, axis=(0, 1))
+
+    # Merge the shifted channels back into an image
+    shifted_image = cv2.merge([b_shifted, g_shifted, r_shifted])
+
+    # Clip values to ensure they are within the valid range [0, 255]
+    shifted_image = np.clip(shifted_image, 0, 255).astype(np.uint8)
+
+    return shifted_image
+
+
 def apply_random_transformations(image):
     image = apply_random_noise(image)
-    image, resize_factor = apply_random_resize(image)
     image, matrix_used = apply_random_homography(image)
     image = apply_random_temperature_change(image)
     image = apply_shadow(image)
+    image = apply_chromatic_aberration(image)
+    image, resize_factor = apply_random_resize(image)
     image = apply_random_blur(image, resize_factor)
     image = apply_random_brightness_contrast_saturation(image)
     image = apply_random_colors(image)
