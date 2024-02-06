@@ -154,7 +154,7 @@ def apply_random_resize(image):
     resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
     return resized_image, resize_factor
 
-def apply_random_colors(image, p=0.70):
+def apply_random_colors(image, p=0.75):
     """
     Apply one of the three transformations to the input image based on probability:
     1. Original image with probability p
@@ -168,10 +168,6 @@ def apply_random_colors(image, p=0.70):
     Returns:
     - Transformed image.
     """
-    # Ensure the image is in the correct format (RGB)
-    if len(image.shape) != 3 or image.shape[2] != 3:
-        raise ValueError("Input image must be a 3-channel RGB image.")
-
     # Randomly choose a transformation based on probability
     rand_num = random.random()
 
@@ -191,25 +187,27 @@ def apply_random_colors(image, p=0.70):
     return transformed_image
 
 def apply_chromatic_aberration(image, max_shift=1):
-    # Split the image into its color channels
-    b, g, r = cv2.split(image)
+    if random.random()<0.33:
+        # Split the image into its color channels
+        b, g, r = cv2.split(image)
 
-    # Generate random shifts for each channel
-    shift_b = np.random.randint(-max_shift, max_shift + 1)
-    shift_g = np.random.randint(-max_shift, max_shift + 1)
-    shift_r = np.random.randint(-max_shift, max_shift + 1)
+        # Generate random shifts for each channel
+        shift_b = np.random.randint(-max_shift, max_shift + 1)
+        shift_g = np.random.randint(-max_shift, max_shift + 1)
+        shift_r = np.random.randint(-max_shift, max_shift + 1)
 
-    # Shift the color channels
-    b_shifted = np.roll(b, shift_b, axis=(0, 1))
-    g_shifted = np.roll(g, shift_g, axis=(0, 1))
-    r_shifted = np.roll(r, shift_r, axis=(0, 1))
+        # Shift the color channels
+        b_shifted = np.roll(b, shift_b, axis=(0, 1))
+        g_shifted = np.roll(g, shift_g, axis=(0, 1))
+        r_shifted = np.roll(r, shift_r, axis=(0, 1))
 
-    # Merge the shifted channels back into an image
-    shifted_image = cv2.merge([b_shifted, g_shifted, r_shifted])
+        # Merge the shifted channels back into an image
+        shifted_image = cv2.merge([b_shifted, g_shifted, r_shifted])
 
-    # Clip values to ensure they are within the valid range [0, 255]
-    shifted_image = np.clip(shifted_image, 0, 255).astype(np.uint8)
-
+        # Clip values to ensure they are within the valid range [0, 255]
+        shifted_image = np.clip(shifted_image, 0, 255).astype(np.uint8)
+    else:
+        shifted_image = image
     return shifted_image
 
 
