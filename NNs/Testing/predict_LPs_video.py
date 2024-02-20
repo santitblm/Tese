@@ -1,7 +1,7 @@
 import os
 import cv2
 from ultralytics import YOLO
-from heuristic import LP_validation_and_correction as validate_string
+#from heuristic import LP_validation_and_correction as validate_string
 
 #####################################################################################################
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
@@ -38,10 +38,17 @@ cap = cv2.VideoCapture(video_path)
 while cap.isOpened():
     # Read a frame from the video
     success, frame = cap.read()
-
+    
+    cv2.imshow("image", frame)
+    
+    key = cv2.waitKey(1)
+    if key == 27:
+        flag = True
+        break
     if success:
         # Run YOLOv8 inference on the frame
         LP_results = LPs(frame)
+        
         for r in LP_results:
 
             data = r.boxes.data
@@ -85,7 +92,7 @@ while cap.isOpened():
 
                         # Join the sorted labels into a single string
                         result_string = "".join(sorted_labels)
-                        validity, reason, str = validate_string(result_string, sorted_confidences, sorted_boxes)
+                        #validity, reason, str = validate_string(result_string, sorted_confidences, sorted_boxes)
 
                         # Read and resize the cropped_image
                         img = lp_img
@@ -95,19 +102,13 @@ while cap.isOpened():
                         cropped_image = cv2.resize(img, (int(img.shape[1] * resize_factor), int(img.shape[0] * resize_factor)))
 
                         # Show the resized image with rectangles and text
-                        cv2.imshow("image", img)
-                        print(str)
+                        print(result_string)
                         #print(validity, str, reason)
                         #print(sorted_confidences)
-                        key = cv2.waitKey(1)
 
-                    if key == 27:
-                        flag = True
-                        break
+                    
                 else:
                     print("Conditions not met")
-                if flag:
-                    break
             if flag:
                 break
         if flag:
