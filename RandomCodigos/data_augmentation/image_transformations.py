@@ -6,14 +6,20 @@ import cv2
 import numpy as np
 import random
 
-def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.15):
+def apply_random_homography(image, max_skew=20, max_rotation=15, max_stretch=0.5):
     height, width, _ = image.shape
 
     skew_angle = random.uniform(-max_skew, max_skew)
     rotation_angle = random.uniform(-max_rotation, max_rotation)
-    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch)  # Stretch factor in x direction
-    stretch_factor_y = 2 - stretch_factor_x#+ random.uniform(-max_stretch, max_stretch)  # Stretch factor in y direction
 
+    #min_value = 0.3
+    #max_value = 1.5
+
+    # Adjust the mode parameter to control the bias towards 1.00
+    #stretch_factor_x = random.triangular(min_value, max_value, mode=1.00)
+
+    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch-0.2)  # Stretch factor in x direction
+    stretch_factor_y = 2 - stretch_factor_x#+ random.uniform(-max_stretch, max_stretch)  # Stretch factor in y direction
     # Apply skewing to the skew matrix
     skew_matrix = np.array([[1, np.tan(np.radians(skew_angle)), 0],
                             [0, 1, 0],
@@ -153,6 +159,7 @@ def apply_random_resize(image):
     # Resize the image
     resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
     return resized_image, resize_factor
+    #return image, 1.00
 
 def apply_random_colors(image, p=0.75):
     """
