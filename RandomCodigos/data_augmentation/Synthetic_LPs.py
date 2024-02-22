@@ -22,13 +22,15 @@ chars74k_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data
 txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 #binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
-xml_file = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
-images_folder = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
+xml_file         = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
+images_folder    = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 positions_folder = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
 synthetic_folder = f"/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/images/"
-chars74k_folder = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/Fnt2/"
-txt_path = f"/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
+txt_path         = f"/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
+chars74k_folder  = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/Fnt2/"
+#synthetic_folder = f"/home/santilm/Desktop/teste/images/"
+#txt_path = f"/home/santilm/Desktop/teste/labels/"
 
 # Set the random seed for reproducibility
 random_seed = 64  # You can use any integer value you prefer
@@ -44,7 +46,7 @@ image_elements = root.findall('image')
 global_array, label_image_ids = get_label_counts(root)
 
 # Number of synthetic images to generate
-num_synthetic_images = 1000
+num_synthetic_images = 60000
 failed_images = 0
 progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress")
 
