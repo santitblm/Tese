@@ -112,15 +112,15 @@ def corrected_pairs(i_s, input_str, letter_count, number_count, letter_i):#, num
     return new_str
 
 
-def Try_config_correction(input_str): # Sometimes the first or last pair is 11 and it is read as II, this is a very specific case
+def Try_config_correction(input_str, reason): # Sometimes the first or last pair is 11 and it is read as II, this is a very specific case
     if input_str[0] == input_str[1] == "I":
         new_str = "11" + input_str[2:]
-        return True, new_str
+        return True, None, new_str
     elif input_str[4] == input_str[5] == "I":
         new_str = input_str[:4] + "11"
-        return True, new_str
+        return True, None, new_str
     else:
-        return False, None
+        return False, reason, input_str
 
 
 def LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes):
@@ -130,44 +130,40 @@ def LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes):
     if reason is not None:
 
         if reason[0] == 0: # Too few characters
-            return False, None
+            return False, None, input_str
         
         elif reason[0] == 1: # Too many characters
             for i in range(3): # Will try to correct it 3 times, if it doesn't work, it will return False
-                return False, None
+                return False, None, input_str
                 input_str, sorted_confidences, sorted_boxes = too_many_characters(input_str, sorted_confidences, sorted_boxes)
                 reason = LP_val(input_str)
                 if reason[0] is None:
                     return True, input_str
                 elif reason[0] != 1:
                     LP_validation_and_correction(input_str, sorted_confidences, sorted_boxes)
-            return False, None
+            return False, None, input_str
         
         elif reason[0] == 2: # Letters and numbers in the same pair
             new_str = corrected_pairs(reason[1], input_str, reason[2], reason[3], reason[4])
                                       # (i_s, input_str, letter_count, number_count, letter_i)
             if "?" in new_str: # Couldn't correct
-                return False, None
+                return False, None, input_str
             
             reason = LP_val(new_str)
             if reason[0] is None:
-                return True, new_str
+                return True, None, new_str
             else:
-                return False, None
+                return False, None, input_str
             
         elif reason[0] >= 3: # Reasons 3, 5 or 6 are all impossible to correct
             if reason[0] == 4:
-                return Try_config_correction(input_str)
+                return Try_config_correction(input_str, reason[0])
             else:
-                return False, None
+                return False, None, input_str
         
-
-
-
-
     # If the LP is valid
     else:
-        return True, input_str
+        return True, None, input_str
 
 
 
@@ -213,18 +209,10 @@ def LP_val(input_str):
     
     # Check the conditions for letter pairs
     if (letter_count == 1 and number_count == 2):
-<<<<<<< Updated upstream
-        return None # Valid
-    
+        return None
     elif (letter_count == 2 and number_count == 1):
         if input_str[0] in ["A", "B", "C"] and input_str[5].isalpha():
-            return None # Valid
-=======
-        return True, None, input_str
-    elif (letter_count == 2 and number_count == 1):
-        if input_str[0] in ["A", "B", "C"] and input_str[5].isalpha():
-            return True, None, input_str
->>>>>>> Stashed changes
+            return None
         else:
             reason = 6 # Starts with D onwards (DA00AA)
             return [reason]

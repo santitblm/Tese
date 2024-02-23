@@ -10,7 +10,7 @@ username = "Santi LM"
 folder_path = f'C:/Users/{username}/Documents/GitHub/Tese/cropped/'
 #folder_path = f"C:/Users/{username}/Desktop/teste_cropped/"#for_testing/"
 
-model = YOLO(f"C:/Users/{username}/Documents/Github/Tese/Backups/LPChar_80e_384_5p_0mosaic/weights/best.pt")
+model = YOLO(f"C:/Users/{username}/Documents/Github/Tese/Backups/LPCharFinal_m/weights/best.pt")
 
 # Get a list of image file names in the folder
 image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
@@ -27,7 +27,7 @@ for image_file in image_files:
 
     for r in results:
         data = r.boxes.data
-        print("probs:", r.keypoints)
+        #print("probs:", r.keypoints)
         #print(data)
         # Combine data with their respective class labels
         boxes_with_labels = data.tolist()
@@ -40,9 +40,10 @@ for image_file in image_files:
 
         # Join the sorted labels into a single string
         result_string = "".join(sorted_labels)
+        #str = result_string
         validity, reason, str = validate_string(result_string, sorted_confidences, sorted_boxes)
         # Read image and iterate through sorted boxes if the string is invalid
-        if not validity:
+        if not validity:# True:#
             print(image_file)
             print("The corrected license plate turned out ", str)
             # Read and resize the image
@@ -77,7 +78,7 @@ for image_file in image_files:
         
         print(result_string)
         print(sorted_confidences)
-        if not validity:
+        if not validity:#True:#
             cv2.imshow("image", img)
             print(reason)
             key = cv2.waitKey(0)
