@@ -6,12 +6,19 @@ import cv2
 import numpy as np
 import random
 
-def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.15):
+def apply_random_homography(image, max_skew=20, max_rotation=15, max_stretch=0.5):
     height, width, _ = image.shape
 
     skew_angle = random.uniform(-max_skew, max_skew)
     rotation_angle = random.uniform(-max_rotation, max_rotation)
-    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch)  # Stretch factor in x direction
+
+    #min_value = 0.3
+    #max_value = 1.5
+
+    # Adjust the mode parameter to control the bias towards 1.00
+    #stretch_factor_x = random.triangular(min_value, max_value, mode=1.00)
+
+    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch-0.2)  # Stretch factor in x direction
     stretch_factor_y = 2 - stretch_factor_x#+ random.uniform(-max_stretch, max_stretch)  # Stretch factor in y direction
 
     # Apply skewing to the skew matrix
@@ -34,12 +41,12 @@ def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.1
                         [width, 0, 1],
                         [0, height, 1],
                         [width, height, 1]])
-    
+
     transformed_corners = np.dot(corners, combined_matrix.T)
-    
+
     min_x, min_y = np.min(transformed_corners[:, :2], axis=0)
     max_x, max_y = np.max(transformed_corners[:, :2], axis=0)
-    
+
     new_width = int(np.ceil(max_x - min_x))
     new_height = int(np.ceil(max_y - min_y))
 
@@ -54,13 +61,13 @@ def apply_random_homography(image, max_skew=15, max_rotation=10, max_stretch=0.1
 def apply_random_blur(image, resize_factor): # Average or motion blur
     if random.random() < 0.5 and resize_factor > 0.6:
         kernel_size = random.choice([1, 11, 13, 15]) # 1/6 chance of no blur, the kernel from 11 to 19
-  
+
         # Create the vertical kernel.
         kernel_h = np.zeros((kernel_size, kernel_size))
-        
+
         # Fill the middle row with ones.
         kernel_h[int((kernel_size - 1)/2), :] = np.ones(kernel_size)
-        
+
         # Normalize.
         kernel_h /= kernel_size
 
@@ -90,7 +97,7 @@ def apply_random_noise(image, noise_prob=0.67):
     if random.random() < noise_prob:
         noise_types = ['gaussian', 'speckle']
         chosen_noise = random.choice(noise_types)#, p = [0.33, 0.67])
-        
+
         if chosen_noise == 'gaussian':
             #print ("Gaussian noise")
             noise = np.random.normal(0.4, 1, image.shape).astype(np.uint8)
@@ -100,7 +107,7 @@ def apply_random_noise(image, noise_prob=0.67):
             speckle = np.random.randn(*image.shape) * 0.1
             noisy_image = np.clip(image + image * speckle, 0, 255).astype(np.uint8)
 
-        
+
         noisy_image = np.clip(noisy_image, 0, 255).astype(np.uint8)
         return noisy_image
     #else:
@@ -153,6 +160,7 @@ def apply_random_resize(image):
     # Resize the image
     resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
     return resized_image, resize_factor
+    #return image, 1.00
 
 def apply_random_colors(image, p=0.75):
     """

@@ -22,6 +22,16 @@ chars74k_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data
 txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 #binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
+xml_file         = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
+images_folder    = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
+templates_folder = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
+positions_folder = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
+synthetic_folder = f"/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/images/"
+txt_path         = f"/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
+chars74k_folder  = f"/home/santilm/Documents/GitHub/Tese/RandomCodigos/data_augmentation/Fnt2/"
+#synthetic_folder = f"/home/santilm/Desktop/teste/images/"
+#txt_path = f"/home/santilm/Desktop/teste/labels/"
+
 # Set the random seed for reproducibility
 random_seed = 64  # You can use any integer value you prefer
 random.seed(random_seed)
@@ -98,6 +108,8 @@ for synthetic_image_counter in range(num_synthetic_images):
                         points_str = polygon.get('points').split(';')
                         points = np.array([list(map(float, point.split(','))) for point in points_str], dtype=np.float32)
 
+                        #print(points, "...\n")
+
                         # Calculate the bounding box of the polygon
                         min_x = int(np.min(points[:, 0]))
                         max_x = int(np.max(points[:, 0]))
@@ -113,11 +125,20 @@ for synthetic_image_counter in range(num_synthetic_images):
                     if os.path.isfile(filename):
                         successful = True
                         original_image = cv2.imread(filename)
+                        width, height = original_image.shape[0], original_image.shape[1]
                         min_x, min_y = 0, 0
-                        max_x, max_y = original_image.shape[0], original_image.shape[1]
+                        max_x, max_y = width, height
+                        if label == "I" or label == "1":
+                            points = np.array([[0.32*width, 0.095*height], [0.68*width, 0.095*height], [0.68*width, 0.905*height], [0.32*width, 0.905*height]], dtype=float)
+                        else:
+                            points = np.array([[0.115*width, 0.095*height], [0.885*width, 0.095*height], [0.885*width, 0.905*height], [0.115*width, 0.905*height]], dtype=float)
+                        
+                        # The "points" here is just to mimic how the other images are created and pasted into the image and then converted to labels. 
+                        # I and 1 are thinner, so their generated bounding boxes should account for that, hence the condition.
 
 
                 if successful:
+
                     points_extremos = np.array([[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]])
                     # Create a mask for the polygon area
                     polygon_mask = np.zeros(original_image.shape[:2], dtype=np.uint8)
