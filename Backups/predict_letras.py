@@ -3,30 +3,27 @@ import cv2
 from ultralytics import YOLO
 
 # Set the folder path containing the images
-username = "Santi LM"
-#folder_path = 'datasets/PT_LP_Characters/test_nolabels/images/'
-#folder_path = f'C:/Users/{username}/Documents/GitHub/Tese/cropped/'
-folder_path = "C:/Users/Santi LM/Desktop/teste_cropped/"
+folder_path = 'datasets/PT_LP_Characters/test_nolabels/images/'
 
-model = YOLO(f"C:/Users/{username}/Documents/GitHub/Tese/Backups/LPChar_50e_256_medium2/weights/best.pt")
+model = YOLO("runs/detect/LPCharFinal_l/weights/best.pt")
 
 # Get a list of image file names in the folder
 image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 
 # Resize factor
-#resize_factor = 1
-target_width = 500
+resize_factor = 10
+
 # Iterate through the image files
 for image_file in image_files:
     # Get the path to the current image
     source = folder_path + image_file
 
-    results = model(source, verbose=False)
+    results = model(source)
 
     for r in results:
         data = r.boxes.data
-        #print(data)
+        print(data)
         # Combine data with their respective class labels
         boxes_with_labels = data.tolist()
 
@@ -38,24 +35,23 @@ for image_file in image_files:
 
         # Join the sorted labels into a single string
         result_string = "".join(sorted_labels)
+
         # Read and resize the image
         img = cv2.imread(source)
-        resize_factor = target_width / img.shape[1]
-        #print(resize_factor)
-        img = cv2.resize(img, (int(img.shape[1] * resize_factor), int(img.shape[0] * resize_factor)))
+        img = cv2.resize(img, (img.shape[1] * resize_factor, img.shape[0] * resize_factor))
 
         # Iterate through sorted boxes
         for box in sorted_boxes:
             x1, y1, x2, y2 = map(int, box[:4])
 
             # Resize the box coordinates
-            x1, y1, x2, y2 = int(x1 * resize_factor), int(y1 * resize_factor), int(x2 * resize_factor), int(y2 * resize_factor)
+            x1, y1, x2, y2 = x1 * resize_factor, y1 * resize_factor, x2 * resize_factor, y2 * resize_factor
 
             label = class_labels[int(box[5])]
             confidence = int(box[4] * 100)
 
             # Draw a rectangle around the object
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 1)
+            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
             # Define the text to display (label and confidence)
             text = f"{label} {confidence}"
