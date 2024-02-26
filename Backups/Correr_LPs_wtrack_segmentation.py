@@ -49,6 +49,7 @@ def check_LP(box, seg_mask, frame):
     if len(boxes_with_labels) > 0:
         for box in boxes_with_labels:
             x1, y1, x2, y2 = map(int, box[:4])
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 255), 1)
             lp_img = car_img[y1:y2, x1:x2]
             if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0] < min_height and not lp_img.shape[0] * lp_img.shape[1] < min_area:
                 # Detect characters in the license plate
