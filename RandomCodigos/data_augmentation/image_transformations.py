@@ -93,7 +93,7 @@ def apply_random_brightness_contrast_saturation(image):
         adjusted_image = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
     return adjusted_image
 
-def apply_random_noise(image, noise_prob=0.67):
+def apply_random_noise(image, noise_prob=0.75):
     if random.random() < noise_prob:
         noise_types = ['gaussian', 'speckle']
         chosen_noise = random.choice(noise_types)#, p = [0.33, 0.67])

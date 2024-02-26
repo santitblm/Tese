@@ -10,7 +10,7 @@ username = "Santi LM"
 folder_path = f'C:/Users/{username}/Documents/GitHub/Tese/cropped/'
 #folder_path = f"C:/Users/{username}/Desktop/teste_cropped/"#for_testing/"
 
-model = YOLO(f"C:/Users/{username}/Documents/Github/Tese/Backups/LPCharFinal_m/weights/best.pt")
+model = YOLO(f"C:/Users/{username}/Documents/Github/Tese/Backups/LPCharFinal_l/weights/best.pt")
 model2 = YOLO(f"C:/Users/{username}/Documents/Github/Tese/Backups/LPChar_200e_320_5p_autobatch_0mosaic_newdataugmentation2/weights/best.pt")
 
 # Get a list of image file names in the folder
