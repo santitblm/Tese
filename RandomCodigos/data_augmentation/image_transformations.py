@@ -18,7 +18,7 @@ def apply_random_homography(image, max_skew=20, max_rotation=15, max_stretch=0.5
     # Adjust the mode parameter to control the bias towards 1.00
     #stretch_factor_x = random.triangular(min_value, max_value, mode=1.00)
 
-    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch-0.2)  # Stretch factor in x direction
+    stretch_factor_x = 1 + random.uniform(-max_stretch, max_stretch-0.1)  # Stretch factor in x direction
     stretch_factor_y = 2 - stretch_factor_x#+ random.uniform(-max_stretch, max_stretch)  # Stretch factor in y direction
 
     # Apply skewing to the skew matrix
@@ -59,8 +59,8 @@ def apply_random_homography(image, max_skew=20, max_rotation=15, max_stretch=0.5
     return warped_image, combined_matrix
 
 def apply_random_blur(image, resize_factor): # Average or motion blur
-    if random.random() < 0.5 and resize_factor > 0.6:
-        kernel_size = random.choice([1, 11, 13, 15]) # 1/6 chance of no blur, the kernel from 11 to 19
+    if random.random() < 0.85 and resize_factor > 0.6:
+        kernel_size = random.choice([1, 11, 13, 15, 17]) # kernel from 1, 11 to 17
 
         # Create the vertical kernel.
         kernel_h = np.zeros((kernel_size, kernel_size))
@@ -82,18 +82,18 @@ def apply_random_blur(image, resize_factor): # Average or motion blur
     return blurred_image
 
 def apply_random_brightness_contrast_saturation(image):
-    brightness_reduction = random.uniform(0, -20)
-    contrast_factor = random.uniform(0.9, 1.1)
+    brightness_reduction = random.uniform(20, -40)
+    contrast_factor = random.uniform(0.5, 1.3)
     adjusted_image = cv2.convertScaleAbs(image, alpha=contrast_factor, beta=brightness_reduction)
     # Adjust the image's saturation randomly
     if random.random() < 0.5:
-        saturation_factor = random.uniform(0.3, 0.8)
+        saturation_factor = random.uniform(0.1, 2.0)
         hsv_image = cv2.cvtColor(adjusted_image, cv2.COLOR_BGR2HSV)
         hsv_image[:, :, 1] = hsv_image[:, :, 1] * saturation_factor
         adjusted_image = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
     return adjusted_image
 
-def apply_random_noise(image, noise_prob=0.75):
+def apply_random_noise(image, noise_prob=0.85):
     if random.random() < noise_prob:
         noise_types = ['gaussian', 'speckle']
         chosen_noise = random.choice(noise_types)#, p = [0.33, 0.67])
@@ -104,7 +104,7 @@ def apply_random_noise(image, noise_prob=0.75):
             noisy_image = cv2.add(image, noise)
         elif chosen_noise == 'speckle':
             #print ("Speckle noise")
-            speckle = np.random.randn(*image.shape) * 0.1
+            speckle = np.random.randn(*image.shape) * 0.3
             noisy_image = np.clip(image + image * speckle, 0, 255).astype(np.uint8)
 
 
@@ -115,8 +115,8 @@ def apply_random_noise(image, noise_prob=0.75):
     return image
 
 def apply_shadow(image):
-    # Add a shadow to the image with a 35% chance of occurrence
-    if random.random() < 0.35:
+    # Add a shadow to the image with a 40% chance of occurrence
+    if random.random() < 0.4:
         # Get image width and height
         height, width, _ = image.shape
 
@@ -156,7 +156,7 @@ def apply_random_temperature_change(image):
 
 def apply_random_resize(image):
     # Define the resize factor (randomly chosen between 0.25 and 1)
-    resize_factor = random.uniform(0.25, 1.0)
+    resize_factor = random.uniform(0.15, 1.0)
     # Resize the image
     resized_image = cv2.resize(image, None, fx=resize_factor, fy=resize_factor, interpolation=cv2.INTER_CUBIC)
     return resized_image, resize_factor
@@ -195,7 +195,7 @@ def apply_random_colors(image, p=0.75):
     return transformed_image
 
 def apply_chromatic_aberration(image, max_shift=1):
-    if random.random()<0.33:
+    if random.random()<0.75:
         # Split the image into its color channels
         b, g, r = cv2.split(image)
 
