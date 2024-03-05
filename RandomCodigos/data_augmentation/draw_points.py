@@ -9,10 +9,17 @@ import numpy as np
 username = "Vastingood"
 
 # Path to the XML file
-xml_file = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/annotations.xml"
+#xml_file = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/annotations.xml"
 
 # Path to the images folder
-images_folder = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"
+#images_folder = "C:/Users/" + username + "/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"
+
+# Path to the XML file
+xml_file = f"C:/Users/{username}/Downloads/LPs_quadradas/annotations_cropped.xml"
+
+# Path to the images folder
+images_folder = f"C:/Users/{username}/Downloads/LPs_quadradas/images_cropped/"
+
 
 # Load the updated XML file
 tree = ET.parse(xml_file)
@@ -24,10 +31,10 @@ for image in root.findall('image'):
     image_name = image.get('name')
 
     # Get the polygon points
-    polygons = image.findall("polygon[@label!='LP']")
+    polygons = image.findall("polygon[@label='LP_Quadrada']")
 
     # Load the transformed image
-    transformed_image_path = os.path.join(images_folder, "transformed_" + image_name)
+    transformed_image_path = os.path.join(images_folder, image_name)
     transformed_img = cv2.imread(transformed_image_path)
 
     for polygon in polygons:

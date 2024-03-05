@@ -3,10 +3,15 @@ import xml.etree.ElementTree as ET
 import numpy as np
 import cv2
 
-username = "Santi LM"
-xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
-images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/cropped/"
-txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/cropped/labels/"
+#username = "Santi LM"
+#xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+#images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/cropped/"
+#txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/cropped/labels/"
+
+username = "Vastingood"
+xml_file = f"C:/Users/{username}/Downloads/LPs_quadradas/annotations.xml"
+images_folder = f"C:/Users/{username}/Downloads/LPs_quadradas/images/"
+txt_path = f"C:/Users/{username}//Downloads/LPs_quadradas/obj_train_data/"
 
 # Load the XML file
 tree = ET.parse(xml_file)
@@ -35,8 +40,13 @@ for image in root.findall('image'):
                 center_y = (min_y + max_y) / 2
                 
                 # Get the position of the polygon_label in the key
-                key = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
-                position = key.index(label)
+                #key = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
+                if label == "LP_Quadrada":
+                    position = 1
+                elif label == "License_Plate":
+                    position = 0
+                else:
+                    raise "Error"
                 
                 # Write the line to the file
                 line = f"{position} {center_x/img_shape[1]} {center_y/img_shape[0]} {max_x/img_shape[1] - min_x/img_shape[1]} {max_y/img_shape[0] - min_y/img_shape[0]}\n"

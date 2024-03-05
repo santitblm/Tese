@@ -1,3 +1,5 @@
+'''This function is used to crop the LPs out of the images according to their labels'''
+
 import os
 import cv2
 
@@ -13,9 +15,9 @@ import cv2
 #label_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
 #cropped_img_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/Cropped"
 
-image_dir = "C:/Users/Vastingood/Desktop/teste/"
-label_dir = "C:/Users/Vastingood/Downloads/obj_train_data/"
-cropped_img_dir = "C:/Users/Vastingood/Desktop/teste_cropped/" #"C:Users/Santi LM/Documents/GitHub/Tese/cropped/"
+image_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/images/"
+label_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/obj_train_data/"
+cropped_img_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/images_cropped/"
 
 # Get a list of image filenames
 image_files = os.listdir(image_dir)
@@ -23,7 +25,7 @@ image_files = os.listdir(image_dir)
 # Iterate through the image files
 for image_file in image_files:
     # Check if it's an image file
-    if image_file.endswith(".jpg") or image_file.endswith(".png"):
+    if image_file.endswith(".jpg") or image_file.endswith(".png") or image_file.endswith(".jpeg"):
         image_name = os.path.splitext(image_file)[0]
         label_file = os.path.join(label_dir, f"{image_name}.txt")
 

@@ -3,20 +3,20 @@ import cv2
 import xml.etree.ElementTree as ET
 import numpy as np
 
-username = "Santi LM"
-#username = "Vastingood"
+#username = "Santi LM"
+username = "Vastingood"
 
 # Path to the XML file
-xml_file = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/XML/annotations.xml"
+xml_file = f"C:/Users/{username}/Downloads/LPs_quadradas/annotations_cropped.xml"
 
 # Path to the images folder
-images_folder = f"C:/Users/{username}/Documents/GitHub/Tese/cropped/"
+images_folder = f"C:/Users/{username}/Downloads/LPs_quadradas/images_cropped/"
 
 # Path to the folder to save transformed images
-output_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"
+output_folder = f"C:/Users/{username}/Downloads/LPs_quadradas/transformed/"
 
 # Define your reference points for homography
-reference_points = np.array([[10, 110], [10, 10], [475, 10], [475, 110]], dtype=np.float32)
+reference_points = np.array([[10, 10], [310, 10], [310, 205], [10, 205]], dtype=np.float32)
 
 # Load the XML file
 tree = ET.parse(xml_file)
@@ -26,9 +26,8 @@ root = tree.getroot()
 for image in root.findall('image'):
     image_id = image.get('id')
     image_name = image.get('name')
-
     # Get the LP polygon points
-    lp_polygon = image.find("polygon[@label='LP']")
+    lp_polygon = image.find("polygon[@label='LP_Quadrada']")
     if lp_polygon is not None:
         lp_points_str = lp_polygon.get('points').split(';')
         lp_points = np.array([list(map(float, point.split(','))) for point in lp_points_str], dtype=np.float32)
@@ -44,7 +43,7 @@ for image in root.findall('image'):
         homography_matrix, _ = cv2.findHomography(lp_points, reference_points)
 
         # Apply the homography transformation
-        transformed_img = cv2.warpPerspective(img, homography_matrix, (490, 130))
+        transformed_img = cv2.warpPerspective(img, homography_matrix, (325, 225))
         # apply histogram equalization to the transformed image
         #transformed_img = cv2.equalizeHist(transformed_img)
         # Save the transformed image
