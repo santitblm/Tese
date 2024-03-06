@@ -8,10 +8,10 @@ for size in models:
    
    # Training.
    results = model.train(
-      data='/home/planeamusafrente/Desktop/SANTI/datasets/PT_LP_Characters/PT_LP_Characters.yaml',
+      data='/home/planeamusafrente/Desktop/SANTI/Tese/datasets/PT_LP_Characters/PT_LP_Characters.yaml',
       imgsz=320,
       epochs=500,
-      batch=32,
+      batch=-1,
       name=f'LPCharFinal_{size}',
       patience=50,
       close_mosaic = 150
