@@ -22,14 +22,15 @@ from choose_label import choose_label
 #txt_path = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 #binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
-username = "planeamusafrente"
+#username = "planeamusafrente"
+username = "santilm"
 
 xml_file         = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
 images_folder    = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
 templates_folder = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
 positions_folder = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
-synthetic_folder = f"/home/{username}/Desktop/SANTI/Tese/datasets/PT_LP_Characters/train/images/"
-txt_path         = f"/home/{username}/Desktop/SANTI/Tese/datasets/PT_LP_Characters/train/labels/"
+synthetic_folder = f"/home/{username}/Desktop/Tese/datasets/PT_LP_Characters/train/images/" #SANTI/
+txt_path         = f"/home/{username}/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
 chars74k_folder  = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/Fnt2/"
 #synthetic_folder = f"/home/santilm/Desktop/teste/images/"
 #txt_path = f"/home/santilm/Desktop/teste/labels/"
