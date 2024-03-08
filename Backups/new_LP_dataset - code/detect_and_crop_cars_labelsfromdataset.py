@@ -7,11 +7,18 @@ import os
 model = YOLO('yolov8x.pt')
 
 # Define paths
-images_path = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/images"
-labels_path = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
+#images_path = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/images"
+#labels_path = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
 
-new_images = "/home/santilm/Desktop/Tese/datasets/LPs_Cars/train/images"
-new_labels = "/home/santilm/Desktop/Tese/datasets/LPs_Cars/train/labels"
+#new_images = "/home/santilm/Desktop/Tese/datasets/LPs_Cars/train/images"
+#new_labels = "/home/santilm/Desktop/Tese/datasets/LPs_Cars/train/labels"
+
+images_path = "C:/Users/Santi LM/Documents/GitHub/Backup_Linux/License_Plates/train/images/"
+labels_path = "C:/Users/Santi LM/Documents/GitHub/Backup_Linux/License_Plates/train/labels/"
+
+new_images = "C:/Users/Santi LM/Documents/GitHub/Backup_Linux/LPs_Cars/train/images/"
+new_labels = "C:/Users/Santi LM/Documents/GitHub/Backup_Linux/LPs_Cars/train/labels/"
+
 
 n = 0
 #while cap.isOpened():
