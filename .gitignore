@@ -1,3 +1,5 @@
 RandomCodigos/data_augmentation/__pycache__/
 *.pyc
 yolov8x.pt
+*.pyc
+*.pyc
