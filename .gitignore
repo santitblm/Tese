@@ -3,3 +3,5 @@ RandomCodigos/data_augmentation/__pycache__/
 yolov8x.pt
 *.pyc
 *.pyc
+runs/detect/LPCharFinal_x/weights/last.pt
+runs/detect/LPCharFinal_x/weights/best.pt

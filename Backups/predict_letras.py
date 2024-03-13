@@ -3,9 +3,9 @@ import cv2
 from ultralytics import YOLO
 
 # Set the folder path containing the images
-folder_path = 'datasets/PT_LP_Characters/test_nolabels/images/'
+folder_path = '/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test_nolabels/images/'
 
-model = YOLO("runs/detect/LPCharFinal_l/weights/best.pt")
+model = YOLO("runs/detect/LPCharFinal_x/weights/best.pt")
 
 # Get a list of image file names in the folder
 image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
@@ -19,7 +19,7 @@ for image_file in image_files:
     # Get the path to the current image
     source = folder_path + image_file
 
-    results = model(source)
+    results = model(source, save_txt = True, save_conf = False)
 
     for r in results:
         data = r.boxes.data

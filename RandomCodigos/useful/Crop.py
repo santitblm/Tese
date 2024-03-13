@@ -11,13 +11,13 @@ import cv2
 #cropped_img_dir = "C:/Users/Santi LM/Downloads/train/images/cropped"
 
 # Uncomment for Linux
-#image_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/images"
-#label_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels"
-#cropped_img_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/Cropped"
+image_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/images"
+label_dir = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/labels"
+cropped_img_dir = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test/images"
 
-image_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/images/"
-label_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/obj_train_data/"
-cropped_img_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/images_cropped/"
+#image_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/images/"
+#label_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/obj_train_data/"
+#cropped_img_dir = "C:/Users/Vastingood/Downloads/LPs_quadradas/images_cropped/"
 
 # Get a list of image filenames
 image_files = os.listdir(image_dir)

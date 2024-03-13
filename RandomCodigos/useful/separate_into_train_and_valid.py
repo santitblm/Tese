@@ -7,8 +7,9 @@ def separate():
     r = 0.2
 
     # Set the paths for the directories
+    base_dir = "/home/santilm/Desktop/LPs_fromCars"
     #base_dir = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters"
-    base_dir = "/home/planeamusafrente/Desktop/SANTI/Tese/datasets/PT_LP_Characters"
+    #base_dir = "/home/planeamusafrente/Desktop/SANTI/Tese/datasets/PT_LP_Characters"
     train_dir = os.path.join(base_dir, "train")
     valid_dir = os.path.join(base_dir, "valid")
     train_images_dir = os.path.join(train_dir, "images")
