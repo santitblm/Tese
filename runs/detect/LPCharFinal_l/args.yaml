@@ -1,6 +1,6 @@
 task: detect
 mode: train
-model: yolov8l.pt
+model: /home/planeamusafrente/Documents/GitHub/Tese/runs/detect/LPCharFinal_l/weights/last.pt
 data: /home/planeamusafrente/Desktop/SANTI/Tese/datasets/PT_LP_Characters/PT_LP_Characters.yaml
 epochs: 300
 time: null
@@ -76,7 +76,7 @@ momentum: 0.937
 weight_decay: 0.0005
 warmup_epochs: 3.0
 warmup_momentum: 0.8
-warmup_bias_lr: 0.1
+warmup_bias_lr: 0.0
 box: 7.5
 cls: 0.5
 dfl: 1.5

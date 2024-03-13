@@ -10,8 +10,8 @@ from ultralytics import YOLO
 models = ["l"]
 
 for size in models:
-   #model = YOLO(f'/home/planeamusafrente/Documents/GitHub/Tese/runs/detect/LPCharFinal_x/weights/last.pt')
-   model = YOLO(f"yolov8{size}.pt")
+   model = YOLO(f'/home/planeamusafrente/Documents/GitHub/Tese/runs/detect/LPCharFinal_l/weights/last.pt')
+   #model = YOLO(f"yolov8{size}.pt")
    # Training.
    results = model.train(
       data='/home/planeamusafrente/Desktop/SANTI/Tese/datasets/PT_LP_Characters/PT_LP_Characters.yaml',
@@ -20,6 +20,6 @@ for size in models:
       batch=32,
       name=f'LPCharFinal_{size}',
       patience=50,
-      close_mosaic = 100)#,
-      #resume  = True
-   #)
+      close_mosaic = 100,
+      resume  = True
+   )
