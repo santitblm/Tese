@@ -5,3 +5,5 @@ yolov8x.pt
 *.pyc
 runs/detect/LPCharFinal_x/weights/last.pt
 runs/detect/LPCharFinal_x/weights/best.pt
+runs/detect/LPCharFinal_l/weights/best.pt
+runs/detect/LPCharFinal_l/weights/last.pt
