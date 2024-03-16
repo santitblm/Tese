@@ -19,7 +19,7 @@ for image_file in image_files:
     # Get the path to the current image
     source = folder_path + image_file
 
-    results = model(source, save_txt = True, save_conf = False)
+    results = model(source, visualize = True)
 
     for r in results:
         data = r.boxes.data
