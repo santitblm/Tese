@@ -23,19 +23,21 @@ def create_images():
     #binary_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/binary_otsu"
 
     username = "planeamusafrente"
+    username = "santilm"
 
     xml_file         = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/filtered_annotations.xml"
     images_folder    = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/transformed_images/"#bright_redux/"
     templates_folder = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/"
     positions_folder = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/templates/positions/"
-    synthetic_folder = f"/home/{username}/Desktop/SANTI/Tese/datasets/PT_LP_Characters/train/images/"
-    txt_path         = f"/home/{username}/Desktop/SANTI/Tese/datasets/PT_LP_Characters/train/labels/"
+    #synthetic_folder = f"/home/{username}/Desktop/SANTI/Tese/datasets/PT_LP_Characters/train/images/"
+    #txt_path         = f"/home/{username}/Desktop/SANTI/Tese/datasets/PT_LP_Characters/train/labels/"
     chars74k_folder  = f"/home/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/Fnt2/"
-    #synthetic_folder = f"/home/santilm/Desktop/teste/images/"
-    #txt_path = f"/home/santilm/Desktop/teste/labels/"
+    synthetic_folder = f"/home/{username}/Desktop/Tese/datasets/PT_LP_Characters/test/images/"
+    txt_path = f"/home/{username}/Desktop/Tese/datasets/PT_LP_Characters/test/labels/"
 
     # Set the random seed for reproducibility
-    random_seed = 64  # You can use any integer value you prefer
+    #random_seed = 64  # You can use any integer value you prefer (train seed)
+    random_seed = 1000 # Test seed
     random.seed(random_seed)
     np.random.seed(random_seed)
 
@@ -48,7 +50,7 @@ def create_images():
     global_array, label_image_ids = get_label_counts(root)
 
     # Number of synthetic images to generate
-    num_synthetic_images = 100000
+    num_synthetic_images = 10000 # 100000 for training, 10000 for testing
     failed_images = 0
     progress_bar = tqdm(total=num_synthetic_images, desc=f"Creating {num_synthetic_images} synthetic images. Progress")
 
