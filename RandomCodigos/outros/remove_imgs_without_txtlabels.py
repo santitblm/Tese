@@ -1,10 +1,12 @@
 import os
 import cv2
 
-TXT_ROOT = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test/labels/"
-IMG_ROOT = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test/images/"
+#TXT_ROOT = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test/labels/"
+#IMG_ROOT = "/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test/images/"
 #TXT_ROOT = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/labels/"
 #IMG_ROOT = "/home/santilm/Desktop/Tese/datasets/License_Plates/train/images/"
+TXT_ROOT = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/labels/"
+IMG_ROOT = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/images/"
 
 
 all_img_files = os.listdir(IMG_ROOT)

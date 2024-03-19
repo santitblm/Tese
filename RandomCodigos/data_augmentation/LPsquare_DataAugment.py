@@ -218,17 +218,17 @@ def transforms(image):
 #new_labels_path = "C:/Users/Vastingood/Downloads/LPs_quadradas/train/labels/"
 #newer_images_path = "C:/Users/Vastingood/Downloads/LPs_quadradas/train/images/new_images/"
 #newer_labels_path = "C:/Users/Vastingood/Downloads/LPs_quadradas/train/labels/new_labels/"
-images_path = "/home/santilm/Downloads/LPs_quadradas/transformed/"
-labels_path = "/home/santilm/Downloads/LPs_quadradas/train/images/"
-new_images_path = "/home/santilm/Downloads/LPs_quadradas/train/images/"
-new_labels_path = "/home/santilm/Downloads/LPs_quadradas/train/labels/"
-newer_images_path = "/home/santilm/Downloads/LPs_quadradas/train/images/new_images/"
-newer_labels_path = "/home/santilm/Downloads/LPs_quadradas/train/labels/new_labels/"
+#images_path = "/home/santilm/Downloads/LPs_quadradas/transformed/"
+#labels_path = "/home/santilm/Downloads/LPs_quadradas/train/images/"
+new_images_path = "/home/santilm/Downloads/LPs_quadradas/test/images/"
+new_labels_path = "/home/santilm/Downloads/LPs_quadradas/test/labels/"
+newer_images_path = "/home/santilm/Downloads/LPs_quadradas/test/images/new_images/"
+newer_labels_path = "/home/santilm/Downloads/LPs_quadradas/test/labels/new_labels/"
 
-create_new_images(images_path, new_images_path, new_labels_path)
+#create_new_images(images_path, new_images_path, new_labels_path)
 
 image_files = [f for f in os.listdir(new_images_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
-transformations = 5 # Number of transformations that each image is subjected to
+transformations = 10 # Number of transformations that each image is subjected to
 n = 0
 # Loop through each image file
 for image_file in image_files:
@@ -238,9 +238,9 @@ for image_file in image_files:
     image = cv2.imread(image_path)
     for i in range(transformations):
     
-        image = transforms(image)
+        new_image = transforms(image)
         new_image_name = f"{i}_" + image_file
-        cv2.imwrite(os.path.join(newer_images_path, new_image_name), image)
+        cv2.imwrite(os.path.join(newer_images_path, new_image_name), new_image)
         new_txt_filename = os.path.join(newer_labels_path, f"{i}_" + os.path.splitext(image_file)[0] + '.txt')
         old_txt_filename = os.path.join(new_labels_path, os.path.splitext(image_file)[0] + '.txt')
 

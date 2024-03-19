@@ -4,7 +4,7 @@ originalFolder = 'C:/Users/Vastingood/Documents/Github/Tese/NNs/Testing/ids/';  
 % Define the folder for the new text files
 newFolder = fullfile(originalFolder, 'LPs');
 
-% Create the "LPs" folder if it doesn't exist
+% Create the "LPs" folder if it doesn't exist'
 if ~exist(newFolder, 'dir')
     mkdir(newFolder);
 end
