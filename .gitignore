@@ -7,3 +7,5 @@ runs/detect/LPCharFinal_x/weights/last.pt
 runs/detect/LPCharFinal_x/weights/best.pt
 runs/detect/LPCharFinal_l/weights/best.pt
 runs/detect/LPCharFinal_l/weights/last.pt
+runs/detect/License_Plates_1280_x/weights/last.pt
+runs/detect/License_Plates_1280_x/weights/best.pt

@@ -22,6 +22,8 @@ imgsize = 1280
 
 models = ["l", "m"]
 
+models = ["x"]
+
 for size in models: 
    # Load the model.
    model = YOLO(f'yolov8{size}.pt')
@@ -31,7 +33,7 @@ for size in models:
       data='/home/planeamusafrente/Desktop/SANTI/Tese/datasets/License_Plates/License_Plate.yaml',
       imgsz=imgsize,
       epochs=300,
-      batch=3,
+      batch=2,
       name=f'License_Plates_{imgsize}_{size}',
       patience = 50,
       close_mosaic = 150
