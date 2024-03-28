@@ -5,8 +5,8 @@ Script to remove images without objects from the validation set.
 import os
 import cv2
 
-TXT_ROOT = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/labels/"
-IMG_ROOT = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/images/"
+TXT_ROOT = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/labels/"
+IMG_ROOT = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/images/"
 
 all_txt_files = os.listdir(TXT_ROOT)
 

@@ -1,5 +1,7 @@
 from ultralytics import YOLO
 
-model = YOLO("/home/santilm/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_m/weights/best.pt")
+size = "n"
 
-model.val(data = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/LPs_fromCars_val.yaml")
+model = YOLO(f"/home/santilm/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_{size}/weights/best.pt")
+
+model.val(data = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/LPs_fromCars_val.yaml", project='TestValResults/LPs_fromCars', name=f'LPs_fromCars_{size}')

@@ -52,6 +52,6 @@ def draw_bounding_boxes_for_folder(images_folder, labels_folder):
 #labels_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 #images_folder  = f"/home/santilm/Desktop/teste/images/"
 #labels_folder = f"/home/santilm/Desktop/teste/labels/"
-images_folder = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/train/images/"
-labels_folder = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/train/labels/"
+images_folder = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/images/"#LPs_fromCars/train/images/"
+labels_folder = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/labels/"#LPs_fromCars/train/labels/"
 draw_bounding_boxes_for_folder(images_folder, labels_folder)

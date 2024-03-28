@@ -2,9 +2,9 @@ import os
 from ultralytics import YOLO
 
 # Set the folder path containing the images
-folder_path = '/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test/images/'
+folder_path = '/home/santilm/Downloads/k/'#Desktop/Tese/datasets/PT_LP_Characters/test/images/'
 
-model = YOLO("runs/detect/LPCharFinal_x/weights/best.pt")
+model = YOLO("runs/detect/PT_LP_Characters_x/weights/best.pt")
 
 # Get a list of image file names in the folder
 image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
