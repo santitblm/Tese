@@ -13,3 +13,4 @@ runs/detect/PT_LP_Characters_x/weights/best.pt
 runs/detect/PT_LP_Characters_s/weights/last.pt
 runs/detect/PT_LP_Characters_s/weights/best.pt
 runs/detect/LPCharFinal_x3/weights/best.pt
+yolov8x-seg.pt
