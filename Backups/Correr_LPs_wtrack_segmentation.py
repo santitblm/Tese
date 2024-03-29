@@ -4,35 +4,44 @@ import cv2
 import os
 from ultralytics import YOLO
 from heuristic import LP_validation_and_correction as validate_string
+import time as timer
 
 #####################################################################################################
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
-target_width = 500
-flag = False
+#target_width = 500
+#flag = False
 min_height = 23
 min_area = 1000
-inval = 0 # variable to count invalid images
+#inval = 0 # variable to count invalid images
 #points_to_cover = np.array([[0, 600], [1920, 600], [1920, 1080], [0, 1080]], np.int32)#
 #points_to_cover = np.array([[0, 1080], [0, 970], [1150, 530], [1920, 540], [1920, 1080]], np.int32)
-points_to_cover = np.array([[960, 1080], [1440, 480], [1500, 0], [1920, 0], [1920, 1080]], np.int32) #lado esquerdo
+#points_to_cover = np.array([[960, 1080], [1440, 480], [1500, 0], [1920, 0], [1920, 1080]], np.int32) #lado esquerdo
 #points_to_cover = np.array([[960, 1080], [540, 720], [120, 0], [0, 0], [0, 1080]], np.int32) #lado direito
 #####################################################################################################
 
 # Load the YOLOv8 model
-model = YOLO('yolov8n-seg.pt')
+model = YOLO('yolov8x-seg.pt')
 
-LPs_path = "/home/santilm/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_n/weights/best.pt"
+LPs_path = "/home/santilm/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_x/weights/best.pt"
 LPs = YOLO(LPs_path)
-Char_path = "/home/santilm/Documents/GitHub/Tese/runs/detect/LPCharFinal_x3/weights/best.pt"
+Char_path = "/home/santilm/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
 Char = YOLO(Char_path)
 
 # Open the video file
 video_path = "/home/santilm/Desktop/Tese/datasets/Videos/"
-#video  = "20240209_151447.mp4"
-#video = "20230602_134058.mp4"
-video = "20221026_141258.MOV"
-#video = "20221026_142307.MOV"
-#video = "20221026_125944.MOV"
+#video  = "20240209_151447.mp4" #sem cobrir
+#video = "20221026_141258.MOV" #lado esquerdo
+#video = "20221026_125944.MOV" #lado direito
+#ideo = "20221026_142307.MOV" #lado direito
+#video = "20221026_151500.MOV" #lado direito
+#video = "20230602_134058.mp4" 
+
+video = "20240329_124851.MOV"
+#video = ""
+#video = ""
+#video = ""
+
+#video = ""
 cap = cv2.VideoCapture(video_path + video)
 
 # define paths for ground truth and predictions
@@ -95,52 +104,59 @@ def check_LP(box, seg_mask, frame, annotated_frame):
                     result_strings.append(result_string)
     return result_strings, annotated_frame
 
-def organize_ids(ids_path):
+def organize_ids(ids_path, FPS):
     # Iterate through files in the directory
     for filename in os.listdir(ids_path):
-        if filename.endswith('.txt'):
-            file_path = os.path.join(ids_path, filename)
-            predictions_path = os.path.join(ids_path.split("ids/")[0], "predictions.txt")
-            # Read the file and count unique lines
-            line_counts = {}
-            with open(file_path, 'r') as file:
-                lines = file.readlines()
-                for line in lines:
-                    line = line.strip()
-                    if line in line_counts:
-                        line_counts[line] += 1
-                    else:
-                        line_counts[line] = 1
-            
-            # Write unique lines and counts back to the file
-            with open(file_path, 'w') as file:
-                max_count = 0
-                for line, count in line_counts.items():
-                    file.write(f"{line} {count}\n")
-                    # Update max_line if necessary
-                    if count > max_count:
-                        max_line = line
-                        max_count = count
-    
-    # Write the line with the maximum count to predictions.txt
-            if max_line is not None:
-                with open(predictions_path, 'a') as predictions_file:
-                    predictions_file.write(max_line + "\n")
 
-    return predictions_path
+        file_path = os.path.join(ids_path, filename)
+
+        predictions_path = os.path.join(ids_path.split("ids/")[0], "predictions.txt")
+        # Read the file and count unique lines
+        line_counts = {}
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                line = line.strip()
+                if line in line_counts:
+                    line_counts[line] += 1
+                else:
+                    line_counts[line] = 1
+        
+        # Write unique lines and counts back to the file
+        with open(file_path, 'w') as file:
+            max_count = 0
+            for line, count in line_counts.items():
+                file.write(f"{line} {count}\n")
+                # Update max_line if necessary
+                if count > max_count:
+                    max_line = line
+                    max_count = count
+    
+        # Write the line with the maximum count to predictions.txt
+        if max_line is not None:
+            with open(predictions_path, 'a') as predictions_file:
+                predictions_file.write(max_line + "\n")
+
+    # When it is completed, write the number of FPS in the last line
+
+    with open(os.path.join(ids_path.split("ids/")[0], "FPS.txt"), 'w') as FPS_file:
+        FPS_file.write(str(FPS))
+
 
 # Get the initial time of the video from its filename
-time_str = video.split('_')[1].split('.')[0]
-time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6])
+#time_str = video.split('_')[1].split('.')[0]
+#time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6])
 
 # Loop through the video frames
 n_frame = 0
+starting_time = timer.time()
+
 while cap.isOpened():
     # Read a frame from the video
     success, frame = cap.read()
 
     if success:
-        cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
+        #cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
         results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
         vehicle_data = results[0].boxes.data
@@ -180,8 +196,13 @@ while cap.isOpened():
     
     else:
         # Break the loop if the end of the video is reached
+        end_time = timer.time()
         print("End of video, processing ids...")
-        organize_ids(output_dir)
+
+        # Calculate the number of FPS
+        FPS = n_frame/(end_time-starting_time)
+        #organize_ids(output_dir, FPS)
+        print(FPS)
         break
 
 # Release the video capture object and close the display window
