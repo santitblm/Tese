@@ -1,7 +1,7 @@
 from ultralytics import YOLO
  
 # Load the model.
-sizes = ["m", "l"]
+sizes = ["x"]
 imgsize = 480
 for size in sizes:
    model = YOLO(f'yolov8{size}.pt')
