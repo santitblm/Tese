@@ -64,4 +64,6 @@ def draw_bounding_boxes_for_folder(images_folder, labels_folder):
 #labels_folder = f"/home/santilm/Desktop/teste/labels/"
 images_folder = f"/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/images/"
 labels_folder = f"/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/train/labels/"
+images_folder = '/home/santilm/Downloads/k/'
+labels_folder = 'runs/detect/predict/labels'
 draw_bounding_boxes_for_folder(images_folder, labels_folder)

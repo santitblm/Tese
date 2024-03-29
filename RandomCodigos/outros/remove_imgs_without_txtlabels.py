@@ -29,3 +29,24 @@ for i, file_name in enumerate(all_img_files):
         #os.remove(os.path.join(TXT_ROOT, '.'.join(file_name.split('.')[:-1])+'.txt'))
 
 print(removed_image_counter)
+
+all_labels_files = os.listdir(TXT_ROOT)
+removed_label_counter  = 0
+for i, file_name in enumerate(all_labels_files):
+    file_path = os.path.join(TXT_ROOT, file_name)
+    name = os.path.join(IMG_ROOT, '.'.join(file_name.split('.')[:-1])+'.jpg')
+    #print(name)
+    if not os.path.isfile(name):
+        removed_label_counter += 1
+        #with open(name, 'w') as f:
+        #    f.write("")
+        
+        # image = cv2.imread(os.path.join(IMG_ROOT, file_name))
+        # cv2.imshow('Image', image)
+        # cv2.waitKey(0)
+
+        #os.remove(file_path)
+
+        #os.remove(os.path.join(TXT_ROOT, '.'.join(file_name.split('.')[:-1])+'.txt'))
+
+print(removed_label_counter)

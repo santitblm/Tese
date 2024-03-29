@@ -1,2 +1,64 @@
-stra = 'olaghjgaaaa'
-print(stra[-7:-1])
+#stra = 'olaghjgaaaa'
+#print(stra[-7:-1])
+
+#import numpy as np
+#import cv2
+#cv2.imshow("none", np.zeros(10))
+#key = cv2.waitKey(0)
+#print(key)
+
+
+'''
+def compare_results(ground_truth, predicted):
+    def read_lines(filename):
+        with open(filename, 'r') as file:
+            return set(file.read().splitlines())
+
+    def write_lines(filename, lines):
+        with open(filename, 'w') as file:
+            file.write('\n'.join(lines))
+
+    lines_file1 = read_lines(ground_truth)
+    lines_file2 = read_lines(predicted)
+    
+    new_lines_file1 = lines_file1 - lines_file2
+    new_lines_file2 = lines_file2 - lines_file1
+    new_file1 = predicted + "1.txt"
+    new_file2 = predicted + "2.txt"
+    write_lines(new_file1, new_lines_file1)
+    write_lines(new_file2, new_lines_file2)
+
+    return
+
+
+video  = "20240209_151447.mp4"
+
+ground_truth = f"/home/santilm/Desktop/GroundTruth_LPDet+OCR/{video}.txt" 
+predicted = f"/home/santilm/Desktop/Results_LPDet+OCR/{video}/ids/results.txt"
+
+compare_results(ground_truth, predicted)
+
+
+def calculate_metrics(ground_truth_file, predictions_file):
+    with open(ground_truth_file, 'r') as gt_file, open(predictions_file, 'r') as pred_file:
+        gt_lines = set(gt_file.read().splitlines())
+        pred_lines = set(pred_file.read().splitlines())
+
+    TP = len(gt_lines.intersection(pred_lines))
+    FP = len(pred_lines - gt_lines)
+    FN = len(gt_lines - pred_lines)
+    print(TP, FP, FN)
+    precision = TP / (TP + FP) if TP + FP != 0 else 0
+    recall = TP / (TP + FN) if TP + FN != 0 else 0
+    f1_score = 2 * (precision * recall) / (precision + recall) if precision + recall != 0 else 0
+
+    return precision, recall, f1_score
+
+video  = "20240209_151447.mp4"
+
+ground_truth = f"/home/santilm/Desktop/GroundTruth_LPDet+OCR/{video}.txt" 
+predicted = f"/home/santilm/Desktop/Results_LPDet+OCR/{video}/ids/results.txt"
+
+#precision, recall, f1_score = calculate_metrics(ground_truth, predicted)
+#print(f"{precision}, {recall}, {f1_score}")
+'''

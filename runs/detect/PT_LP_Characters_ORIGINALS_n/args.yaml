@@ -1,7 +1,7 @@
 task: detect
 mode: train
 model: yolov8n.pt
-data: /home/planeamusafrente/Desktop/SANTI/Tese/datasets/PT_LP_Characters_ORIGINALS/PT_LP_Characters_ORIGINALS.yaml
+data: /home/santilm/Desktop/Tese/datasets/PT_LP_Characters_ORIGINALS/PT_LP_Characters_ORIGINALS.yaml
 epochs: 200
 time: null
 patience: 50
@@ -13,7 +13,7 @@ cache: false
 device: null
 workers: 8
 project: null
-name: PT_LP_Characters_ORIGINALS_n
+name: PT_LP_Characters_ORIGINALS_n2
 exist_ok: false
 pretrained: true
 optimizer: auto
@@ -102,4 +102,4 @@ erasing: 0.4
 crop_fraction: 1.0
 cfg: null
 tracker: botsort.yaml
-save_dir: runs/detect/PT_LP_Characters_ORIGINALS_n
+save_dir: runs/detect/PT_LP_Characters_ORIGINALS_n2
