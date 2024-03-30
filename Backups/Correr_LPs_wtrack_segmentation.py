@@ -20,11 +20,7 @@ min_area = 1000
 #####################################################################################################
 
 # Load the YOLOv8 model
-<<<<<<< Updated upstream
 model = YOLO('yolov8n-seg.pt')
-=======
-model = YOLO('yolov8s-seg.pt')
->>>>>>> Stashed changes
 
 #username = "santilm"
 #first_path = "/home/santilm/Desktop"
@@ -47,11 +43,8 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 #video = "20221026_151500.MOV" #lado direito
 #video = "20230602_134058.mp4" 
 
-<<<<<<< Updated upstream
 
 # 1st resolution test videos
-=======
->>>>>>> Stashed changes
 #video = "20240329_124851.MOV" # 1080p30
 #video = "20240329_124852.MOV" # 4K25
 #video = "20240329_124855.MOV" # 2.5K30
