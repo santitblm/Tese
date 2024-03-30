@@ -20,7 +20,7 @@ min_area = 1000
 #####################################################################################################
 
 # Load the YOLOv8 model
-model = YOLO('yolov8x-seg.pt')
+model = YOLO('yolov8n-seg.pt')
 
 LPs_path = "/home/santilm/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_x/weights/best.pt"
 LPs = YOLO(LPs_path)
@@ -36,10 +36,18 @@ video_path = "/home/santilm/Desktop/Tese/datasets/Videos/"
 #video = "20221026_151500.MOV" #lado direito
 #video = "20230602_134058.mp4" 
 
-video = "20240329_124851.MOV" # 1080p30
+
+# 1st resolution test videos
+#video = "20240329_124851.MOV" # 1080p30
 #video = "20240329_124852.MOV" # 4K25
 #video = "20240329_124855.MOV" # 2.5K30
 #video = "20240329_124859.MOV" # 1080p60
+
+# 2nd resolution test videos
+#video = "20240329_125219.MOV" # 1080p30
+video = "20240329_125219.MOV" # 4K25
+#video = "20240329_125225.MOV" # 2.5K30
+#video = "20240329_125228.MOV" # 1080p60
 
 #video = ""
 cap = cv2.VideoCapture(video_path + video)
