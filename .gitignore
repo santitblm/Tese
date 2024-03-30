@@ -16,3 +16,4 @@ runs/detect/LPCharFinal_x3/weights/best.pt
 yolov8x-seg.pt
 runs/detect/LP_fromCars_480_x/weights/best.pt
 runs/detect/LP_fromCars_480_x/weights/last.pt
+Backups/__pycache__/heuristic.cpython-310.pyc
