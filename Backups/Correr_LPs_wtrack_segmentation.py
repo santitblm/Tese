@@ -9,7 +9,7 @@ import time as timer
 #####################################################################################################
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 #target_width = 500
-#flag = False
+flag = False
 min_height = 23
 min_area = 1000
 #inval = 0 # variable to count invalid images
@@ -20,15 +20,26 @@ min_area = 1000
 #####################################################################################################
 
 # Load the YOLOv8 model
+<<<<<<< Updated upstream
 model = YOLO('yolov8n-seg.pt')
+=======
+model = YOLO('yolov8s-seg.pt')
+>>>>>>> Stashed changes
 
-LPs_path = "/home/santilm/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_x/weights/best.pt"
+#username = "santilm"
+#first_path = "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+#first_path = "/home/planeamusafrente/Desktop/SANTI/"
+
+
+LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_x/weights/best.pt"
 LPs = YOLO(LPs_path)
-Char_path = "/home/santilm/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
+Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
 Char = YOLO(Char_path)
 
 # Open the video file
-video_path = "/home/santilm/Desktop/Tese/datasets/Videos/"
+video_path = f"{first_path}/Tese/datasets/Videos/"
+
 #video  = "20240209_151447.mp4" #sem cobrir
 #video = "20221026_141258.MOV" #lado esquerdo
 #video = "20221026_125944.MOV" #lado direito
@@ -36,12 +47,21 @@ video_path = "/home/santilm/Desktop/Tese/datasets/Videos/"
 #video = "20221026_151500.MOV" #lado direito
 #video = "20230602_134058.mp4" 
 
+<<<<<<< Updated upstream
 
 # 1st resolution test videos
+=======
+>>>>>>> Stashed changes
 #video = "20240329_124851.MOV" # 1080p30
 #video = "20240329_124852.MOV" # 4K25
 #video = "20240329_124855.MOV" # 2.5K30
-#video = "20240329_124859.MOV" # 1080p60
+video = "20240329_124859.MOV" # 1080p60
+
+# Faster videos (2nd resolution test)
+#video = "20240329_125220.MOV" # 1080p30
+#video = "20240329_125219.MOV" # 4K25
+#video = "20240329_125225.MOV" # 2.5K30
+#video = "20240329_125228.MOV" # 1080p60
 
 # 2nd resolution test videos
 #video = "20240329_125219.MOV" # 1080p30
@@ -53,8 +73,9 @@ video = "20240329_125219.MOV" # 4K25
 cap = cv2.VideoCapture(video_path + video)
 
 # define paths for ground truth and predictions
-ground_truth = f"/home/santilm/Desktop/GroundTruth_LPDet+OCR/{video}.txt" 
-output_dir = f"/home/santilm/Desktop/Results_LPDet+OCR/{video}/ids/"
+#ground_truth = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/{video}.txt" 
+output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/{video}/ids/"
+
 if not os.path.isdir(output_dir):
     os.makedirs(output_dir)
 
@@ -163,7 +184,8 @@ while cap.isOpened():
     # Read a frame from the video
     success, frame = cap.read()
 
-    if success:
+    if success and flag:
+        flag = False
         #cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
         results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
@@ -202,7 +224,7 @@ while cap.isOpened():
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
     
-    else:
+    elif flag:
         # Break the loop if the end of the video is reached
         end_time = timer.time()
         print("End of video, processing ids...")
@@ -212,6 +234,8 @@ while cap.isOpened():
         #organize_ids(output_dir, FPS)
         print(FPS)
         break
+    else:
+        flag = True
 
 # Release the video capture object and close the display window
 cap.release()
