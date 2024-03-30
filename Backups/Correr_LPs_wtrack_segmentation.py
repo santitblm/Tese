@@ -36,10 +36,10 @@ video_path = "/home/santilm/Desktop/Tese/datasets/Videos/"
 #video = "20221026_151500.MOV" #lado direito
 #video = "20230602_134058.mp4" 
 
-video = "20240329_124851.MOV"
-#video = ""
-#video = ""
-#video = ""
+video = "20240329_124851.MOV" # 1080p30
+#video = "20240329_124852.MOV" # 4K25
+#video = "20240329_124855.MOV" # 2.5K30
+#video = "20240329_124859.MOV" # 1080p60
 
 #video = ""
 cap = cv2.VideoCapture(video_path + video)
