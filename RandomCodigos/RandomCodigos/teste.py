@@ -64,7 +64,8 @@ def organize_ids(ids_path):#, FPS):
 
 #video = "20221026_125944.MOV"
 #video = "20240329_125220.MOV"
-video = "20240329_124851.MOV"
+#video = "20240329_124851.MOV"
+video = "20240329_125219.MOV"
 output_dir = f"/home/santilm/Desktop/Results_LPDet+OCR/{video}/ids/"
 
 

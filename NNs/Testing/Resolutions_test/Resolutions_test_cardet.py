@@ -20,15 +20,15 @@ min_area = 1000
 #####################################################################################################
 
 # Load the YOLOv8 model
-model = YOLO('yolov8x.pt')
+model = YOLO('yolov8n.pt')
 
 #username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
 username, first_path = "santilm", "/home/santilm/Desktop"
 
 
-LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_x/weights/best.pt"
+LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_n/weights/best.pt"
 LPs = YOLO(LPs_path)
-Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
+Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_n/weights/best.pt"
 Char = YOLO(Char_path)
 
 # Open the video file
@@ -45,20 +45,15 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 # 1st resolution test videos
 #video = "20240329_124851.MOV" # 1080p30
 #video = "20240329_124852.MOV" # 4K25
-#video = "20240329_124855.MOV" # 2.5K30
-video = "20240329_124859.MOV" # 1080p60
+#video = "20240329_124855.MOV" # 2.7K30
+#video = "20240329_124859.MOV" # 1080p60
 
-# Faster videos (2nd resolution test)
-#video = "20240329_125220.MOV" # 1080p30
-#video = "20240329_125219.MOV" # 4K25
-#video = "20240329_125225.MOV" # 2.5K30
-#video = "20240329_125228.MOV" # 1080p60
 
 # 2nd resolution test videos
-#video = "20240329_125219.MOV" # 1080p30
-video = "20240329_125219.MOV" # 4K25
-#video = "20240329_125225.MOV" # 2.5K30
-#video = "20240329_125228.MOV" # 1080p60
+#video = "20240329_125220.MOV" # 1080p30
+#video = "20240329_125219.MOV" # 4K25
+#video = "20240329_125225.MOV" # 2.7K30
+video = "20240329_125228.MOV" # 1080p60
 
 #video = ""
 cap = cv2.VideoCapture(video_path + video)
