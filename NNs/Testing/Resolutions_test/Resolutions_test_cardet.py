@@ -2,46 +2,87 @@ from collections import defaultdict
 import numpy as np
 import cv2
 import os
-from ultralytics import YOLO
+#from ultralytics import YOLO
 #from heuristic import LP_validation_and_correction as validate_string
 import time as timer
 
+def compare_results(ground_truth, predicted):
+    def read_lines(filename):
+        with open(filename, 'r') as file:
+            return set(file.read().splitlines())
+
+    def write_lines(filename, lines):
+        with open(filename, 'w') as file:
+            file.write('\n'.join(lines))
+
+    lines_file1 = read_lines(ground_truth)
+    lines_file2 = read_lines(predicted)
+    
+    new_lines_file1 = lines_file1 - lines_file2
+    new_lines_file2 = lines_file2 - lines_file1
+    new_file1 = predicted + "1.txt"
+    new_file2 = predicted + "2.txt"
+    write_lines(new_file1, new_lines_file1)
+    write_lines(new_file2, new_lines_file2)
+
+    return
+
+
+def calculate_metrics(ground_truth_path, predictions_path):
+
+    for folder in os.listdir(predictions_path):
+
+        TP = 0
+        FP = 0
+        FN = 0
+        #compare_results(ground_truth_file, predictions_file)
+
+        for ground_truth_file in os.listdir(ground_truth_path):
+            ordinal = ground_truth_file.split(".txt")[0]
+
+            new_predictions_path = predictions_path.split("1st/")[0] + f"{ordinal}/"
+            video_folder = ordinal + folder.split("1st")[1]
+            predictions_file = os.path.join(new_predictions_path, video_folder, "predictions.txt")
+            
+            with open(os.path.join(ground_truth_path, ground_truth_file), 'r') as gt_file, open(predictions_file, 'r') as pred_file:
+                gt_lines = set(gt_file.read().splitlines())
+                pred_lines = set(pred_file.read().splitlines())
+
+            TP += len(gt_lines.intersection(pred_lines))
+            FP += len(pred_lines - gt_lines)
+            FN += len(gt_lines - pred_lines)
+            #print(TP, FP, FN)
+
+        precision = TP / (TP + FP) if TP + FP != 0 else 0
+        recall = TP / (TP + FN) if TP + FN != 0 else 0
+        f1_score = 2 * (precision * recall) / (precision + recall) if precision + recall != 0 else 0
+
+        results = f"Precision: {precision}, Recall: {recall}, F1 Score: {f1_score}"
+        print(results)
+
+        with open(os.path.join(new_predictions_path, video_folder, "results.txt"), 'w') as results_file:
+            results_file.write(results)
+
 #####################################################################################################
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
-#target_width = 500
-flag = False
 min_height = 23
 min_area = 1000
-#inval = 0 # variable to count invalid images
-#points_to_cover = np.array([[0, 600], [1920, 600], [1920, 1080], [0, 1080]], np.int32)#
-#points_to_cover = np.array([[0, 1080], [0, 970], [1150, 530], [1920, 540], [1920, 1080]], np.int32)
-#points_to_cover = np.array([[960, 1080], [1440, 480], [1500, 0], [1920, 0], [1920, 1080]], np.int32) #lado esquerdo
-#points_to_cover = np.array([[960, 1080], [540, 720], [120, 0], [0, 0], [0, 1080]], np.int32) #lado direito
 #####################################################################################################
 
 # Load the YOLOv8 model
-model = YOLO('yolov8n.pt')
+#model = YOLO('yolov8n.pt')
 
 #username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
 username, first_path = "santilm", "/home/santilm/Desktop"
 
 
 LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_n/weights/best.pt"
-LPs = YOLO(LPs_path)
+#LPs = YOLO(LPs_path)
 Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_n/weights/best.pt"
-Char = YOLO(Char_path)
+#Char = YOLO(Char_path)
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
-
-#video  = "20240209_151447.mp4" #sem cobrir
-#video = "20221026_141258.MOV" #lado esquerdo
-#video = "20221026_125944.MOV" #lado direito
-#ideo = "20221026_142307.MOV" #lado direito
-#video = "20221026_151500.MOV" #lado direito
-#video = "20230602_134058.mp4" 
-
-
 # 1st resolution test videos
 #video = "20240329_124851.MOV" # 1080p30
 #video = "20240329_124852.MOV" # 4K25
@@ -113,7 +154,7 @@ def check_LP(box, frame, annotated_frame):
                     result_strings.append(result_string)
     return result_strings, annotated_frame
 
-def organize_ids(ids_path, FPS):
+def organize_ids(ids_path):
     # Iterate through files in the directory
     for filename in os.listdir(ids_path):
 
@@ -145,22 +186,13 @@ def organize_ids(ids_path, FPS):
         if max_line is not None:
             with open(predictions_path, 'a') as predictions_file:
                 predictions_file.write(max_line + "\n")
-
-    # When it is completed, write the number of FPS in the last line
-
-    with open(os.path.join(ids_path.split("ids/")[0], "FPS.txt"), 'w') as FPS_file:
-        FPS_file.write(str(FPS))
-
-
-# Get the initial time of the video from its filename
-#time_str = video.split('_')[1].split('.')[0]
-#time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6])
+                
 
 # Loop through the video frames
 n_frame = 0
 starting_time = timer.time()
 
-while cap.isOpened():
+while False: #cap.isOpened():
     # Read a frame from the video
     success, frame = cap.read()
 
@@ -210,8 +242,34 @@ while cap.isOpened():
         #organize_ids(output_dir, FPS)
         print(FPS)
         break
+#output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/CarDetect/1st/retiro/"
+
+#for filename in os.listdir(output_dir):
+#    organize_ids(output_dir + filename + "/ids/")
+
+#output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/CarDetect/2nd/"
+#for filename in os.listdir(output_dir):
+#    organize_ids(output_dir + filename + "/ids/")
+
+ground_truth_path = f"/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
+predictions_path = f"/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/1st/"
+
+
+
+calculate_metrics(ground_truth_path, predictions_path)
+
+
+
+
+
+#video  = "20240209_151447.mp4"
+
+#ground_truth = f"/home/santilm/Desktop/GroundTruth_LPDet+OCR/{video}.txt" 
+#predicted = f"/home/santilm/Desktop/Results_LPDet+OCR/{video}/ids/results.txt"
+
+#compare_results(ground_truth, predicted)
 
 # Release the video capture object and close the display window
-cap.release()
-cv2.destroyAllWindows()
+#cap.release()
+#cv2.destroyAllWindows()
 

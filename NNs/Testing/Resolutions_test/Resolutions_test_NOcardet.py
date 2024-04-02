@@ -18,10 +18,9 @@ inval = 0 # variable to count invalid images
 #username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
 username, first_path = "santilm", "/home/santilm/Desktop"
 
-size = "n"
+size = "m"
 
-LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_{size}/weights/best.pt"
-LPs = YOLO(LPs_path)
+
 Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_{size}/weights/best.pt"
 Char = YOLO(Char_path)
 
@@ -41,10 +40,12 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 #video = ["20240329_124852.MOV", "1st4K25"]
 
 
-videos = [["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
+videos = [["20240329_124851.MOV", "1st1080p30"], ["20240329_124852.MOV", "1st4K25"], ["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
 
 for video in videos:
-        
+
+    LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_{size}/weights/best.pt"
+    LPs = YOLO(LPs_path)
     cap = cv2.VideoCapture(video_path + video[0])
 
     # define paths for ground truth and predictions
