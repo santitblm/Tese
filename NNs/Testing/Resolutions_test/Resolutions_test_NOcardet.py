@@ -17,7 +17,10 @@ inval = 0 # variable to count invalid images
 
 username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
 #username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
+size = "x"
 size = "m"
 
 
