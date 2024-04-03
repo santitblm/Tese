@@ -1,0 +1,8 @@
+path: License_Plates/
+train: 'train/images'
+val: 'test/images'
+
+# class names
+names: 
+  0: 'License_Plate'
+  1: 'LP_Quadrada'
