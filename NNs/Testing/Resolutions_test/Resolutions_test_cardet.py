@@ -43,7 +43,7 @@ def calculate_metrics(ground_truth_path, predictions_path):
             new_predictions_path = predictions_path.split("1st/")[0] + f"{ordinal}/"
             video_folder = ordinal + folder.split("1st")[1]
             predictions_file = os.path.join(new_predictions_path, video_folder, "predictions.txt")
-            
+
             with open(os.path.join(ground_truth_path, ground_truth_file), 'r') as gt_file, open(predictions_file, 'r') as pred_file:
                 gt_lines = set(gt_file.read().splitlines())
                 pred_lines = set(pred_file.read().splitlines())
@@ -260,6 +260,7 @@ calculate_metrics(ground_truth_path, predictions_path)
 
 
 
+#organize_ids("/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/1st/1st4K25xxx/ids/")
 
 
 #video  = "20240209_151447.mp4"
