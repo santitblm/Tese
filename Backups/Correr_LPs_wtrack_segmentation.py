@@ -41,25 +41,8 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 #video = "20221026_151500.MOV" #lado direito
 #video = "20230602_134058.mp4" 
 
-
-# 1st resolution test videos
-#video = "20240329_124851.MOV" # 1080p30
-#video = "20240329_124852.MOV" # 4K25
-#video = "20240329_124855.MOV" # 2.5K30
-video = "20240329_124859.MOV" # 1080p60
-
-# Faster videos (2nd resolution test)
-#video = "20240329_125220.MOV" # 1080p30
-#video = "20240329_125219.MOV" # 4K25
-#video = "20240329_125225.MOV" # 2.5K30
-#video = "20240329_125228.MOV" # 1080p60
-
-# 2nd resolution test videos
-#video = "20240329_125219.MOV" # 1080p30
-video = "20240329_125219.MOV" # 4K25
-#video = "20240329_125225.MOV" # 2.5K30
-#video = "20240329_125228.MOV" # 1080p60
-
+video = "20240403_152523.MOV"
+video = "20240403_152535.MOV"
 #video = ""
 cap = cv2.VideoCapture(video_path + video)
 
@@ -174,9 +157,7 @@ starting_time = timer.time()
 while cap.isOpened():
     # Read a frame from the video
     success, frame = cap.read()
-
-    if success and flag:
-        flag = False
+    if success:
         #cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
         results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
@@ -215,7 +196,7 @@ while cap.isOpened():
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
     
-    elif flag:
+    else:
         # Break the loop if the end of the video is reached
         end_time = timer.time()
         print("End of video, processing ids...")
@@ -225,8 +206,6 @@ while cap.isOpened():
         #organize_ids(output_dir, FPS)
         print(FPS)
         break
-    else:
-        flag = True
 
 # Release the video capture object and close the display window
 cap.release()

@@ -6,7 +6,7 @@ from ultralytics import YOLO
 folder_path = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/images/"#License_Plates/test/images/"#LPs_fromCars/train/images/"
 labels_path = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/labels/"
 
-model = YOLO("runs/detect/LP_fromCars_480_l/weights/best.pt")
+model = YOLO("runs/detect/LP_fromCars_480_n/weights/best.pt")
 
 # Get a list of image file names in the folder
 #image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
@@ -54,10 +54,11 @@ def draw_bounding_boxes_for_folder(images_folder, labels_folder):
                     boxes= data.tolist()
                     for box in boxes:
                         x1, y1, x2, y2 = map(int, box[:4])
-                        label = int(box[5])
-
+                        label_pred = int(box[5])
+                        if label_pred == 1:
+                            show = True
                         # Draw a rectangle around the object
-                        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255) if label == 0 else (255, 0, 0), 2 )
+                        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255) if label_pred == 0 else (255, 0, 0), 2 )
 
                 # Read the bounding box information from the text file
                 with open(txt_path, 'r') as file:
@@ -66,7 +67,7 @@ def draw_bounding_boxes_for_folder(images_folder, labels_folder):
                 # Draw bounding boxes on the image
                 for line in lines:
                     values = line.split()
-                    label = int(values[0])
+                    label_true = int(values[0])
                     x_center = float(values[1])
                     y_center = float(values[2])
                     width = float(values[3])
@@ -79,10 +80,10 @@ def draw_bounding_boxes_for_folder(images_folder, labels_folder):
                     y2 = int((y_center + height / 2) * image.shape[0])
 
                     # Draw bounding box on the image
-                    color = (255, 255, 255)  if label == 0 else (0, 255, 0)# Green color
+                    color = (255, 255, 255)  if label_true == 0 else (0, 255, 0)# Green color
                     thickness = 1
                     image = cv2.rectangle(image, (x1, y1), (x2, y2), color, thickness)
-                    if label == 1:
+                    if label_true == 1:
                         show = True
 
                 # Display the image with bounding boxes
