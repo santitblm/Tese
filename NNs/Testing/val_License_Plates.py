@@ -1,10 +1,15 @@
 from ultralytics import YOLO
 
+<<<<<<< Updated upstream
 #username, first_path = "santilm", "santilm/Desktop"
 username, first_path = "planeamusafrente", "planeamusafrente/Desktop/SANTI"
+=======
+model = YOLO("/home/santilm/Documents/GitHub/Tese/runs/detect/License_Plates_1280_n/weights/best.pt")
+>>>>>>> Stashed changes
 
 sizes = ["n", "s", "m"]#, "l", "x"]
 
+<<<<<<< Updated upstream
 models = ["License_Plates_1280", "LP_fromCars_480", "PT_LP_Characters"]
 vals = ["License_Plates", "LPs_fromCars", "PT_LP_Characters"]
 
@@ -36,4 +41,6 @@ for model, val in zip(models, vals):
             #print(system, "needs to be looked at\n")
         print(f"{(metrics.box.class_result(0)[2])*100:.2f} & {(metrics.box.class_result(0)[3])*100:.2f} & {(metrics.box.class_result(1)[2])*100:.2f} & {(metrics.box.class_result(1)[3])*100:.2f} & {(metrics.box.map50)*100:.2f} & {(metrics.box.map)*100:.2f}")
 
+=======
+>>>>>>> Stashed changes
 #print(metrics.box)
