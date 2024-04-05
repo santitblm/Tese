@@ -2,33 +2,7 @@ import os
 import cv2
 from ultralytics import YOLO
 
-# Set the folder path containing the images
-folder_path = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/images/"#License_Plates/test/images/"#LPs_fromCars/train/images/"
-labels_path = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/labels/"
-
-model = YOLO("runs/detect/LP_fromCars_480_n/weights/best.pt")
-
-# Get a list of image file names in the folder
-#image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
-
-# Resize factor
-
-# Iterate through the image files
-#for image_file in image_files:
-    # Get the path to the current image
-#    source = folder_path + image_file
-
-#    results = model(source, show = True)
-
-#    key = cv2.waitKey(0)
-#    cv2.destroyAllWindows()
-
-#    if key == 27:
-#        break
-
-
-import os
-import cv2
+model = YOLO("runs/detect/License_Plates_1280_x/weights/best.pt")
 
 def draw_bounding_boxes_for_folder(images_folder, labels_folder):
     show = False
@@ -101,9 +75,9 @@ def draw_bounding_boxes_for_folder(images_folder, labels_folder):
 #labels_folder = f"C:/Users/{username}/Documents/GitHub/Tese/RandomCodigos/data_augmentation/synthetic/labels/"
 #images_folder  = f"/home/santilm/Desktop/teste/images/"
 #labels_folder = f"/home/santilm/Desktop/teste/labels/"
-#images_folder = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/images/"#LPs_fromCars/train/images/"
-#labels_folder = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/labels/"#LPs_fromCars/train/labels/"
-images_folder = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/images/"
-labels_folder = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/labels/"
+images_folder = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/images/"#LPs_fromCars/train/images/"
+labels_folder = "/home/santilm/Desktop/Tese/datasets/License_Plates/test/labels/"#LPs_fromCars/train/labels/"
+#images_folder = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/images/"
+#labels_folder = "/home/santilm/Desktop/Tese/datasets/LPs_fromCars/test/labels/"
 
 draw_bounding_boxes_for_folder(images_folder, labels_folder)
