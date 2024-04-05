@@ -1,4 +1,3 @@
-import numpy as np
 import cv2
 import os
 from ultralytics import YOLO
@@ -9,26 +8,18 @@ class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 min_height = 23
 min_area = 1000
 #####################################################################################################
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+
+username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
-LP_sizes = ["x", "m"]
+LP_sizes = ["s", "l"]
 
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
 videos = [["20240329_124851.MOV", "1st1080p30"], ["20240329_124852.MOV", "1st4K25"], ["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
 
-
-username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-#username, first_path = "santilm", "/home/santilm/Desktop"
-
-
-LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_n/weights/best.pt"
-LPs = YOLO(LPs_path)
-Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_n/weights/best.pt"
-Char = YOLO(Char_path)
 
 
 def check_LP(box, frame, annotated_frame):
@@ -56,28 +47,20 @@ def check_LP(box, frame, annotated_frame):
 
                 # Sort the boxes by their class (label, the last value in each row)
                 sorted_boxes = sorted(boxes_with_labels, key=lambda x: x[0])
-                sorted_confidences = [int(box[4] * 100) for box in sorted_boxes]    # Multiply by 100 and round to int
                 sorted_labels = [class_labels[int(box[5])] for box in sorted_boxes]
 
                 # Join the sorted labels into a single string
                 result_string = "".join(sorted_labels)
-                #validity, _ = validate_string(result_string, sorted_confidences, sorted_boxes)
-                # Define the text to display (label and confidence)
                 if len(result_string) > 4:
                     text = result_string
-
-                    # Calculate the position for the text
-                    #text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
                     text_x = x1+X1
-                    text_y = Y1+y1 - 5# if Y1+y1 - 5 > 5 else Y1 + 20
-
+                    text_y = Y1+y1 - 5
                     # Draw the text
                     cv2.putText(annotated_frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
-
-                #print(validity, str)
-                #if validity:
                     result_strings.append(result_string)
     return result_strings, annotated_frame
+
+
 
 for char_size in Char_sizes:
     Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_{char_size}/weights/best.pt"
@@ -138,6 +121,7 @@ for char_size in Char_sizes:
                     print("End of video")
                     end_time = timer.time()
                     print(n_frame/(end_time-starting_time))
+                    print(output_dir, "\n")
                     break
 
             cap.release()
