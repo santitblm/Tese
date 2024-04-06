@@ -15,6 +15,8 @@ username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANT
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
+skip = 16
+n_video = 1
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
@@ -82,7 +84,7 @@ for char_size in Char_sizes:
             n_frame = 0
             starting_time = timer.time()
 
-            while cap.isOpened():
+            while cap.isOpened() and n_video > skip:
                 # Read a frame from the video
                 success, frame = cap.read()
 
@@ -123,6 +125,7 @@ for char_size in Char_sizes:
                     print(n_frame/(end_time-starting_time))
                     print(output_dir, "\n")
                     break
-
+            
+            n_video += 1
             cap.release()
             cv2.destroyAllWindows()

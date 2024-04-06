@@ -17,6 +17,8 @@ username, first_path = "santilm", "/home/santilm/Desktop"
 Char_sizes = ["l", "x"]
 LP_sizes = ["x", "m"]
 
+skip = 10
+n_video = 1
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
@@ -41,7 +43,7 @@ for char_size in Char_sizes:
             n_frame = 0
             initial = timer.time()
 
-            while cap.isOpened():
+            while cap.isOpened() and n_video > skip:
                 # Read a frame from the video
                 success, frame = cap.read()
 
@@ -112,5 +114,5 @@ for char_size in Char_sizes:
             # Release the video capture object and close the display window
             cap.release()
             cv2.destroyAllWindows()
-
+            n_video += 1
             print(f"{round(n_frame/(timer.time() - initial), 2)} FPS")
