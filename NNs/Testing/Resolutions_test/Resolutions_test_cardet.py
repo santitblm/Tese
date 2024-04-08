@@ -7,21 +7,21 @@ import time as timer
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 min_height = 23
 min_area = 1000
+n_video = 1
 #####################################################################################################
 
-username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-#username, first_path = "santilm", "/home/santilm/Desktop"
+#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
-skip = 16
-n_video = 1
+skip = 0
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
-videos = [["20240329_124851.MOV", "1st1080p30"], ["20240329_124852.MOV", "1st4K25"], ["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
-
+#videos = [["20240329_124851.MOV", "1st1080p30"], ["20240329_124852.MOV", "1st4K25"], ["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
+videos = ["3rd1080p30.MOV", "3rd1080p60.MOV", "3rd27K30.MOV", "3rd4K25.MOV", "4th1080p30.MOV", "4th1080p60.MOV", "4th27K30.MOV", "4th4K25.MOV", "5th1080p30.MOV", "5th1080p60.MOV", "5th27K30.MOV", "5th4K25.MOV"]
 
 
 def check_LP(box, frame, annotated_frame):
@@ -53,7 +53,7 @@ def check_LP(box, frame, annotated_frame):
 
                 # Join the sorted labels into a single string
                 result_string = "".join(sorted_labels)
-                if len(result_string) > 4:
+                if 8 > len(result_string) > 5:
                     text = result_string
                     text_x = x1+X1
                     text_y = Y1+y1 - 5
@@ -73,9 +73,9 @@ for char_size in Char_sizes:
         LPs = YOLO(LPs_path)
 
         for video in videos:
-            cap = cv2.VideoCapture(video_path + video[0])
+            cap = cv2.VideoCapture(video_path + video)
 
-            output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/CarDetect/{video[1]}_{char_size}_{lp_size}/ids/"
+            output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/CarDetect/{video.split(".MOV")[0]}_{char_size}_{lp_size}/ids/"
             if not os.path.isdir(output_dir):
                 os.makedirs(output_dir)
 

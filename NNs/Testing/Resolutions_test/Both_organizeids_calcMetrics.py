@@ -55,7 +55,7 @@ def calculate_metrics(ground_truth_path, predictions_path, Final_Results_path):
             print(results)
 
             with open(os.path.join(Final_Results_path, f"{resolution_model}.txt"), 'w') as results_file:
-                results_file.write(results)
+                results_file.write(f"{precision}\n{recall}\n{f1_score}")
 
 def organize_ids(ids_path):
     # Iterate through files in the directory
@@ -91,14 +91,22 @@ def organize_ids(ids_path):
                 predictions_file.write(max_line + "\n")
 
 ground_truth_path = "/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
-predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/NOCarDetect/"
-Final_Results_path = "/home/santilm/Desktop/Resultados/NO_cardet/"
+#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/NOCarDetect/"
+#Final_Results_path = "/home/santilm/Desktop/Resultados/NO_cardet/"
+predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/"
+Final_Results_path = "/home/santilm/Desktop/Resultados/CarDet/"
 
-#for folder_ordinal in os.listdir(predictions_path):
-##    for folder in os.listdir(os.path.join(predictions_path, folder_ordinal)):
-#        ids_path = os.path.join(predictions_path, folder_ordinal, folder, "ids/")
-#        organize_ids(ids_path)
+#for folder in os.listdir(predictions_path):
+#    ids_path = os.path.join(predictions_path, folder, "ids/")
+#    organize_ids(ids_path)
 
 
-calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
+#calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
 
+
+for folder in os.listdir(predictions_path):
+
+    predicted = os.path.join(predictions_path, folder, "predictions.txt")
+    ground_truth = os.path.join(ground_truth_path, f"{folder[:3]}.txt")
+    compare_results(ground_truth, predicted)
+    
