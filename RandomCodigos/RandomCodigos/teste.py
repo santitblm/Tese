@@ -65,8 +65,8 @@ def organize_ids(ids_path):#, FPS):
 #video = "20221026_125944.MOV"
 #video = "20240329_125220.MOV"
 #video = "20240329_124851.MOV"
-video = "5th1080p30"
-output_dir = f"/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/{video}_l_l/ids/"
+video = "3rd4K25"
+output_dir = f"/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/{video}_l_s/ids/"
 
 
 organize_ids(output_dir)#, FPS)
