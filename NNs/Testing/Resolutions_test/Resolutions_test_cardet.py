@@ -17,7 +17,7 @@ username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANT
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
-skip = 0
+skip = 24
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
@@ -85,7 +85,7 @@ for char_size in Char_sizes:
             if not os.path.isdir(output_dir):
                 os.makedirs(output_dir)
 
-            model = YOLO('yolov8x.pt')
+            model = YOLO('yolov8x-seg.pt')
 
             n_frame = 0
             starting_time = timer.time()
