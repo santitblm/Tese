@@ -10,8 +10,8 @@ min_area = 1000
 n_video = 1
 #####################################################################################################
 
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
@@ -74,8 +74,8 @@ for char_size in Char_sizes:
 
         for video in videos:
             cap = cv2.VideoCapture(video_path + video)
-
-            output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/CarDetect/{video.split(".MOV")[0]}_{char_size}_{lp_size}/ids/"
+            resolution = video.split(".MOV")[0]
+            output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/CarDetect/{resolution}_{char_size}_{lp_size}/ids/"
             if not os.path.isdir(output_dir):
                 os.makedirs(output_dir)
 
