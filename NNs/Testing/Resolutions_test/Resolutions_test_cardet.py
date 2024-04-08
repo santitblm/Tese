@@ -5,8 +5,8 @@ import time as timer
 
 #####################################################################################################
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
-min_height = 23
-min_area = 1000
+min_height = 23/1080
+min_width = 45/1920
 n_video = 1
 #####################################################################################################
 
@@ -39,7 +39,7 @@ def check_LP(box, frame, annotated_frame):
             x1, y1, x2, y2 = map(int, box[:4])
             cv2.rectangle(annotated_frame, (X1+x1, Y1+y1), (X1+x2, Y1+y2), (0, 255, 255), 1)
             lp_img = car_img[y1:y2, x1:x2]
-            if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0] < min_height and not lp_img.shape[0] * lp_img.shape[1] < min_area:
+            if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0]/frame.shape[0] < min_height/frame.shape[0] and not lp_img.shape[1]/frame.shape[1] < min_width/frame.shape[1]:
                 # Detect characters in the license plate
                 Char_results = Char(lp_img, verbose = False)
 
