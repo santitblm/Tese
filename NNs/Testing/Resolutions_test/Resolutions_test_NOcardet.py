@@ -7,8 +7,9 @@ import time as timer
 
 #####################################################################################################
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
-min_height = 23
-min_area = 1000
+min_height = 23/1080
+min_width = 45/1920
+n_video = 1
 #####################################################################################################
 
 #username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
@@ -17,12 +18,12 @@ username, first_path = "santilm", "/home/santilm/Desktop"
 Char_sizes = ["l", "x"]
 LP_sizes = ["x", "m"]
 
-skip = 10
-n_video = 1
+skip = 0
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
-videos = [["20240329_124851.MOV", "1st1080p30"], ["20240329_124852.MOV", "1st4K25"], ["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
+#videos = [["20240329_124851.MOV", "1st1080p30"], ["20240329_124852.MOV", "1st4K25"], ["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
+videos = ["3rd1080p30.MOV", "3rd1080p60.MOV", "3rd27K30.MOV", "3rd4K25.MOV", "4th1080p30.MOV", "4th1080p60.MOV", "4th27K30.MOV", "4th4K25.MOV", "5th1080p30.MOV", "5th1080p60.MOV", "5th27K30.MOV", "5th4K25.MOV"]
 
 for char_size in Char_sizes:
     Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_{char_size}/weights/best.pt"
@@ -33,9 +34,10 @@ for char_size in Char_sizes:
 
         for video in videos:
             LPs = YOLO(LPs_path)
-            cap = cv2.VideoCapture(video_path + video[0])
+            cap = cv2.VideoCapture(video_path + video)
+            resolution = video.split(".MOV")[0]
 
-            output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/NOCarDetect/{video[1]}_{char_size}_{lp_size}/ids/"
+            output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/NOCarDetect/{resolution}_{char_size}_{lp_size}/ids/"
             if not os.path.isdir(output_dir):
                 os.makedirs(output_dir)
 
@@ -64,7 +66,7 @@ for char_size in Char_sizes:
                             lp_img = frame[y1:y2, x1:x2]
 
                             # Reject license plates that are too small or whose height is greater than width
-                            if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0] < min_height and not lp_img.shape[0] * lp_img.shape[1] < min_area:
+                            if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0]/frame.shape[0] < min_height/frame.shape[0] and not lp_img.shape[1]/frame.shape[1] < min_width/frame.shape[1]:
                                 # Detect characters in the license plate
                                 Char_results = Char(lp_img, verbose = False)
 
@@ -81,7 +83,7 @@ for char_size in Char_sizes:
                                 result_string = "".join(sorted_labels)
 
                                 # Define the text to display (label and confidence)
-                                if len(result_string) > 4:
+                                if 8 > len(result_string) > 5:
                                     text = result_string
                                 
                                     # Calculate the position for the text
