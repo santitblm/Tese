@@ -11,8 +11,8 @@ min_width = 45/1920
 n_video = 1
 #####################################################################################################
 
-username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-#username, first_path = "santilm", "/home/santilm/Desktop"
+#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
@@ -84,57 +84,61 @@ for char_size in Char_sizes:
             output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/CarDetect/{resolution}_{char_size}_{lp_size}/ids/"
             if not os.path.isdir(output_dir):
                 os.makedirs(output_dir)
+            try:
+                model = YOLO('yolov8x-seg.pt')
 
-            model = YOLO('yolov8x-seg.pt')
+                n_frame = 0
+                starting_time = timer.time()
 
-            n_frame = 0
-            starting_time = timer.time()
+                while cap.isOpened() and n_video > skip:
+                    # Read a frame from the video
+                    success, frame = cap.read()
 
-            while cap.isOpened() and n_video > skip:
-                # Read a frame from the video
-                success, frame = cap.read()
-
-                if success:
+                    if success:
                     # Run YOLOv8 tracking on the frame, persisting tracks between frames
-                    results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
-                    vehicle_data = results[0].boxes.data
-                    boxes_with_labels = vehicle_data.tolist()
-                    annotated_frame = frame.copy()
-                    if results[0].boxes.id is not None:
+                    
+                        results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
+                        vehicle_data = results[0].boxes.data
+                        boxes_with_labels = vehicle_data.tolist()
+                        annotated_frame = frame.copy()
+                        if results[0].boxes.id is not None:
 
-                        # Get the masks
-                        seg_masks = results[0].masks
-                        
-                        # Get the boxes and track IDs
-                        boxes = results[0].boxes.xyxy.cpu()
-                        track_ids = results[0].boxes.id.int().cpu().tolist()
+                            # Get the masks
+                            seg_masks = results[0].masks
+                            
+                            # Get the boxes and track IDs
+                            boxes = results[0].boxes.xyxy.cpu()
+                            track_ids = results[0].boxes.id.int().cpu().tolist()
 
-                        # Plot the tracks
-                        for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
-                            strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
-                            for string in strings:
-                                text_file_name = os.path.join(output_dir, f"{track_id}.txt")
-                                with open(text_file_name, "a") as text_file:
-                                    #text_file.write(string + " " + time_str + "\n")
-                                    text_file.write(string + "\n")
+                            # Plot the tracks
+                            for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
+                                strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
+                                for string in strings:
+                                    text_file_name = os.path.join(output_dir, f"{track_id}.txt")
+                                    with open(text_file_name, "a") as text_file:
+                                        #text_file.write(string + " " + time_str + "\n")
+                                        text_file.write(string + "\n")
 
 
-                    # Display the annotated frame
-                    cv2.imshow("YOLOv8 Tracking", annotated_frame)
-                    n_frame += 1
+                        # Display the annotated frame
+                        cv2.imshow("YOLOv8 Tracking", annotated_frame)
+                        n_frame += 1
 
-                    # Break the loop if 'q' is pressed
-                    if cv2.waitKey(1) & 0xFF == ord("q"):
-                        break
+                        # Break the loop if 'q' is pressed
+                        if cv2.waitKey(1) & 0xFF == ord("q"):
+                            break
+                    
                 
-                else:
-                    # Break the loop if the end of the video is reached
-                    print("End of video")
-                    end_time = timer.time()
-                    print(n_frame/(end_time-starting_time))
-                    print(output_dir, "\n")
-                    break
+                    else:
+                        # Break the loop if the end of the video is reached
+                        print("End of video")
+                        end_time = timer.time()
+                        print(n_frame/(end_time-starting_time))
+                        print(output_dir, "\n")
+                        break
             
-            n_video += 1
-            cap.release()
-            cv2.destroyAllWindows()
+                n_video += 1
+                cap.release()
+                cv2.destroyAllWindows()
+            except:
+                continue
