@@ -12,11 +12,11 @@ min_width = 45/1920
 n_video = 1
 #####################################################################################################
 
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
-LP_sizes = ["x", "m"]
+LP_sizes = ["m", "x"]
 
 skip = 0
 
