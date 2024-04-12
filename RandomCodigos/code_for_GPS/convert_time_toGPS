@@ -1,0 +1,47 @@
+import gpxpy
+from datetime import datetime, timezone
+
+
+video = "20240410_173628966.MOV"
+predictions_file = f'/home/santilm/Desktop/Results_LPDet+OCR/{video}/predictions.txt'
+
+calendar = f"{video[:4]}-{video[4:6]}-{video[6:8]} "
+# Read the GPX file
+gpx_file = open('RandomCodigos/code_for_GPS/2024-04-10_10_Apr_2024_17_36_58.gpx', 'r')
+gpx = gpxpy.parse(gpx_file)
+
+# Create a list to store tuples of (timestamp, latitude, longitude)
+points_data = []
+
+# Iterate through the GPX data and populate the list
+for track in gpx.tracks:
+    for segment in track.segments:
+        for point in segment.points:
+            points_data.append((point.time.replace(tzinfo=timezone.utc), point.latitude, point.longitude))
+
+# Read the text file with codes and timestamps
+with open(predictions_file, 'r') as file:
+    lines = file.readlines()
+
+# Replace timestamps with corresponding latitudes and longitudes
+for line in lines:
+    code, timestamp = line.strip().split()
+    timestamp = calendar + timestamp
+    timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S:%f').replace(tzinfo=timezone.timedelta(hours=1))  # Make the timestamp aware of timezone
+
+    # Find the closest points in the GPX data
+    points_data.sort(key=lambda p: abs((p[0] - timestamp).total_seconds()))
+
+    # Linear interpolation
+    for i in range(len(points_data) - 1):
+
+        if points_data[i][0] <= timestamp <= points_data[i + 1][0]:
+            t1, lat1, lon1 = points_data[i]
+            t2, lat2, lon2 = points_data[i + 1]
+            time_diff = (timestamp - t1).total_seconds()
+            total_diff = (t2 - t1).total_seconds()
+            ratio = time_diff / total_diff
+            latitude = lat1 + (lat2 - lat1) * ratio
+            longitude = lon1 + (lon2 - lon1) * ratio
+            print(f"Code: {code}, Latitude: {latitude}, Longitude: {longitude}")
+            break

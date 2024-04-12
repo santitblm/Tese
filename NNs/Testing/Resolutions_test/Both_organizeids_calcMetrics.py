@@ -91,6 +91,7 @@ def organize_ids(ids_path):
                 predictions_file.write(max_line + "\n")
 
 ground_truth_path = "/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
+
 #predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/NOCarDetect/"
 #Final_Results_path = "/home/santilm/Desktop/Resultados/NO_cardet/"
 predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/"
@@ -101,12 +102,12 @@ Final_Results_path = "/home/santilm/Desktop/Resultados/CarDet/"
 #    organize_ids(ids_path)
 
 
-#calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
+calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
 
 
-for folder in os.listdir(predictions_path):
+#for folder in os.listdir(predictions_path):
 
-    predicted = os.path.join(predictions_path, folder, "predictions.txt")
-    ground_truth = os.path.join(ground_truth_path, f"{folder[:3]}.txt")
-    compare_results(ground_truth, predicted)
+#    predicted = os.path.join(predictions_path, folder, "predictions.txt")
+#    ground_truth = os.path.join(ground_truth_path, f"{folder[:3]}.txt")
+#    compare_results(ground_truth, predicted)
     
