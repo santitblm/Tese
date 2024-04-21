@@ -4,23 +4,25 @@ from ultralytics import YOLO
 
 # Set the folder path containing the images
 folder_path = '/home/santilm/Desktop/Tese/datasets/PT_LP_Characters/test_nolabels/images/'
+folder_path = 'C:/Users/Vastingood/Documents/GitHub/Tese/cropped/'
 
-model = YOLO("runs/detect/LPCharFinal_x/weights/best.pt")
+model = YOLO("C:/Users/Vastingood/Documents/GitHub/Tese/runs/detect/LPCharFinal_x/weights/best.pt")
 
 # Get a list of image file names in the folder
 image_files = [f for f in os.listdir(folder_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 
 # Resize factor
-resize_factor = 10
+resize_factor = 1
 
 # Iterate through the image files
 for image_file in image_files:
     # Get the path to the current image
     source = folder_path + image_file
 
-    results = model(source, visualize = True)
-
+    results = model(source)
+    #results = model("C:/Users/Vastingood/Documents/GitHub/Tese/cropped/0_vlcsnap-2023-05-05-12h21m25s079.jpg")
+    
     for r in results:
         data = r.boxes.data
         print(data)
