@@ -31,8 +31,8 @@ def organize_ids(ids_path):#, FPS):
             with open(predictions_path, 'a') as predictions_file:
                 predictions_file.write(chosen_LP + "\n")
 
-video = "5th1080p30"
-output_dir = f"/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/{video}_x_l/ids/"
+video = "20240416_144935000.MOV"
+output_dir = f"/home/santilm/Desktop/Results_LPDet+OCR/{video}/ids/"
 
 
 organize_ids(output_dir)

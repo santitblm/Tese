@@ -39,12 +39,12 @@ def get_destination_point(lat, lon, bearing, distance):
 
 
 # Read the GPX file
-gpx_file = open('RandomCodigos/code_for_GPS/2024-04-10_10_Apr_2024_17_36_58.gpx', 'r')
+gpx_file = open('RandomCodigos/code_for_GPS/2024-04-16_16_Apr_2024_15_55_03.gpx', 'r')
 gpx = gpxpy.parse(gpx_file)
 
 videos = [
-    {"video": "20240410_173631866.MOV", "side": "R"},
-    {"video": "20240410_173628966.MOV", "side": "L"}
+    {"video": "20240416_155400300.MOV", "side": "R"},
+    {"video": "20240416_155401733.MOV", "side": "L"}
 ]
 
 # Create a list to store tuples of (timestamp, latitude, longitude)

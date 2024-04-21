@@ -24,8 +24,15 @@ def seconds_to_hhmmss_milliseconds(total_seconds):
     # Format the time as HH:MM:SS.mmm
     formatted_time = '{:02d}{:02d}{:02d}{:03d}'.format(hours, minutes, seconds, milliseconds)
     return formatted_time
+#173821 - 173711 866
+#155546 - 155436 900
+#164756 - 164646 933
 
-video = "20240410_163721.MOV"
+#173728 - 173714 033
+#164702 - 164648 500
+#155446 - 155432 266
+
+video = "20240416_155419.MOV"
 video_path= "/home/santilm/Desktop/Tese/datasets/Videos/"
 fps = 30
 

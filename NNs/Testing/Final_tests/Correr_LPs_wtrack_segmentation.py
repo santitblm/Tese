@@ -10,18 +10,19 @@ import time as timer
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 #target_width = 500
 flag = False
-min_height = 23
+min_height = 20
 min_area = 1000
 fps = 30
-skip_first_seconds = 40
-skip_last_seconds = 25
+skip_first_seconds = 1*60 + 17
+process_until_seconds = 3*60 + 20 #igual
+core_dumped = [2685]#[4053, 4819]
 #inval = 0 # variable to count invalid images
 #points_to_cover = np.array([[0, 600], [1920, 600], [1920, 1080], [0, 1080]], np.int32)#
 #points_to_cover = np.array([[0, 1080], [0, 970], [1150, 530], [1920, 540], [1920, 1080]], np.int32)
-#points_to_cover = np.array([[960, 1080], [1440, 480], [1500, 0], [1920, 0], [1920, 1080]], np.int32) #lado esquerdo
-#points_to_cover = np.array([[960, 1080], [540, 720], [120, 0], [0, 0], [0, 1080]], np.int32) #lado direito
+points_to_cover = np.array([[1700, 1524], [2500, 800], [2600, 0], [2704, 0], [2704, 1524]], np.int32) #lado esquerdo
+#points_to_cover = np.array([[1352, 1524], [100, 950], [0, 680], [0, 1524]], np.int32) #lado direito
 #####################################################################################################
-
+#2704x1524
 # Load the YOLOv8 model
 model = YOLO('yolov8x-seg.pt')
 
@@ -29,7 +30,7 @@ model = YOLO('yolov8x-seg.pt')
 username, first_path = "santilm", "/home/santilm/Desktop"
 
 
-LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_x/weights/best.pt"
+LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_s/weights/best.pt"
 LPs = YOLO(LPs_path)
 Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
 Char = YOLO(Char_path)
@@ -44,7 +45,17 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 #video = "20221026_151500.MOV" #lado direito
 #video = "20230602_134058.mp4" 
 
-video = "20240410_173631866.MOV"
+#video = "20240415_173711866.MOV" #L
+#video = "20240415_173714033.MOV" #R - forjado, usei os resultados anteriores da camara da direita
+
+#video = "20240416_124741800.MOV" #R
+#video = "20240416_124743199.MOV" #L
+
+#video = "20240416_155400300.MOV" #R
+video = "20240416_155401733.MOV" #L
+
+
+
 #video = "20240403_152535.MOV"
 #video = ""
 cap = cv2.VideoCapture(video_path + video)
@@ -56,7 +67,7 @@ output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/{video}/ids/"
 if not os.path.isdir(output_dir):
     os.makedirs(output_dir)
 
-def check_LP(box, seg_mask, frame, annotated_frame):
+def check_LP(box, frame, annotated_frame, seg_mask):
     pol_points = np.array(seg_mask.xy, dtype = np.int32)
     # Paint the pixels outside the car black
     mask = np.zeros_like(frame)
@@ -94,7 +105,7 @@ def check_LP(box, seg_mask, frame, annotated_frame):
                 result_string = "".join(sorted_labels)
                 #validity, _ = validate_string(result_string, sorted_confidences, sorted_boxes)
                 # Define the text to display (label and confidence)
-                if len(result_string) > 4:
+                if len(result_string) == 6:
                     text = result_string
 
                     # Calculate the position for the text
@@ -161,11 +172,12 @@ starting_time = timer.time()
 while cap.isOpened():
     # Read a frame from the video
     success, frame = cap.read()
-    
+    print(n_frame)
     if success:
-        if skip_last_seconds*fps > n_frame > skip_first_seconds*fps:    
-            #cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
+        if process_until_seconds*fps > n_frame > skip_first_seconds*fps and n_frame not in core_dumped:    
+            cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
             # Run YOLOv8 tracking on the frame, persisting tracks between frames
+            #frame = cv2.convertScaleAbs(frame, alpha=1.3, beta=75)
             results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
             vehicle_data = results[0].boxes.data
             boxes_with_labels = vehicle_data.tolist()
@@ -183,8 +195,8 @@ while cap.isOpened():
                 #annotated_frame = results[0].plot()
 
                 # Plot the tracks
-                for box, seg_mask, track_id in zip(boxes, seg_masks, track_ids):
-                    strings, annotated_frame = check_LP(box, seg_mask, frame, annotated_frame)
+                for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
+                    strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
                     for string in strings:
                         text_file_name = os.path.join(output_dir, f"{track_id}.txt")
                         time = time_init + n_frame/fps
