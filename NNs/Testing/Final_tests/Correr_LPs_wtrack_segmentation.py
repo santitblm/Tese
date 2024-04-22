@@ -236,7 +236,7 @@ for info in videos:
             time_str = video.split('_')[1].split('.')[0]
             time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6]) + float(time_str[6:9])/1000
             organize_ids(output_dir, FPS, time_init)
-            print(FPS)
+            print(FPS, "\n")
             break
 
     # Release the video capture object and close the display window
