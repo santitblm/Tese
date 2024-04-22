@@ -1,73 +1,35 @@
-from collections import defaultdict
+
+from ultralytics import YOLO
 import numpy as np
 import cv2
 import os
-from ultralytics import YOLO
-#from heuristic import LP_validation_and_correction as validate_string
 import time as timer
+
+from heuristic import LP_val
+
 
 #####################################################################################################
 class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
-#target_width = 500
 flag = False
 min_height = 20
 min_area = 1000
 fps = 30
-skip_first_seconds = 1*60 + 17
-process_until_seconds = 3*60 + 20 #igual
-core_dumped = [2685]#[4053, 4819]
-#inval = 0 # variable to count invalid images
-#points_to_cover = np.array([[0, 600], [1920, 600], [1920, 1080], [0, 1080]], np.int32)#
-#points_to_cover = np.array([[0, 1080], [0, 970], [1150, 530], [1920, 540], [1920, 1080]], np.int32)
-points_to_cover = np.array([[1700, 1524], [2500, 800], [2600, 0], [2704, 0], [2704, 1524]], np.int32) #lado esquerdo
-#points_to_cover = np.array([[1352, 1524], [100, 950], [0, 680], [0, 1524]], np.int32) #lado direito
+points_to_cover_r1 = np.array([[1200, 1524], [130, 900], [0, 520], [0, 1524]], np.int32) #lado direito
+points_to_cover_l1 = np.array([[1800, 1524], [2500, 950], [2704, 250], [2704, 1524]], np.int32) #lado esquerdo
+points_to_cover_r2 = np.array([[1300, 1524], [200, 900], [0, 450], [0, 1524]], np.int32) #lado direito
+points_to_cover_l2 = np.array([[1750, 1524], [2500, 900], [2704, 200], [2704, 1524]], np.int32) #lado esquerdo
+points_to_cover_r3 = np.array([[1400, 1524], [300, 900], [0, 100], [0, 1524]], np.int32) #lado direito
+points_to_cover_l3 = np.array([[1850, 1524], [2500, 900], [2704, 10], [2704, 1524]], np.int32) #lado esquerdo
+points_to_cover_r4 = np.array([[1000, 1524], [150, 1000], [0, 500], [0, 1524]], np.int32) #lado direito
+points_to_cover_l4 = np.array([[1850, 1524], [2500, 900], [2704, 10], [2704, 1524]], np.int32) #lado esquerdo
+points_to_cover_l5 = np.array([[1800, 1524], [2500, 900], [2704, 200], [2704, 1524]], np.int32) #lado esquerdo
+points_to_cover_r5 = np.array([[1200, 1524], [100, 950], [0, 680], [0, 1524]], np.int32) #lado direito
 #####################################################################################################
-#2704x1524
-# Load the YOLOv8 model
-model = YOLO('yolov8x-seg.pt')
-
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+# 2704x1524
 
 
-LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_s/weights/best.pt"
-LPs = YOLO(LPs_path)
-Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
-Char = YOLO(Char_path)
-
-# Open the video file
-video_path = f"{first_path}/Tese/datasets/Videos/"
-
-#video  = "20240209_151447.mp4" #sem cobrir
-#video = "20221026_141258.MOV" #lado esquerdo
-#video = "20221026_125944.MOV" #lado direito
-#ideo = "20221026_142307.MOV" #lado direito
-#video = "20221026_151500.MOV" #lado direito
-#video = "20230602_134058.mp4" 
-
-#video = "20240415_173711866.MOV" #L
-#video = "20240415_173714033.MOV" #R - forjado, usei os resultados anteriores da camara da direita
-
-#video = "20240416_124741800.MOV" #R
-#video = "20240416_124743199.MOV" #L
-
-#video = "20240416_155400300.MOV" #R
-video = "20240416_155401733.MOV" #L
-
-
-
-#video = "20240403_152535.MOV"
-#video = ""
-cap = cv2.VideoCapture(video_path + video)
-
-# define paths for ground truth and predictions
-#ground_truth = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/{video}.txt" 
-output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/{video}/ids/"
-
-if not os.path.isdir(output_dir):
-    os.makedirs(output_dir)
-
-def check_LP(box, frame, annotated_frame, seg_mask):
+#def check_LP(box, frame, annotated_frame, seg_mask):
+def check_LP(box, frame, seg_mask):
     pol_points = np.array(seg_mask.xy, dtype = np.int32)
     # Paint the pixels outside the car black
     mask = np.zeros_like(frame)
@@ -77,7 +39,8 @@ def check_LP(box, frame, annotated_frame, seg_mask):
     result_strings = []
     X1, Y1, X2, Y2 = map(int, box)
 
-    cv2.rectangle(annotated_frame, (X1, Y1), (X2, Y2), (0, 255, 0), 2)
+    # Draw a rectangle around the car
+    #cv2.rectangle(annotated_frame, (X1, Y1), (X2, Y2), (0, 255, 0), 2)
 
     car_img = result[Y1:Y2, X1:X2]
     LP_results = LPs(car_img, verbose = False)
@@ -86,7 +49,7 @@ def check_LP(box, frame, annotated_frame, seg_mask):
     if len(boxes_with_labels) > 0:
         for box in boxes_with_labels:
             x1, y1, x2, y2 = map(int, box[:4])
-            cv2.rectangle(annotated_frame, (X1+x1, Y1+y1), (X1+x2, Y1+y2), (0, 255, 255), 1)
+            #cv2.rectangle(annotated_frame, (X1+x1, Y1+y1), (X1+x2, Y1+y2), (0, 255, 255), 1)
             lp_img = car_img[y1:y2, x1:x2]
             if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0] < min_height and not lp_img.shape[0] * lp_img.shape[1] < min_area:
                 # Detect characters in the license plate
@@ -98,30 +61,25 @@ def check_LP(box, frame, annotated_frame, seg_mask):
 
                 # Sort the boxes by their class (label, the last value in each row)
                 sorted_boxes = sorted(boxes_with_labels, key=lambda x: x[0])
-                #sorted_confidences = [int(box[4] * 100) for box in sorted_boxes]    # Multiply by 100 and round to int
                 sorted_labels = [class_labels[int(box[5])] for box in sorted_boxes]
 
                 # Join the sorted labels into a single string
                 result_string = "".join(sorted_labels)
-                #validity, _ = validate_string(result_string, sorted_confidences, sorted_boxes)
                 # Define the text to display (label and confidence)
                 if len(result_string) == 6:
-                    text = result_string
+                    result_strings.append(result_string)
+                    #text = result_string
 
                     # Calculate the position for the text
-                    #text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
-                    text_x = x1+X1
-                    text_y = Y1+y1 - 5# if Y1+y1 - 5 > 5 else Y1 + 20
+                    #text_x = x1+X1
+                    #text_y = Y1+y1 - 5# if Y1+y1 - 5 > 5 else Y1 + 20
 
                     # Draw the text
-                    cv2.putText(annotated_frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+                    #cv2.putText(annotated_frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+    #return result_strings, annotated_frame
+    return result_strings
 
-                #print(validity, str)
-                #if validity:
-                    result_strings.append(result_string)
-    return result_strings, annotated_frame
-
-def organize_ids(ids_path, FPS):
+def organize_ids(ids_path, FPS, time_init):
     # Iterate through files in the directory
     for filename in os.listdir(ids_path):
 
@@ -145,15 +103,29 @@ def organize_ids(ids_path, FPS):
             for line, count in line_counts.items():
                 file.write(f"{line} {count}\n")
                 # Update max_line if necessary
-                if count > max_count:
+                if count > max_count and LP_val(line):
                     max_line = line
                     max_count = count
-        last_time = full_line.split(" ")[1]    
-    
-        # Write the line with the maximum count to predictions.txt
-        if max_line is not None:
-            with open(predictions_path, 'a') as predictions_file:
-                predictions_file.write(max_line + f" {last_time}")
+            
+            last_frame = int(full_line.split(" ")[1])
+
+            time = time_init + last_frame/fps
+            last_time = f"{int(time)//3600:02d}:{int(time)%3600//60:02d}:{int(time)%60:02d}:{int((time - int(time))*1000):03d}"
+            
+            file.write(last_time)
+
+            # In case there is no valid PT LP inside the id
+            if max_line is None:
+                for line, count in line_counts.items():
+                    # Update max_line if necessary
+                    if count > max_count:
+                        max_line = line
+                        max_count = count
+            else:
+                with open(predictions_path, 'a') as predictions_file:
+                    predictions_file.write(max_line + f" {last_time}\n")
+            
+
 
     # When it is completed, write the number of FPS in the last line
 
@@ -161,71 +133,116 @@ def organize_ids(ids_path, FPS):
         FPS_file.write(str(FPS))
 
 
-# Get the initial time of the video from its filename
-time_str = video.split('_')[1].split('.')[0]
-time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6]) + float(time_str[6:9])/1000
 
-# Loop through the video frames
-n_frame = 0
-starting_time = timer.time()
-
-while cap.isOpened():
-    # Read a frame from the video
-    success, frame = cap.read()
-    print(n_frame)
-    if success:
-        if process_until_seconds*fps > n_frame > skip_first_seconds*fps and n_frame not in core_dumped:    
-            cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
-            # Run YOLOv8 tracking on the frame, persisting tracks between frames
-            #frame = cv2.convertScaleAbs(frame, alpha=1.3, beta=75)
-            results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
-            vehicle_data = results[0].boxes.data
-            boxes_with_labels = vehicle_data.tolist()
-            annotated_frame = frame.copy()
-            if results[0].boxes.id is not None:
-
-                # Get the masks
-                seg_masks = results[0].masks
-
-                # Get the boxes and track IDs
-                boxes = results[0].boxes.xyxy.cpu()
-                track_ids = results[0].boxes.id.int().cpu().tolist()
-
-                # Visualize the results on the frame
-                #annotated_frame = results[0].plot()
-
-                # Plot the tracks
-                for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
-                    strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
-                    for string in strings:
-                        text_file_name = os.path.join(output_dir, f"{track_id}.txt")
-                        time = time_init + n_frame/fps
-                        time_str = f"{int(time)//3600:02d}:{int(time)%3600//60:02d}:{int(time)%60:02d}:{int((time - int(time))*1000):03d}"
-                        with open(text_file_name, "a") as text_file:
-                            text_file.write(string + " " + time_str + "\n")
-                            #text_file.write(string + "\n")
+#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+username, first_path = "santilm", "/home/santilm/Desktop"
 
 
-            # Display the annotated frame
-            cv2.imshow("YOLOv8 Tracking", annotated_frame)
-            
+LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_s/weights/best.pt"
+LPs = YOLO(LPs_path)
+Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
+Char = YOLO(Char_path)
 
-            # Break the loop if 'q' is pressed
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
-        n_frame += 1    
-    else:
-        # Break the loop if the end of the video is reached
-        end_time = timer.time()
-        print("End of video, processing ids...")
 
-        # Calculate the number of FPS
-        FPS = n_frame/(end_time-starting_time)
-        organize_ids(output_dir, FPS)
-        print(FPS)
-        break
+# TODO: organize_ids capable of distinguishing between good and bad LPs
+videos = [
+            ["20240415_155432266.MOV", points_to_cover_r1, 0*60+62, 2*60+52, []],       # Ready
+            ["20240415_155436900.MOV", points_to_cover_l1, 0*60+54, 2*60+47, [3281]],   # Ready
+            ["20240415_164646933.MOV", points_to_cover_l2, 0*60+55, 2*60+41, []],       # Ready
+            ["20240415_164648500.MOV", points_to_cover_r2, 0*60+57, 2*60+40, []],       # Ready
+            ["20240416_124741800.MOV", points_to_cover_r3, 5*60+26, 7*60+20, []],       # Ready
+            ["20240416_124743199.MOV", points_to_cover_l3, 5*60+25, 7*60+ 8, [10536]],  # core_dum (not tested)
+            ["20240416_144931533.MOV", points_to_cover_r4, 1*60+24, 3*60+43, []],       # core_dum
+            ["20240416_144935000.MOV", points_to_cover_l4, 1*60+20, 3*60+32, []],       # core_dum
+            ["20240416_155400300.MOV", points_to_cover_r5, 1*60+18, 3*60+21, []],       # core_dum
+            ["20240416_155401733.MOV", points_to_cover_l5, 1*60+17, 3*60+15, []],       # core_dum
+        ]
 
-# Release the video capture object and close the display window
-cap.release()
-cv2.destroyAllWindows()
+videos = videos[6:]
 
+for info in videos:
+    #print(info)
+    video, points_to_cover, skip_first_seconds, process_until_seconds, core_dumped = info
+    print(video)
+    #print(video, points_to_cover, skip_first_seconds, process_until_seconds, core_dumped)
+    # Load the YOLOv8 model
+    model = YOLO('yolov8x-seg.pt')
+
+    # Open the video file
+    video_path = f"{first_path}/Tese/datasets/Videos/"
+    cap = cv2.VideoCapture(video_path + video)
+
+    # Define path for predictions
+    output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/{video}/ids/"
+
+    if not os.path.isdir(output_dir):
+        os.makedirs(output_dir)
+
+
+    # Loop through the video frames
+    n_frame = 0
+
+    while cap.isOpened():
+        # Read a frame from the video
+        success, frame = cap.read()
+        print(n_frame)
+        if success:
+            if process_until_seconds*fps > n_frame > skip_first_seconds*fps and n_frame not in core_dumped:    
+                cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))
+                # Run YOLOv8 tracking on the frame, persisting tracks between frames
+                results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
+                vehicle_data = results[0].boxes.data
+                boxes_with_labels = vehicle_data.tolist()
+                annotated_frame = frame.copy()
+                if results[0].boxes.id is not None:
+
+                    # Get the masks
+                    seg_masks = results[0].masks
+
+                    # Get the boxes and track IDs
+                    boxes = results[0].boxes.xyxy.cpu()
+                    track_ids = results[0].boxes.id.int().cpu().tolist()
+
+                    # Plot the tracks
+                    for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
+                        #strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
+                        strings = check_LP(box, frame, seg_mask)
+                        for string in strings:
+                            text_file_name = os.path.join(output_dir, f"{track_id}.txt")
+                            # Write the LP as well as the number of the last frame at which it was seen
+                            with open(text_file_name, "a") as text_file:
+                                text_file.write(string + " " + str(n_frame) + "\n")
+
+
+                # Display the annotated frame
+                #cv2.imshow("YOLOv8 Tracking", annotated_frame)
+
+
+                # Break the loop if 'q' is pressed
+                #if cv2.waitKey(1) & 0xFF == ord("q"):
+                #    break
+
+
+            elif n_frame == skip_first_seconds*fps:
+                starting_time = timer.time()
+            elif n_frame == process_until_seconds*fps:
+                end_time = timer.time()
+            n_frame += 1
+
+        else:
+            # Break the loop if the end of the video is reached
+            print("End of video, processing ids...")
+
+            # Calculate the number of FPS
+            FPS = (process_until_seconds-skip_first_seconds)*fps/(end_time-starting_time)
+
+            # Get the time at which the recording started
+            time_str = video.split('_')[1].split('.')[0]
+            time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6]) + float(time_str[6:9])/1000
+            organize_ids(output_dir, FPS, time_init)
+            print(FPS)
+            break
+
+    # Release the video capture object and close the display window
+    cap.release()
+    cv2.destroyAllWindows()
