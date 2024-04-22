@@ -114,20 +114,21 @@ def organize_ids(ids_path, FPS, time_init):
             
             file.write(last_time)
 
-            # In case there is no valid PT LP inside the id
+            # In case there is no valid PT LP inside the id txt
             if max_line is None:
                 for line, count in line_counts.items():
                     # Update max_line if necessary
                     if count > max_count:
                         max_line = line
                         max_count = count
+            # In case at least one valid PT LP is present in the id txt
             else:
                 with open(predictions_path, 'a') as predictions_file:
                     predictions_file.write(max_line + f" {last_time}\n")
             
 
 
-    # When it is completed, write the number of FPS in the last line
+    # When it is completed, write the number of FPS in a separate file
 
     with open(os.path.join(ids_path.split("ids/")[0], "FPS.txt"), 'w') as FPS_file:
         FPS_file.write(str(FPS))
@@ -144,27 +145,22 @@ Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Character
 Char = YOLO(Char_path)
 
 
-# TODO: organize_ids capable of distinguishing between good and bad LPs
 videos = [
             ["20240415_155432266.MOV", points_to_cover_r1, 0*60+62, 2*60+52, []],       # Ready
             ["20240415_155436900.MOV", points_to_cover_l1, 0*60+54, 2*60+47, [3281]],   # Ready
             ["20240415_164646933.MOV", points_to_cover_l2, 0*60+55, 2*60+41, []],       # Ready
             ["20240415_164648500.MOV", points_to_cover_r2, 0*60+57, 2*60+40, []],       # Ready
             ["20240416_124741800.MOV", points_to_cover_r3, 5*60+26, 7*60+20, []],       # Ready
-            ["20240416_124743199.MOV", points_to_cover_l3, 5*60+25, 7*60+ 8, [10536]],  # core_dum (not tested)
-            ["20240416_144931533.MOV", points_to_cover_r4, 1*60+24, 3*60+43, []],       # core_dum
-            ["20240416_144935000.MOV", points_to_cover_l4, 1*60+20, 3*60+32, []],       # core_dum
-            ["20240416_155400300.MOV", points_to_cover_r5, 1*60+18, 3*60+21, []],       # core_dum
-            ["20240416_155401733.MOV", points_to_cover_l5, 1*60+17, 3*60+15, []],       # core_dum
+            ["20240416_124743199.MOV", points_to_cover_l3, 5*60+25, 7*60+ 8, [10536]],  # Ready
+            ["20240416_144931533.MOV", points_to_cover_r4, 1*60+24, 3*60+43, []],       # Ready
+            ["20240416_144935000.MOV", points_to_cover_l4, 1*60+20, 3*60+32, []],       # Ready
+            ["20240416_155400300.MOV", points_to_cover_r5, 1*60+18, 3*60+21, []],       # Ready
+            ["20240416_155401733.MOV", points_to_cover_l5, 1*60+17, 3*60+15, [2685, 4335, 5333]],   # Ready
         ]
 
-videos = videos[6:]
-
 for info in videos:
-    #print(info)
     video, points_to_cover, skip_first_seconds, process_until_seconds, core_dumped = info
     print(video)
-    #print(video, points_to_cover, skip_first_seconds, process_until_seconds, core_dumped)
     # Load the YOLOv8 model
     model = YOLO('yolov8x-seg.pt')
 
@@ -173,7 +169,7 @@ for info in videos:
     cap = cv2.VideoCapture(video_path + video)
 
     # Define path for predictions
-    output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/{video}/ids/"
+    output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/Final_Tese/WithCD/{video}/ids/"
 
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
@@ -185,7 +181,7 @@ for info in videos:
     while cap.isOpened():
         # Read a frame from the video
         success, frame = cap.read()
-        print(n_frame)
+        #print(n_frame)
         if success:
             if process_until_seconds*fps > n_frame > skip_first_seconds*fps and n_frame not in core_dumped:    
                 cv2.fillPoly(frame, pts = [points_to_cover], color=(0, 0, 0))

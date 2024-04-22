@@ -43,8 +43,20 @@ gpx_file = open('RandomCodigos/code_for_GPS/2024-04-16_16_Apr_2024_15_55_03.gpx'
 gpx = gpxpy.parse(gpx_file)
 
 videos = [
-    {"video": "20240416_155400300.MOV", "side": "R"},
-    {"video": "20240416_155401733.MOV", "side": "L"}
+    [{"video": "20240415_155432266.MOV", "side": "R"},
+    {"video": "20240415_155436900.MOV", "side": "L"}]
+
+    [{"video": "20240415_164646933.MOV", "side": "R"},
+    {"video": "20240415_164648500.MOV", "side": "L"}]
+
+    [{"video": "20240416_124741800.MOV", "side": "R"},
+    {"video": "20240416_124743199.MOV", "side": "L"}]
+
+    [{"video": "20240416_144931533.MOV", "side": "R"},
+    {"video": "20240416_144935000.MOV", "side": "L"}]
+
+    [{"video": "20240416_155400300.MOV", "side": "R"},
+    {"video": "20240416_155401733.MOV", "side": "L"}]
 ]
 
 # Create a list to store tuples of (timestamp, latitude, longitude)
