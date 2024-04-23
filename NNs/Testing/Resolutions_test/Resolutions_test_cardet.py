@@ -11,8 +11,8 @@ min_width = 45/1920
 n_video = 1
 #####################################################################################################
 
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
@@ -25,18 +25,13 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 videos = ["3rd1080p30.MOV", "3rd1080p60.MOV", "3rd27K30.MOV", "3rd4K25.MOV", "4th1080p30.MOV", "4th1080p60.MOV", "4th27K30.MOV", "4th4K25.MOV", "5th1080p30.MOV", "5th1080p60.MOV", "5th27K30.MOV", "5th4K25.MOV"]
 
 
-def check_LP(box, frame, annotated_frame, seg_mask):
+def check_LP(box, frame, annotated_frame):
     result_strings = []
     X1, Y1, X2, Y2 = map(int, box)
 
     cv2.rectangle(annotated_frame, (X1, Y1), (X2, Y2), (0, 255, 0), 2)
-    pol_points = np.array(seg_mask.xy, dtype = np.int32)
-    # Paint the pixels outside the car black
-    mask = np.zeros_like(frame)
-    cv2.fillPoly(mask, [pol_points], (255, 255, 255))
-    result = cv2.bitwise_and(frame, mask)
 
-    car_img = result[Y1:Y2, X1:X2]
+    car_img = frame[Y1:Y2, X1:X2]
     LP_results = LPs(car_img, verbose = False)
     LP_data = LP_results[0].boxes.data
     boxes_with_labels = LP_data.tolist()
@@ -85,7 +80,7 @@ for char_size in Char_sizes:
             if not os.path.isdir(output_dir):
                 os.makedirs(output_dir)
             try:
-                model = YOLO('yolov8x-seg.pt')
+                model = YOLO('yolov8x.pt')
 
                 n_frame = 0
                 starting_time = timer.time()
@@ -102,17 +97,13 @@ for char_size in Char_sizes:
                         boxes_with_labels = vehicle_data.tolist()
                         annotated_frame = frame.copy()
                         if results[0].boxes.id is not None:
-
-                            # Get the masks
-                            seg_masks = results[0].masks
-                            
                             # Get the boxes and track IDs
                             boxes = results[0].boxes.xyxy.cpu()
                             track_ids = results[0].boxes.id.int().cpu().tolist()
 
                             # Plot the tracks
-                            for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
-                                strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
+                            for box, track_id in zip(boxes, track_ids):
+                                strings, annotated_frame = check_LP(box, frame, annotated_frame)
                                 for string in strings:
                                     text_file_name = os.path.join(output_dir, f"{track_id}.txt")
                                     with open(text_file_name, "a") as text_file:

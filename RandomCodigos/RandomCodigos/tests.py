@@ -11,13 +11,13 @@ min_width = 45/1920
 n_video = 1
 #####################################################################################################
 
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
-skip = 24
+skip = 0
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
@@ -37,35 +37,35 @@ def check_LP(box, frame, annotated_frame, seg_mask):
     result = cv2.bitwise_and(frame, mask)
 
     car_img = result[Y1:Y2, X1:X2]
-    LP_results = LPs(car_img, verbose = False)
-    LP_data = LP_results[0].boxes.data
-    boxes_with_labels = LP_data.tolist()
-    if len(boxes_with_labels) > 0:
-        for box in boxes_with_labels:
-            x1, y1, x2, y2 = map(int, box[:4])
-            cv2.rectangle(annotated_frame, (X1+x1, Y1+y1), (X1+x2, Y1+y2), (0, 255, 255), 1)
-            lp_img = car_img[y1:y2, x1:x2]
-            if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0]/frame.shape[0] < min_height/frame.shape[0] and not lp_img.shape[1]/frame.shape[1] < min_width/frame.shape[1]:
+    #LP_results = LPs(car_img, verbose = False)
+    #LP_data = LP_results[0].boxes.data
+    #boxes_with_labels = LP_data.tolist()
+    #if len(boxes_with_labels) > 0:
+    #    for box in boxes_with_labels:
+    #        x1, y1, x2, y2 = map(int, box[:4])
+    #        cv2.rectangle(annotated_frame, (X1+x1, Y1+y1), (X1+x2, Y1+y2), (0, 255, 255), 1)
+    #        lp_img = car_img[y1:y2, x1:x2]
+    #        if not lp_img.shape[0] > lp_img.shape[1] and not lp_img.shape[0]/frame.shape[0] < min_height/frame.shape[0] and not lp_img.shape[1]/frame.shape[1] < min_width/frame.shape[1]:
                 # Detect characters in the license plate
-                Char_results = Char(lp_img, verbose = False)
+    #            Char_results = Char(lp_img, verbose = False)
 
                 # Combine data with their respective class labels
-                Char_data = Char_results[0].boxes.data
-                boxes_with_labels = Char_data.tolist()
+    #            Char_data = Char_results[0].boxes.data
+    #            boxes_with_labels = Char_data.tolist()
 
                 # Sort the boxes by their class (label, the last value in each row)
-                sorted_boxes = sorted(boxes_with_labels, key=lambda x: x[0])
-                sorted_labels = [class_labels[int(box[5])] for box in sorted_boxes]
+    #            sorted_boxes = sorted(boxes_with_labels, key=lambda x: x[0])
+    #            sorted_labels = [class_labels[int(box[5])] for box in sorted_boxes]
 
                 # Join the sorted labels into a single string
-                result_string = "".join(sorted_labels)
-                if 8 > len(result_string) > 5:
-                    text = result_string
-                    text_x = x1+X1
-                    text_y = Y1+y1 - 5
+    #            result_string = "".join(sorted_labels)
+    #            if 8 > len(result_string) > 5:
+    #                text = result_string
+    #                text_x = x1+X1
+    #                text_y = Y1+y1 - 5
                     # Draw the text
-                    cv2.putText(annotated_frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
-                    result_strings.append(result_string)
+    #                cv2.putText(annotated_frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+    #                result_strings.append(result_string)
     return result_strings, annotated_frame
 
 
@@ -97,7 +97,7 @@ for char_size in Char_sizes:
                 if success:
                 # Run YOLOv8 tracking on the frame, persisting tracks between frames
                 
-                    results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 6)
+                    results = model.track(frame, persist=True, classes = [2, 7], verbose = False, max_det = 4)
                     vehicle_data = results[0].boxes.data
                     boxes_with_labels = vehicle_data.tolist()
                     annotated_frame = frame.copy()
@@ -111,10 +111,10 @@ for char_size in Char_sizes:
                         track_ids = results[0].boxes.id.int().cpu().tolist()
 
                         # Plot the tracks
-                        #for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
-                            #strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
-                            #for string in strings:
-                            #    text_file_name = os.path.join(output_dir, f"{track_id}.txt")
+                        for box, track_id, seg_mask in zip(boxes, track_ids, seg_masks):
+                            strings, annotated_frame = check_LP(box, frame, annotated_frame, seg_mask)
+                            for string in strings:
+                                text_file_name = os.path.join(output_dir, f"{track_id}.txt")
                             #    with open(text_file_name, "a") as text_file:
                                     #text_file.write(string + " " + time_str + "\n")
                             #        text_file.write(string + "\n")
