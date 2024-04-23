@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:geotracker="http://ilyabogdanovich.com/gpx/extensions/geotracker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" creator="Geo Tracker 5.3.2.3497 for Android by Ilya Bogdanovich">
+  <metadata>
+    <name>7 Feb 2024 17:48:21</name>
+    <author>
+      <name>Recorded in Geo Tracker for Android from Ilya Bogdanovich</name>
+      <link href="https://play.google.com/store/apps/details?id=com.ilyabogdanovich.geotracker" />
+    </author>
+    <link href="https://play.google.com/store/apps/details?id=com.ilyabogdanovich.geotracker" />
+    <time>2024-02-07T17:48:21Z</time>
+  </metadata>
+  <trk>
+    <name>7 Feb 2024 17:48:21</name>
+    <src>Recorded in Geo Tracker for Android from Ilya Bogdanovich</src>
+    <link href="https://play.google.com/store/apps/details?id=com.ilyabogdanovich.geotracker" />
+    <extensions>
+      <geotracker:meta>
+        <length>40.66</length>
+        <duration>149165</duration>
+        <creationtime>2024-02-07T17:48:21Z</creationtime>
+        <activity>0</activity>
+      </geotracker:meta>
+    </extensions>
+    <trkseg>
+      <trkpt lat="38.74722" lon="-9.20010167">
+        <ele>158.7</ele>
+        <time>2024-02-07T17:48:57Z</time>
+        <extensions>
+          <geotracker:meta c="0" s="0" />
+        </extensions>
+      </trkpt>
+      <trkpt lat="38.747265" lon="-9.20000167">
+        <ele>156.9</ele>
+        <time>2024-02-07T17:50:04Z</time>
+        <extensions>
+          <geotracker:meta c="4.24" s="0" />
+        </extensions>
+      </trkpt>
+      <trkpt lat="38.74717833" lon="-9.20004">
+        <ele>156.7</ele>
+        <time>2024-02-07T17:50:16Z</time>
+        <extensions>
+          <geotracker:meta c="4.24" s="0" />
+        </extensions>
+      </trkpt>
+      <trkpt lat="38.74722833" lon="-9.20014167">
+        <ele>154.3</ele>
+        <time>2024-02-07T17:50:26Z</time>
+        <extensions>
+          <geotracker:meta c="4.24" s="0" />
+        </extensions>
+      </trkpt>
+      <trkpt lat="38.74713833" lon="-9.20013333">
+        <ele>158.1</ele>
+        <time>2024-02-07T17:50:45Z</time>
+        <extensions>
+          <geotracker:meta c="4.24" s="0" />
+        </extensions>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

@@ -12,6 +12,7 @@ class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 flag = False
 min_height = 23
 min_area = 1000
+fps = 30
 #inval = 0 # variable to count invalid images
 #points_to_cover = np.array([[0, 600], [1920, 600], [1920, 1080], [0, 1080]], np.int32)#
 #points_to_cover = np.array([[0, 1080], [0, 970], [1150, 530], [1920, 540], [1920, 1080]], np.int32)
@@ -41,8 +42,8 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 #video = "20221026_151500.MOV" #lado direito
 #video = "20230602_134058.mp4" 
 
-video = "20240403_152523.MOV"
-video = "20240403_152535.MOV"
+video = "20240329_124851.MOV"
+#video = "20240403_152535.MOV"
 #video = ""
 cap = cv2.VideoCapture(video_path + video)
 
@@ -147,8 +148,8 @@ def organize_ids(ids_path, FPS):
 
 
 # Get the initial time of the video from its filename
-#time_str = video.split('_')[1].split('.')[0]
-#time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6])
+time_str = video.split('_')[1].split('.')[0]
+time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6])
 
 # Loop through the video frames
 n_frame = 0
@@ -181,11 +182,11 @@ while cap.isOpened():
                 strings, annotated_frame = check_LP(box, seg_mask, frame, annotated_frame)
                 for string in strings:
                     text_file_name = os.path.join(output_dir, f"{track_id}.txt")
-                #    time = time_init + n_frame/30
-                #    time_str = f"{int(time)//3600:02d}:{int(time)%3600//60:02d}:{int(time)%60:02d}:{int((time - int(time))*1000):03d}"
+                    time = time_init + n_frame/fps
+                    time_str = f"{int(time)//3600:02d}:{int(time)%3600//60:02d}:{int(time)%60:02d}:{int((time - int(time))*1000):03d}"
                     with open(text_file_name, "a") as text_file:
-                        #text_file.write(string + " " + time_str + "\n")
-                        text_file.write(string + "\n")
+                        text_file.write(string + " " + time_str + "\n")
+                        #text_file.write(string + "\n")
 
 
         # Display the annotated frame

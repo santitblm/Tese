@@ -17,7 +17,7 @@ username, first_path = "santilm", "/home/santilm/Desktop"
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
-skip = 24
+skip = 0
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
