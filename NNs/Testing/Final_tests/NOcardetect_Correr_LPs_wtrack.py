@@ -78,10 +78,11 @@ def organize_ids(ids_path, FPS, time_init):
 #username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
 username, first_path = "santilm", "/home/santilm/Desktop"
 
-LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/License_Plates_1280_x/weights/best.pt"
-Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_l/weights/best.pt"
+LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/License_Plates_1280_m/weights/best.pt"
+Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
 Char = YOLO(Char_path)
 
+#TODO: é preciso apagar os ids anteriores
 
 videos = [
             ["20240415_155432266.MOV", 0*60+62, 2*60+52],
@@ -182,12 +183,12 @@ for info in videos:
 
             # Calculate the number of FPS
             FPS = (process_until_seconds-skip_first_seconds)*fps/(end_time-starting_time)
+            print(FPS, "\n")
 
             # Get the time at which the recording started
             time_str = video.split('_')[1].split('.')[0]
             time_init = int(time_str[0:2])*3600 + int(time_str[2:4])*60 + int(time_str[4:6]) + float(time_str[6:9])/1000
             organize_ids(output_dir, FPS, time_init)
-            print(FPS, "\n")
             break
 
     # Release the video capture object and close the display window

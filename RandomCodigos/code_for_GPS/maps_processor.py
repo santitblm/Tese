@@ -70,32 +70,32 @@ def get_coords(LP, file_path):
     return np.array(coords, dtype=float)
 
 # Load the HTML file
+def __main__():
+    directory = "/home/santilm/Desktop/Mapas"
 
-directory = "/home/santilm/Desktop/Mapas"
+    file_path_before = os.path.join(directory, "map_20240416_124743.html")
+    file_path_after = os.path.join(directory, "map_20240416_144935.html")
 
-file_path_before = os.path.join(directory, "map_20240416_124743.html")
-file_path_after = os.path.join(directory, "map_20240416_144935.html")
+    LPs_before = read_LPs_fromHTML(file_path_before)
+    LPs_after = read_LPs_fromHTML(file_path_after)
 
-LPs_before = read_LPs_fromHTML(file_path_before)
-LPs_after = read_LPs_fromHTML(file_path_after)
+    left = len(LPs_before - LPs_after)
+    entered = len(LPs_after - LPs_before)
 
-left = len(LPs_before - LPs_after)
-entered = len(LPs_after - LPs_before)
+    stayed = 0
+    changed = 0
 
-stayed = 0
-changed = 0
-
-stayed_changed_LPs = LPs_before.intersection(LPs_after)
+    stayed_changed_LPs = LPs_before.intersection(LPs_after)
 
 
-for LP in stayed_changed_LPs:
+    for LP in stayed_changed_LPs:
 
-    coords_before = get_coords(LP, file_path_before)
-    coords_after = get_coords(LP, file_path_after)
+        coords_before = get_coords(LP, file_path_before)
+        coords_after = get_coords(LP, file_path_after)
 
-    if stayed_result(coords_before, coords_after):
-        stayed += 1
-    else:
-        changed += 1
-    
-print(f"Number of cars that:\nLeft: {left}\nEntered: {entered}\nChanged: {changed}\nStayed: {stayed}")
+        if stayed_result(coords_before, coords_after):
+            stayed += 1
+        else:
+            changed += 1
+        
+    print(f"Number of cars that:\nLeft: {left}\nEntered: {entered}\nChanged: {changed}\nStayed: {stayed}")
