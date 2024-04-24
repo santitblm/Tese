@@ -11,15 +11,14 @@ class_labels = "ABCDEFGHIJKLMNOPQRSTUVXZ0123456789"
 min_height = 23/1080
 min_width = 45/1920
 n_video = 1
-fps = 30
 
 points_to_cover_1080p30     = np.array([[1100, 1080], [0, 650], [0, 1080]], np.int32)
 points_to_cover_1080p60_1   = np.array([[620, 1080], [0, 720], [0, 1080]], np.int32)
 points_to_cover_1080p60_2   = np.array([[350, 1080], [0, 820], [0, 1080]], np.int32)
 points_to_cover_27K30_1     = np.array([[600, 1524], [130, 1150], [0, 850], [0, 1524]], np.int32)
 points_to_cover_27K30_2     = np.array([[2704, 1524], [260, 1000], [0, 300], [0, 1524]], np.int32)
-points_to_cover_4K25_1        = np.array([[3840, 2160], [380, 1300], [0, 300], [0, 2160]], np.int32)
-points_to_cover_4K25_2        = np.array([[1400, 2160], [400, 1600], [0, 500], [0, 2160]], np.int32)
+points_to_cover_4K25_1      = np.array([[3840, 2160], [380, 1300], [0, 300], [0, 2160]], np.int32)
+points_to_cover_4K25_2      = np.array([[1400, 2160], [400, 1600], [0, 500], [0, 2160]], np.int32)
 #####################################################################################################
 #1920*1080
 #2704*1524
@@ -31,7 +30,7 @@ Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
 
-skip = 0
+skip = 1
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/"
@@ -41,26 +40,26 @@ video_path = f"{first_path}/Tese/datasets/Videos/"
 #TODO: apagar todos os ids anteriores depois de testar todos os core dumps TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!
 
 videos = [
-            ["1st1080p30.MOV",  points_to_cover_1080p30,    33, 2*60+41, [3766, 3835]], # Ready
-            ["1st1080p60.MOV",  points_to_cover_1080p60_1,  30, 2*60+38, []],    # Core
-            ["1st27K30.MOV",    points_to_cover_27K30_1,    30, 2*60+38, []],    # Core
-            ["1st4K25.MOV",     points_to_cover_4K25_1,     30, 2*60+39, []],    # Core
-            ["2nd1080p30.MOV",  points_to_cover_1080p30,    27, 2*60+20, [855]], # Core
-            ["2nd1080p60.MOV",  points_to_cover_1080p60_1,  25, 2*60+23, []],    # Core
-            ["2nd27K30.MOV",    points_to_cover_27K30_1,    28, 2*60+22, []],    # Core
-            ["2nd4K25.MOV",     points_to_cover_4K25_1,     28, 2*60+22, []],    # Core
-            ["3rd1080p30.MOV",  points_to_cover_1080p30,    48, 2*60+38, []],    # Core
-            ["3rd1080p60.MOV",  points_to_cover_1080p60_2,  47, 2*60+38, []],    # Core
-            ["3rd27K30.MOV",    points_to_cover_27K30_2,    50, 2*60+40, []],    # Core
-            ["3rd4K25.MOV",     points_to_cover_4K25_2,     46, 2*60+38, []],    # Core
-            ["4th1080p30.MOV",  points_to_cover_1080p30,    59, 4*60+ 6, []],    # Core
-            ["4th1080p60.MOV",  points_to_cover_1080p60_2,  59, 4*60+ 1, []],    # Core
-            ["4th27K30.MOV",    points_to_cover_27K30_2,    59, 4*60+ 3, []],    # Core
-            ["4th4K25.MOV",     points_to_cover_4K25_2,     59, 4*60+ 1, []],    # Core
-            ["5th1080p30.MOV",  points_to_cover_1080p30,    30, 5*60+11, []],    # Core
-            ["5th1080p60.MOV",  points_to_cover_1080p60_2,  20, 5*60+ 1, []],    # Core
-            ["5th27K30.MOV",    points_to_cover_27K30_2,    33, 5*60+12, []],    # Core
-            ["5th4K25.MOV",     points_to_cover_4K25_2,     22, 5*60+ 1, []],    # Core
+            ["1st1080p30.MOV",  30, points_to_cover_1080p30,    33, 2*60+41, [3766, 3835]], # Ready
+            ["1st1080p60.MOV",  60, points_to_cover_1080p60_1,  30, 2*60+38, [2088, 7353, 7447, 7492]],    # Core
+            ["1st27K30.MOV",    30, points_to_cover_27K30_1,    30, 2*60+38, []],    # Core
+            ["1st4K25.MOV",     25, points_to_cover_4K25_1,     30, 2*60+39, []],    # Core
+            ["2nd1080p30.MOV",  30, points_to_cover_1080p30,    27, 2*60+20, [855]], # Core
+            ["2nd1080p60.MOV",  60, points_to_cover_1080p60_1,  25, 2*60+23, []],    # Core
+            ["2nd27K30.MOV",    30, points_to_cover_27K30_1,    28, 2*60+22, []],    # Core
+            ["2nd4K25.MOV",     25, points_to_cover_4K25_1,     28, 2*60+22, []],    # Core
+            ["3rd1080p30.MOV",  30, points_to_cover_1080p30,    48, 2*60+38, []],    # Core
+            ["3rd1080p60.MOV",  60, points_to_cover_1080p60_2,  47, 2*60+38, []],    # Core
+            ["3rd27K30.MOV",    30, points_to_cover_27K30_2,    50, 2*60+40, []],    # Core
+            ["3rd4K25.MOV",     25, points_to_cover_4K25_2,     46, 2*60+38, []],    # Core
+            ["4th1080p30.MOV",  30, points_to_cover_1080p30,    59, 4*60+ 6, []],    # Core
+            ["4th1080p60.MOV",  60, points_to_cover_1080p60_2,  59, 4*60+ 1, []],    # Core
+            ["4th27K30.MOV",    30, points_to_cover_27K30_2,    59, 4*60+ 3, []],    # Core
+            ["4th4K25.MOV",     25, points_to_cover_4K25_2,     59, 4*60+ 1, []],    # Core
+            ["5th1080p30.MOV",  30, points_to_cover_1080p30,    30, 5*60+11, []],    # Core
+            ["5th1080p60.MOV",  60, points_to_cover_1080p60_2,  20, 5*60+ 1, []],    # Core
+            ["5th27K30.MOV",    30, points_to_cover_27K30_2,    33, 5*60+12, []],    # Core
+            ["5th4K25.MOV",     25, points_to_cover_4K25_2,     22, 5*60+ 1, []],    # Core
         ]
 
 
@@ -114,7 +113,7 @@ def check_LP(box, frame, seg_mask):
     #return result_strings, annotated_frame
     return result_strings
 
-def organize_ids(ids_path, FPS):#, time_init):
+def organize_ids(ids_path, FPS):
     # Iterate through files in the directory
     for filename in os.listdir(ids_path):
 
@@ -171,7 +170,7 @@ for char_size in Char_sizes:
         LPs = YOLO(LPs_path)
 
         for info in videos:
-            video, points_to_cover, skip_first_seconds, process_until_seconds, core_dumped = info
+            video, fps, points_to_cover, skip_first_seconds, process_until_seconds, core_dumped = info
             print(video)
             # Load the YOLOv8 model
             model = YOLO('yolov8x-seg.pt')
@@ -254,3 +253,4 @@ for char_size in Char_sizes:
             # Release the video capture object and close the display window
             cap.release()
             cv2.destroyAllWindows()
+            n_video+=1
