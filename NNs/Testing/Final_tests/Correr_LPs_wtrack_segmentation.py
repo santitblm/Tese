@@ -100,6 +100,7 @@ def organize_ids(ids_path, FPS, time_init):
         # Write unique lines and counts back to the file
         with open(file_path, 'w') as file:
             max_count = 0
+            max_line = None
             for line, count in line_counts.items():
                 file.write(f"{line} {count}\n")
                 # Update max_line if necessary
@@ -135,8 +136,8 @@ def organize_ids(ids_path, FPS, time_init):
 
 
 
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/media/planeamusafrente/Local Disk Planeamus/Thesis Images/Datasets_SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 
 LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/LP_fromCars_480_s/weights/best.pt"
@@ -153,7 +154,7 @@ videos = [
             ["20240416_124741800.MOV", points_to_cover_r3, 5*60+26, 7*60+20, []],       # Ready
             ["20240416_124743199.MOV", points_to_cover_l3, 5*60+25, 7*60+ 8, [10536]],  # Ready
             ["20240416_144931533.MOV", points_to_cover_r4, 1*60+24, 3*60+43, []],       # Ready
-            ["20240416_144935000.MOV", points_to_cover_l4, 1*60+20, 3*60+32, []],       # Ready
+            ["20240416_144935000.MOV", points_to_cover_l4, 1*60+20, 3*60+32, [4819]],   # Ready
             ["20240416_155400300.MOV", points_to_cover_r5, 1*60+18, 3*60+21, []],       # Ready
             ["20240416_155401733.MOV", points_to_cover_l5, 1*60+17, 3*60+15, [2685, 4335, 5333]],   # Ready
         ]
@@ -167,7 +168,6 @@ for info in videos:
     # Open the video file
     video_path = f"{first_path}/Tese/datasets/Videos/"
     cap = cv2.VideoCapture(video_path + video)
-
     # Define path for predictions
     output_dir = f"/home/{username}/Desktop/Results_LPDet+OCR/Final_Tese/WithCD/{video}/ids/"
 

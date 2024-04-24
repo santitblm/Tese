@@ -75,8 +75,8 @@ def organize_ids(ids_path, FPS, time_init):
 
 
 
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/media/planeamusafrente/Local Disk Planeamus/Thesis Images/Datasets_SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 LPs_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/License_Plates_1280_m/weights/best.pt"
 Char_path = f"/home/{username}/Documents/GitHub/Tese/runs/detect/PT_LP_Characters_x/weights/best.pt"
@@ -96,6 +96,7 @@ videos = [
             ["20240416_155400300.MOV", 1*60+18, 3*60+21],
             ["20240416_155401733.MOV", 1*60+17, 3*60+15],
         ]
+
 
 
 for info in videos:
