@@ -30,7 +30,7 @@ Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
 
-skip = 54
+skip = 9
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/Resolutions_test/"
@@ -49,11 +49,11 @@ videos = [
             ["2nd27K30.MOV",    30, points_to_cover_27K30_1,    28, 2*60+22, []],                                   # Ready
             ["2nd4K25.MOV",     25, points_to_cover_4K25_1,     28, 2*60+22, []],                                   # Ready
             ["3rd1080p30.MOV",  30, points_to_cover_1080p30,    48, 2*60+38, [2986, 4408]],                         # Ready
-            #["3rd1080p60.MOV",  60, points_to_cover_1080p60_2,  47, 2*60+38, [4408, 5932, 7752, 7770, 7778, 9285, 9288, 9290]],                                   # Ready
+            #["3rd1080p60.MOV",  60, points_to_cover_1080p60_2,  47, 2*60+38, [4408, 5932, 7752, 7770, 7778, 9285, 9288, 9290]],                   # Core
             ["3rd27K30.MOV",    30, points_to_cover_27K30_2,    50, 2*60+40, []],                                   # Ready
             ["3rd4K25.MOV",     25, points_to_cover_4K25_2,     46, 2*60+38, []],                                   # Ready
             ["4th1080p30.MOV",  30, points_to_cover_1080p30,    59, 4*60+ 6, [2618, 3477, 5738, 7027]],             # Ready
-            ["4th1080p60.MOV",  60, points_to_cover_1080p60_2,  59, 4*60+ 1, [4263, 4264, 4265, 4266, 4887, 4903, 4953, 6251, 10828, 10848, 10863]], # Ready
+            ["4th1080p60.MOV",  60, points_to_cover_1080p60_2,  59, 4*60+ 1, [4263, 4264, 4265, 4266, 4887, 4903, 4953, 6251, 10828, 10848, 10863]], # Core
             ["4th27K30.MOV",    30, points_to_cover_27K30_2,    59, 4*60+ 3, []],                                   # Ready
             ["4th4K25.MOV",     25, points_to_cover_4K25_2,     59, 4*60+ 1, []],                                   # Ready
             ["5th1080p30.MOV",  30, points_to_cover_1080p30,    30, 5*60+11, []],                                   # Ready
@@ -139,6 +139,7 @@ def organize_ids(ids_path, FPS):
                 line = line.split("\n")[0]
                 file.write(f"{line} {count}\n")
                 # Update max_line if necessary
+                #print(line)
                 if count > max_count and LP_val(line):
                     max_line = line
                     max_count = count
@@ -195,7 +196,6 @@ for char_size in Char_sizes:
             while cap.isOpened() and n_video > skip:
                 # Read a frame from the video
                 success, frame = cap.read()
-                
                 if success:
                     if process_until_seconds*fps > n_frame > skip_first_seconds*fps and n_frame not in core_dumped:  
                         print(n_frame)  
@@ -257,3 +257,4 @@ for char_size in Char_sizes:
             cap.release()
             cv2.destroyAllWindows()
             n_video+=1
+
