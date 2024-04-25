@@ -222,7 +222,7 @@ for char_size in Char_sizes:
                                 text_file_name = os.path.join(output_dir, f"{track_id}.txt")
                                 # Write the LP as well as the number of the last frame at which it was seen
                                 with open(text_file_name, "a") as text_file:
-                                    text_file.write(string + " " + str(n_frame) + "\n")
+                                    text_file.write(string + "\n")
 
 
                         # Display the annotated frame
