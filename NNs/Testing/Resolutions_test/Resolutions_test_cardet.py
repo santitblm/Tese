@@ -23,17 +23,17 @@ points_to_cover_4K25_2      = np.array([[1400, 2160], [400, 1600], [0, 500], [0,
 #1920*1080
 #2704*1524
 #3840*2160
-username , first_path = "planeamusafrente", "/media/planeamusafrente/Local Disk Planeamus/Thesis Images/Datasets_SANTI"
-#username, first_path = "santilm", "/home/santilm/Desktop"
+#username , first_path = "planeamusafrente", "/media/planeamusafrente/Local Disk Planeamus/Thesis Images/Datasets_SANTI"
+username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["s", "l"]
 
 
-skip = 9
+skip = 0
 
 # Open the video file
-video_path = f"{first_path}/Tese/datasets/Videos/Resolutions_test/"
+video_path = f"{first_path}/Tese/datasets/Videos/"#Resolutions_test/"
 #videos = [["20240329_124851.MOV", "1st1080p30"], ["20240329_124852.MOV", "1st4K25"], ["20240329_124855.MOV", "1st27K30"], ["20240329_124859.MOV", "1st1080p60"], ["20240329_125220.MOV", "2nd1080p30"], ["20240329_125219.MOV", "2nd4K25"], ["20240329_125225.MOV", "2nd27K30"], ["20240329_125228.MOV", "2nd1080p60"]]
 #videos = ["3rd1080p30.MOV", "3rd1080p60.MOV", "3rd27K30.MOV", "3rd4K25.MOV", "4th1080p30.MOV", "4th1080p60.MOV", "4th27K30.MOV", "4th4K25.MOV", "5th1080p30.MOV", "5th1080p60.MOV", "5th27K30.MOV", "5th4K25.MOV"]
 
@@ -49,7 +49,7 @@ videos = [
             ["2nd27K30.MOV",    30, points_to_cover_27K30_1,    28, 2*60+22, []],                                   # Ready
             ["2nd4K25.MOV",     25, points_to_cover_4K25_1,     28, 2*60+22, []],                                   # Ready
             ["3rd1080p30.MOV",  30, points_to_cover_1080p30,    48, 2*60+38, [2986, 4408]],                         # Ready
-            #["3rd1080p60.MOV",  60, points_to_cover_1080p60_2,  47, 2*60+38, [4408, 5932, 7752, 7770, 7778, 9285, 9288, 9290]],                   # Core
+            ["3rd1080p60.MOV",  60, points_to_cover_1080p60_2,  47, 2*60+38, [4408, 5932, 7752, 7770, 7778, 9285, 9288, 9290]],                   # Core
             ["3rd27K30.MOV",    30, points_to_cover_27K30_2,    50, 2*60+40, []],                                   # Ready
             ["3rd4K25.MOV",     25, points_to_cover_4K25_2,     46, 2*60+38, []],                                   # Ready
             ["4th1080p30.MOV",  30, points_to_cover_1080p30,    59, 4*60+ 6, [2618, 3477, 5738, 7027]],             # Ready
@@ -62,7 +62,7 @@ videos = [
             ["5th4K25.MOV",     25, points_to_cover_4K25_2,     22, 5*60+ 1, []]                                    # Ready
         ]
 
-# videos = [videos[9]]
+videos = [videos[9]]
 
 def check_LP(box, frame, seg_mask):
     pol_points = np.array(seg_mask.xy, dtype = np.int32)

@@ -29,6 +29,7 @@ def calculate_metrics(ground_truth_path, predictions_path, Final_Results_path):
             TP = 0
             FP = 0
             FN = 0
+            FPS_list = []
             #compare_results(ground_truth_file, predictions_file)
 
             for ground_truth_file in os.listdir(ground_truth_path):
@@ -45,17 +46,21 @@ def calculate_metrics(ground_truth_path, predictions_path, Final_Results_path):
                 TP += len(gt_lines.intersection(pred_lines))
                 FP += len(pred_lines - gt_lines)
                 FN += len(gt_lines - pred_lines)
+                fps_file = os.path.join(predictions_path, video_folder, "FPS.txt")
+                with open(fps_file, 'r') as fps_f:
+                    fps = fps_f.readlines()
+                FPS_list.append(fps)
                 #print(TP, FP, FN)
 
             precision = TP / (TP + FP) if TP + FP != 0 else 0
             recall = TP / (TP + FN) if TP + FN != 0 else 0
             f1_score = 2 * (precision * recall) / (precision + recall) if precision + recall != 0 else 0
-
-            results = f"Precision: {precision}, Recall: {recall}, F1 Score: {f1_score}"
+            FPS = sum(FPS_list)/len(FPS_list)
+            results = f"Precision: {precision}, Recall: {recall}, F1 Score: {f1_score}. FPS: {FPS}"
             print(results)
 
             with open(os.path.join(Final_Results_path, f"{resolution_model}.txt"), 'w') as results_file:
-                results_file.write(f"{precision}\n{recall}\n{f1_score}")
+                results_file.write(f"{precision}\n{recall}\n{f1_score}\n{FPS}")
 
 def organize_ids(ids_path):
     # Iterate through files in the directory
@@ -92,10 +97,10 @@ def organize_ids(ids_path):
 
 ground_truth_path = "/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
 
-#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/NOCarDetect/"
-#Final_Results_path = "/home/santilm/Desktop/Resultados/NO_cardet/"
-predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/"
-Final_Results_path = "/home/santilm/Desktop/Resultados/CarDet/"
+#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/NOCarDetect/"
+#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/NOcardet/"
+predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
+Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/CarDet/"
 
 #for folder in os.listdir(predictions_path):
 #    ids_path = os.path.join(predictions_path, folder, "ids/")
