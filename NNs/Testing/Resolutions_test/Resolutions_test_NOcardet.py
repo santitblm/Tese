@@ -15,8 +15,8 @@ n_video = 1
 #1920*1080
 #2704*1524
 #3840*2160
-#username , first_path = "planeamusafrente", "/home/planeamusafrente/Desktop/SANTI"
-username, first_path = "santilm", "/home/santilm/Desktop"
+username , first_path = "planeamusafrente", "/media/planeamusafrente/Local Disk Planeamus/Thesis Images/Datasets_SANTI"
+#username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["m", "x"]
@@ -25,10 +25,10 @@ LP_sizes = ["m", "x"]
 skip = 0
 
 # Open the video file
-video_path = f"{first_path}/Tese/datasets/Videos/"
+video_path = f"{first_path}/Tese/datasets/Videos/Resolutions_test/"
 
 #TODO: apagar todos os ids anteriores depois de testar todos os core dumps TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!
-
+#TODO: review the fact that n_frame is written on id.txt
 videos = [
             ["1st1080p30.MOV",  30, 33, 2*60+41],
             ["1st1080p60.MOV",  60, 30, 2*60+38],
@@ -124,6 +124,7 @@ def organize_ids(ids_path, FPS):
         # Write unique lines and counts back to the file
         with open(file_path, 'w') as file:
             max_count = 0
+            max_line = None
             for line, count in line_counts.items():
                 line = line.split("\n")[0]
                 file.write(f"{line} {count}\n")
@@ -168,7 +169,6 @@ for char_size in Char_sizes:
             print(video)
 
             # Open the video file
-            video_path = f"{first_path}/Tese/datasets/Videos/"
             cap = cv2.VideoCapture(video_path + video)
 
             # Define path for predictions
