@@ -14,8 +14,8 @@ def compare_results(ground_truth, predicted):
     
     new_lines_file1 = lines_file1 - lines_file2
     new_lines_file2 = lines_file2 - lines_file1
-    new_file1 = predicted + "1.txt"
-    new_file2 = predicted + "2.txt"
+    new_file1 = predicted + "FN.txt"
+    new_file2 = predicted + "FP.txt"
     write_lines(new_file1, new_lines_file1)
     write_lines(new_file2, new_lines_file2)
 
@@ -48,8 +48,8 @@ def calculate_metrics(ground_truth_path, predictions_path, Final_Results_path):
                 FN += len(gt_lines - pred_lines)
                 fps_file = os.path.join(predictions_path, video_folder, "FPS.txt")
                 with open(fps_file, 'r') as fps_f:
-                    fps = fps_f.readlines()
-                FPS_list.append(fps)
+                    fps = fps_f.readlines()[0]
+                FPS_list.append(float(fps))
                 #print(TP, FP, FN)
 
             precision = TP / (TP + FP) if TP + FP != 0 else 0
@@ -95,24 +95,39 @@ def organize_ids(ids_path):
             with open(predictions_path, 'a') as predictions_file:
                 predictions_file.write(max_line + "\n")
 
-ground_truth_path = "/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
+#ground_truth_path = "/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
 
 #predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/NOCarDetect/"
 #Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/NOcardet/"
-predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
-Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/CarDet/"
+#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
+#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/CarDet/"
+#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect - planeamus/CarDetect/"
+#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/CarDet/planeamus/"
+
+#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/NOCarDetect/"
+#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/NOcardet/"
+#username = "planeamusafrente"
+username = "santilm"
+
+ground_truth_path = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
+predictions_path = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
+#Final_Results_path = f"/home/{username}/Desktop/Resultados/Resolutions_test/CarDet/"
+
+#if not os.path.isdir(Final_Results_path):
+#    os.makedirs(Final_Results_path)
 
 #for folder in os.listdir(predictions_path):
 #    ids_path = os.path.join(predictions_path, folder, "ids/")
 #    organize_ids(ids_path)
 
 
-calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
+#calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
 
 
 #for folder in os.listdir(predictions_path):
+folder = "1st27K30_l_s"
+predicted = os.path.join(predictions_path, folder, "predictions.txt")
+ground_truth = os.path.join(ground_truth_path, f"{folder[:3]}.txt")
+compare_results(ground_truth, predicted)
 
-#    predicted = os.path.join(predictions_path, folder, "predictions.txt")
-#    ground_truth = os.path.join(ground_truth_path, f"{folder[:3]}.txt")
-#    compare_results(ground_truth, predicted)
-    
+

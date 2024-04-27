@@ -15,14 +15,14 @@ n_video = 1
 #1920*1080
 #2704*1524
 #3840*2160
-username , first_path = "planeamusafrente", "/media/planeamusafrente/Local Disk Planeamus/Thesis Images/Datasets_SANTI"
-#username, first_path = "santilm", "/home/santilm/Desktop"
+#username , first_path = "planeamusafrente", "/media/planeamusafrente/Local Disk Planeamus/Thesis Images/Datasets_SANTI"
+username, first_path = "santilm", "/home/santilm/Desktop"
 
 Char_sizes = ["l", "x"]
 LP_sizes = ["m", "x"]
 
 
-skip = 0
+skip = 38
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/Resolutions_test/"
