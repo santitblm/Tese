@@ -111,7 +111,9 @@ username = "santilm"
 
 ground_truth_path = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
 predictions_path = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
-#Final_Results_path = f"/home/{username}/Desktop/Resultados/Resolutions_test/CarDet/"
+Final_Results_path = f"/home/{username}/Desktop/Resultados/Resolutions_test/CarDet/"
+predictions_path_planeamus = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/CarDetect - planeamus/CarDetect/"
+Final_Results_path_planeamus = f"/home/{username}/Desktop/Resultados/Resolutions_test/CarDet/planeamus"
 
 #if not os.path.isdir(Final_Results_path):
 #    os.makedirs(Final_Results_path)
@@ -121,13 +123,13 @@ predictions_path = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test
 #    organize_ids(ids_path)
 
 
-#calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
-
+calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
+calculate_metrics(ground_truth_path, predictions_path_planeamus, Final_Results_path_planeamus)
 
 #for folder in os.listdir(predictions_path):
-folder = "1st27K30_l_s"
-predicted = os.path.join(predictions_path, folder, "predictions.txt")
-ground_truth = os.path.join(ground_truth_path, f"{folder[:3]}.txt")
-compare_results(ground_truth, predicted)
+#folder = "1st27K30_l_s"
+#predicted = os.path.join(predictions_path, folder, "predictions.txt")
+#ground_truth = os.path.join(ground_truth_path, f"{folder[:3]}.txt")
+#compare_results(ground_truth, predicted)
 
 

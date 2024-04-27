@@ -89,3 +89,41 @@ print(f''' \\begin{{table}}[!htb]
      \\bottomrule
    \\end{{tabular}}
  \\end{{table}}''')
+
+
+
+print(f''' \\begin{{table}}[!htb]
+   \\caption{{Results for the ALPR system \\textbf{{with}} car detection on various resolutions}}
+   \\label{{tab:ALPR_QuestForOptimalResolution_CarDet}}
+   \\centering
+   \\renewcommand{{\\arraystretch}}{{1.2}}
+   \\begin{{tabular}}{{@{{}}ccrcccc@{{}}}}
+     \\toprule
+     \\multicolumn{{7}}{{c}}{{PC1}}
+      \\midrule
+       \\multicolumn{{2}}{{c}}{{Models (size)}}  && 1080p30       & 1080p60                         & 2.7K30                            & 4K25 \\\\
+     \\cmidrule{{1-2}}
+     \\cmidrule{{4-7}}
+     \\
+       Characters & LPs        && &&& \\\\
+     \\midrule
+       Large      & Small      && {round((FPS1[0][0]/30)*100, 2)} & {round((FPS1[1][0]/30)*100, 2)} & {round((FPS1[2][0]/60)*100, 2)} & {round((FPS1[3][0]/25)*100, 2)} \\\\
+       Large      & Large      && {round((FPS1[0][1]/30)*100, 2)} & {round((FPS1[1][1]/30)*100, 2)} & {round((FPS1[2][1]/60)*100, 2)} & {round((FPS1[3][1]/25)*100, 2)} \\\\
+       XLarge     & Small      && {round((FPS1[0][2]/30)*100, 2)} & {round((FPS1[1][2]/30)*100, 2)} & {round((FPS1[2][2]/60)*100, 2)} & {round((FPS1[3][2]/25)*100, 2)} \\\\
+       XLarge     & Large      && {round((FPS1[0][3]/30)*100, 2)} & {round((FPS1[1][3]/30)*100, 2)} & {round((FPS1[2][3]/60)*100, 2)} & {round((FPS1[3][3]/25)*100, 2)} \\\\
+    \\midrule
+    \\multicolumn{{7}}{{c}}{{PC1}}
+      \\midrule
+      \\multicolumn{{2}}{{c}}{{Models (size)}}  && 1080p30 & 1080p60 & 2.7K30 & 4K25 \\\\
+     \\cmidrule{{1-2}}
+     \\cmidrule{{4-7}}
+     \\
+       Characters & LPs        &&  &&& \\\\
+     \\midrule
+       Large      & Small      && {round((FPS2[0][0]/30)*100, 2)} & {round((FPS2[1][0]/30)*100, 2)} & {round((FPS2[2][0]/60)*100, 2)} & {round((FPS2[3][0]/25)*100, 2)} \\\\
+       Large      & Large      && {round((FPS2[0][1]/30)*100, 2)} & {round((FPS2[1][1]/30)*100, 2)} & {round((FPS2[2][1]/60)*100, 2)} & {round((FPS2[3][1]/25)*100, 2)} \\\\
+       XLarge     & Small      && {round((FPS2[0][2]/30)*100, 2)} & {round((FPS2[1][2]/30)*100, 2)} & {round((FPS2[2][2]/60)*100, 2)} & {round((FPS2[3][2]/25)*100, 2)} \\\\
+       XLarge     & Large      && {round((FPS2[0][3]/30)*100, 2)} & {round((FPS2[1][3]/30)*100, 2)} & {round((FPS2[2][3]/60)*100, 2)} & {round((FPS2[3][3]/25)*100, 2)} \\\\
+    \\bottomrule
+   \\end{{tabular}}
+ \\end{{table}}''')
