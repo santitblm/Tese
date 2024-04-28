@@ -22,7 +22,7 @@ Char_sizes = ["l", "x"]
 LP_sizes = ["m", "x"]
 
 
-skip = 38
+skip = 79
 
 # Open the video file
 video_path = f"{first_path}/Tese/datasets/Videos/Resolutions_test/"
