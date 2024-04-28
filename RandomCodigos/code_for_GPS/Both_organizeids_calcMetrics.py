@@ -92,10 +92,10 @@ def organize_ids(ids_path):
 
 ground_truth_path = "/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
 
-#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/NOCarDetect/"
+#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/NOcardet/"
 #Final_Results_path = "/home/santilm/Desktop/Resultados/NO_cardet/"
 predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/CarDetect/"
-Final_Results_path = "/home/santilm/Desktop/Resultados/CarDet/"
+Final_Results_path = "/home/santilm/Desktop/Resultados/CarDetect/"
 
 #for folder in os.listdir(predictions_path):
 #    ids_path = os.path.join(predictions_path, folder, "ids/")
