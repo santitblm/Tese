@@ -95,36 +95,25 @@ def organize_ids(ids_path):
             with open(predictions_path, 'a') as predictions_file:
                 predictions_file.write(max_line + "\n")
 
-#ground_truth_path = "/home/santilm/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
 
-#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/NOCarDetect/"
-#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/NOcardet/"
-#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
-#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/CarDet/"
-#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect - planeamus/CarDetect/"
-#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/CarDet/planeamus/"
+def main():
+    #username = "planeamusafrente"
+    username = "santilm"
 
-#predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/NOCarDetect/"
-#Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/NOcardet/"
-username = "planeamusafrente"
-#username = "santilm"
+    #mode = "CarDetect" # With car detection
+    mode = "NOcardet"  # WITHOUT car detection
 
-ground_truth_path = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
-predictions_path = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
-Final_Results_path = f"/home/{username}/Desktop/Resultados/Resolutions_test/CarDet/"
-predictions_path_planeamus = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/CarDetect - planeamus/CarDetect/"
-Final_Results_path_planeamus = f"/home/{username}/Desktop/Resultados/Resolutions_test/CarDet/planeamus"
+    ground_truth_path = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/resol_test/"
 
-#if not os.path.isdir(Final_Results_path):
-#    os.makedirs(Final_Results_path)
+    predictions_path = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/{mode}/"
+    Final_Results_path = f"/home/{username}/Desktop/Resultados/Resolutions_test/{mode}/"
+    predictions_path_planeamus = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/{mode} - planeamus/{mode}/"
+    Final_Results_path_planeamus = f"/home/{username}/Desktop/Resultados/Resolutions_test/{mode}/planeamus/"
 
-#for folder in os.listdir(predictions_path):
-#    ids_path = os.path.join(predictions_path, folder, "ids/")
-#    organize_ids(ids_path)
+    calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
+    calculate_metrics(ground_truth_path, predictions_path_planeamus, Final_Results_path_planeamus)
 
-
-calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
-#calculate_metrics(ground_truth_path, predictions_path_planeamus, Final_Results_path_planeamus)
+main()
 
 #for folder in os.listdir(predictions_path):
 #folder = "1st27K30_l_s"
