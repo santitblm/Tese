@@ -106,8 +106,8 @@ def organize_ids(ids_path):
 
 #predictions_path = "/home/santilm/Desktop/Results_LPDet+OCR/Resolutions_test/NOCarDetect/"
 #Final_Results_path = "/home/santilm/Desktop/Resultados/Resolutions_test/NOcardet/"
-#username = "planeamusafrente"
-username = "santilm"
+username = "planeamusafrente"
+#username = "santilm"
 
 ground_truth_path = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/resol_test/" 
 predictions_path = f"/home/{username}/Desktop/Results_LPDet+OCR/Resolutions_test/CarDetect/"
@@ -124,7 +124,7 @@ Final_Results_path_planeamus = f"/home/{username}/Desktop/Resultados/Resolutions
 
 
 calculate_metrics(ground_truth_path, predictions_path, Final_Results_path)
-calculate_metrics(ground_truth_path, predictions_path_planeamus, Final_Results_path_planeamus)
+#calculate_metrics(ground_truth_path, predictions_path_planeamus, Final_Results_path_planeamus)
 
 #for folder in os.listdir(predictions_path):
 #folder = "1st27K30_l_s"
