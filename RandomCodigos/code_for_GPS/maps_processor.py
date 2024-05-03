@@ -70,7 +70,7 @@ def get_coords(LP, file_path):
     return np.array(coords, dtype=float)
 
 # Load the HTML file
-def __main__():
+def main():
     directory = "/home/santilm/Desktop/Mapas"
 
     file_path_before = os.path.join(directory, "map_20240416_124743.html")
@@ -99,3 +99,25 @@ def __main__():
             changed += 1
         
     print(f"Number of cars that:\nLeft: {left}\nEntered: {entered}\nChanged: {changed}\nStayed: {stayed}")
+
+
+
+def main2():
+    username = "santilm"
+    file_before = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/20221026_125944.MOV.txt"
+    file_after  = f"/home/{username}/Desktop/GroundTruth_LPDet+OCR/20221026_141258.MOV.txt"
+
+    with open(file_before, 'r') as gt_file, open(file_after, 'r') as pred_file:
+        before = set(gt_file.read().splitlines())
+        after  = set(pred_file.read().splitlines())
+    
+
+    left = len(before - after)
+    entered = len(after - before)
+    stayed_changed = len(before) - left
+    print(left, entered, stayed_changed)
+
+    return
+
+
+main2()
